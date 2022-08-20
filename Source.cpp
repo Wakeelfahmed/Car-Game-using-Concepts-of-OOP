@@ -617,7 +617,7 @@ int main()
 	SUPERADMIN ADMIN;
 	int input;
 	items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize");items[1].set_Item_Price(800); 
-	/items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
+	items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
 	cout << "Intentory Read() Wirte()\n0.View Exisiting Data\t1.Enter Data\t2.Write to File\t\n(any other key to leave)";
 	input = _getch() - '0';
 	while (input >= 0 && input < 3) {
@@ -740,8 +740,7 @@ int main()
 			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "6. Delete Profile";
 			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "7. Exit Profile";
 			Input[1] = _getch() - '0'; cout << "\a";
-			while (Input[1] <= 0 || Input[1] > 7)
-				Input[1] = _getch() - '0'; cout << "\a";
+			Validate_Input(1, Input[1], 7);
 			SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
 			cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
 			while (Input[1] >= 1 || Input[1] <= 7)
@@ -793,13 +792,10 @@ int main()
 						SetConsoleCursorPosition(Console, { 58,8 });	cout << "2. Medium";
 						SetConsoleCursorPosition(Console, { 58,10 });	cout << "3. Hard";
 						Input[2] = _getch() - '0';
-						while (Input[2] < 1 || Input[2] > 3)
-							Input[2] = _getch() - '0';
-						int Easy = 900000, Medium = 90000, Hard = 60000;
-						if (Input[2] == 1)
-							Player.set_Difficulty(Easy);
-						else if (Input[2] == 2) { No_of_Enemies = 5;		Player.set_Difficulty(Medium); }
-						else if (Input[2] == 3) { No_of_Enemies = 6;		Player.set_Difficulty(Hard); }
+						Validate_Input(1, Input[2], 3);
+							 if (Input[2] == 1)								Player.set_Difficulty(900000);
+						else if (Input[2] == 2) { No_of_Enemies = 5;		Player.set_Difficulty(90000); } //Medium
+						else if (Input[2] == 3) { No_of_Enemies = 6;		Player.set_Difficulty(60000); } //Hard
 						char ch1;
 						SetConsoleTextAttribute(Console, 15);
 						SetConsoleCursorPosition(Console, { 15,22 });
@@ -1092,11 +1088,10 @@ int main()
 					{
 						if (i == 5)
 							Printing_Cords = { 33 ,14 };
-						//Printing_Cords.Y += 10;
-						//SetConsoleTextAttribute(Console, Cars_Shop[i].g)
 						Print_Car_Char_Array(Cars_Shop, Printing_Cords, i, 1, Cars_Shop[i].get_Car_Color());
 					}
 					Input[2] = _getch() - '0';
+					Validate_Input(0, Input[2], 8);
 					if (!(Player_profile[Profile_Selected].check_if_Player_has_Car(Input[2])))
 					{
 						if (Player_profile[Profile_Selected].get_Coins() >= Cars_Shop[Input[2]].get_price())
@@ -1305,11 +1300,8 @@ int main()
 					Input[2] = _getch() - '0';	cout << "\a";
 					if (Input[2] == 1) {
 						Player_profile[Profile_Selected].~Driver();
-
 						for (int j = Profile_Selected; j <= Driver::get_No_of_Player_Profiles(); j++)
-						{
 							Player_profile[j] = Player_profile[j + 1];
-						}
 					}
 					break;
 				}
@@ -1337,17 +1329,15 @@ int main()
 				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "6. Delete Profile";
 				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "7. Exit Profile";
 				Input[1] = _getch() - '0';
-				while (Input[1] <= 0 || Input[1] > 7)
-					Input[1] = _getch() - '0';
+				Validate_Input(1, Input[1], 7);
 				if (Input[1] == 7)
-				{
 					break;
-				}
+				
 			}
 			break;
 		}
-		case 2:	//Create Profile
-		{
+			case 2:	//Create Profile
+			{
 			system("CLS");
 			SetConsoleCursorPosition(Console, { 54,5 });
 			cout << "Profile Creation";
@@ -1355,14 +1345,14 @@ int main()
 			SetConsoleCursorPosition(Console, { 50,7 });
 			Player_profile[Driver::get_No_of_Player_Profiles()].set_Player_Name();
 			break;
-		}
-		case 3: //Instructions
-		{
+			}
+			case 3: //Instructions
+			{
 			system("CLS");
 			Print_GamePlay_Instructions(Player, 0);
 			for (int i = 0; i < 454400000; i++) {}
 			break;
-		}
+			}
 		}
 		system("CLS");
 		Player_profile->reset_Number_ofProfiles();

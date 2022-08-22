@@ -623,7 +623,7 @@ void Player_Profile_Menu(int& Input) {
 	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "5. View Items in Inventory";
 	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "6. Delete Profile";
 	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "7. Exit Profile";
-	Input = _getch() - '0';
+	Input = _getch() - '0'; cout << "\a";
 	Validate_Input(1, Input, 7);
 }
 int main()
@@ -701,10 +701,10 @@ int main()
 		char chcheck = 't';
 		switch (Input[0])
 		{
-		case 1:		//Select Profile
+		case 1:	//Select Profile
 		{
 			system("CLS");
-			position = 12;
+			position = 12; //SEEMS USELESS
 			SetConsoleCursorPosition(Console, { 53,5 });	//Select Profile
 			cout << "Select your Profile";
 			for (int i = 0; i <= Driver::get_No_of_Player_Profiles(); i++) {
@@ -725,17 +725,6 @@ int main()
 			SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
 			SetConsoleTextAttribute(Console, 12);
 			cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
-			//SetConsoleTextAttribute(Console, 15);
-			/*position = 10;
-			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "1. Select Car and Play";
-			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "2. Buy Car";
-			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "3. Display Owned Cars";
-			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "4. Shop items";
-			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "5. View Items in Inventory";
-			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "6. Delete Profile";
-			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "7. Exit Profile";
-			Input[1] = _getch() - '0'; cout << "\a";
-			Validate_Input(1, Input[1], 7);*/
 			Player_Profile_Menu(Input[1]);
 			while (Input[1] >= 1 || Input[1] <= 7)
 			{
@@ -1309,19 +1298,7 @@ int main()
 				SetConsoleTextAttribute(Console, 12);
 				SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
 				cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
-				/*position = 12;
-				SetConsoleTextAttribute(Console, 15);
-				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "1. Select Car and Play";
-				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "2. Buy Car";
-				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "3. Display Owned Cars";
-				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "4. Shop items";
-				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "5. View Items in Inventory";
-				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "6. Delete Profile";
-				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "7. Exit Profile";
-				Input[1] = _getch() - '0';
-				Validate_Input(1, Input[1], 7);*/
-				Player_Profile_Menu(Input[1]);
-
+				Player_Profile_Menu(Input[1]); //7 options of Player Profile
 				if (Input[1] == 7)
 					break;
 			}
@@ -1330,8 +1307,7 @@ int main()
 		case 2:	//Create Profile
 		{
 			system("CLS");
-			SetConsoleCursorPosition(Console, { 54,5 });
-			cout << "Profile Creation";
+			SetConsoleCursorPosition(Console, { 54,5 });	cout << "Profile Creation";
 			Driver::Increment_No_of_Profiles();
 			SetConsoleCursorPosition(Console, { 50,7 });
 			Player_profile[Driver::get_No_of_Player_Profiles()].set_Player_Name();

@@ -58,7 +58,6 @@ public:
 	COORD High_Score_Settings() const { return High_Score; }
 	COORD Lives_Setting()const { return Lives; };
 };
-
 class Game_Play
 {
 protected:
@@ -85,7 +84,6 @@ public:
 		X_and_Y.X = Position_Cordinates.X;
 		X_and_Y.Y = Position_Cordinates.Y + 1;
 		SetConsoleCursorPosition(Console, X_and_Y);
-		//SetConsoleTextAttribute(Console, Car_Color);
 		for (int i = 0; i < 25; i++)
 		{
 			if (i % 5 == 0)
@@ -188,8 +186,6 @@ public:
 		new_Position.X = Position_Cordinates.X;
 		new_Position.Y = Position_Cordinates.Y;
 		SetConsoleTextAttribute(Console, Game_Car.get_Car_Color()); //Car Owned Color
-
-		//SetConsoleTextAttribute(Console, Car_Color); //Green Color
 		for (int i = 0; i <= (4 * Game_Car.get_Car_Height()); i++)			//		for (int i = 0; i < car.size(); i++)
 		{
 			if (i % 4 == 0)
@@ -197,7 +193,6 @@ public:
 				new_Position.Y++;
 				SetConsoleCursorPosition(Console, new_Position);
 			}
-			//for (int i = 0; i < Speed; i++) {}	//show Animation
 			cout << Car[i];
 		}
 	}
@@ -415,7 +410,6 @@ public:
 	{
 		if (get_Collision_Status())
 			return;
-
 		COORD new_Position = { 0,0 }; //bullet_Position;
 		{
 			if (!(Position_Cordinates.Y > SCREEN_HEIGHT + 2) && !get_Collision_Status())
@@ -436,7 +430,6 @@ public:
 						new_Position.Y--;
 						SetConsoleCursorPosition(Console, new_Position);
 					}
-					//	for (int i = 0; i < Ultra_Fast_Speed; i++) {}	//show Animation
 					SetConsoleTextAttribute(Console, Game_Car.get_Car_Color());
 					if (!(new_Position.Y > SCREEN_HEIGHT - 2)) {
 						cout << car[i];
@@ -448,14 +441,7 @@ public:
 					++Player_GamePlay;
 					Player_GamePlay.display_Score();
 				}
-
-				int minus = 0;
-				if (Player_GamePlay.get_items_Availabe_fr_Driv(2))
-					minus = 2000;
-				//for (int i = 0; i < Player_GamePlay.get_Difficulty() - minus; i++) {}
-			//	for (int i = 0; i < 988999 - minus; i++) {}	//HOW FAST ENEMY WILL MOVE
-			/*//	for (int i = 0; i < 918080 - minus; i++) {}	//HOW FAST ENEMY WILL MOVE*/
-
+				//int minus = 0;				//if (Player_GamePlay.get_items_Availabe_fr_Driv(2))				//	minus = 2000;				//for (int i = 0; i < Player_GamePlay.get_Difficulty() - minus; i++) {}			//	for (int i = 0; i < 988999 - minus; i++) {}	//HOW FAST ENEMY WILL MOVE			/*//	for (int i = 0; i < 918080 - minus; i++) {}	//HOW FAST ENEMY WILL MOVE*/
 				EraseEnemyTrail();
 				if (new_Position.Y > SCREEN_HEIGHT - 2)
 					resetEnemy();
@@ -478,7 +464,6 @@ public:
 		//car = " ";
 		Position_Cordinates = { 0, 4 };
 	}
-
 };
 class Shop
 {
@@ -598,29 +583,68 @@ void Print_GamePlay_Instructions(Player_GamePlay Player, bool signal) {
 	}
 	SetConsoleCursorPosition(Console, { short(positionX - 2),positionY++ });		cout << "Q - Quit Gameplay";
 }
+void Main_Menu(int& Input, Driver Player_profile[])
+{
+	system("CLS");
+	Player_profile->reset_Number_ofProfiles();
+	for (int i = 0; i < 15; i++)
+		if (Player_profile[i].get_IsActive_Status())
+			Player_profile->Increment_No_of_Profiles();
+	if (Driver::get_No_of_Player_Profiles() >= 0)
+	{
+		SetConsoleCursorPosition(Console, { 53,6 });
+		SetConsoleTextAttribute(Console, 15);
+		cout << "1. Career/Profile";
+	}
+	else
+	{
+		SetConsoleCursorPosition(Console, { 53,6 });
+		SetConsoleTextAttribute(Console, 8);
+		cout << "1. Career/Profile";
+	}
+	SetConsoleTextAttribute(Console, 15);
+	SetConsoleCursorPosition(Console, { 53,7 });	cout << "2. Create Profile";
+	SetConsoleCursorPosition(Console, { 53,8 });	cout << "3. View Instructions";
+	SetConsoleCursorPosition(Console, { 53,9 });	cout << "4. Exit App (Player Progress will be Saved)";
+	Input = _getch() - '0'; cout << "\a";
+	if (Driver::get_No_of_Player_Profiles() <= -1)
+		Validate_Input(2, Input, 4);
+	else
+		Validate_Input(1, Input, 4);
+}
+void Player_Profile_Menu(int& Input) {
+	//system("CLS");
+	short position = 10;
+	SetConsoleTextAttribute(Console, 15);
+	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "1. Select Car and Play";
+	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "2. Buy Car";
+	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "3. Display Owned Cars";
+	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "4. Shop items";
+	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "5. View Items in Inventory";
+	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "6. Delete Profile";
+	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "7. Exit Profile";
+	Input = _getch() - '0';
+	Validate_Input(1, Input, 7);
+}
 int main()
 {
-
-	//PlaySound(TEXT("mixkit-retro-video-game-bubble-laser-277.wav"), NULL, SND_ASYNC);
-	//cout << "played";
-
-//	cout << "not played";
+	//PlaySound(TEXT("mixkit-retro-video-game-bubble-laser-277.wav"), NULL, SND_ASYNC);	//cout << "played"; //	cout << "not played";
 	HWND hWnd = GetConsoleWindow();		ShowWindow(hWnd, SW_SHOWMAXIMIZED);	//Make Console open in Maximized window.
 	Player_GamePlay Car1;
 	SetConsoleTextAttribute(Console, 15);
-	Items_Shop items[10];
-	ifstream ifstream_ob;
+	Items_Shop items[10];	/*ITEMS*/	Car_Shop Cars_Shop[10]; /*CARS SHOP*/
+	{ifstream ifstream_ob;
 	ifstream_ob.open("Items_Inventory.txt", ios::in);
 	ifstream_ob.read((char*)&items, sizeof(items));
-	ifstream_ob.close();
+	ifstream_ob.close(); }
 	hidecursor();
 	SUPERADMIN ADMIN;
 	int input;
-	items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize");items[1].set_Item_Price(800); 
+	items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
 	items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
 	cout << "Intentory Read() Wirte()\n0.View Exisiting Data\t1.Enter Data\t2.Write to File\t\n(any other key to leave)";
 	input = _getch() - '0';
-	while (input >= 0 && input < 3) {
+	while (input >= 0 && input < 3) /*ITEMS SHOP READ WRITE*/ {
 		if (input == 0)
 			for (int i = 0; i < 3; i++)
 				items[i].Print_Details();
@@ -638,8 +662,7 @@ int main()
 		input = _getch() - '0';
 		////////  READING FROM FILE  /////////
 	}
-	int y;
-	int Profile_Selected, Car_Selected, Input[5], No_of_Enemies = 4;
+	int y;	int Profile_Selected, Car_Selected, Input[5], No_of_Enemies = 4;
 	Driver Player_profile[15];
 	cout << "\nDo you want to Read Players Records\?\nPress 1 to Read (any other key to leave)";
 	y = _getch() - '0';	cout << "\a";
@@ -647,14 +670,12 @@ int main()
 	{
 		ifstream ifstream_ob1;
 		ifstream_ob1.open("Player_profile.txt", ios::in);
-		//	cout << "\nReading the object from a file : \n";
 		ifstream_ob1.read((char*)&Player_profile, sizeof(Player_profile));
 		ifstream_ob1.close();
 		for (int i = 0; i < 15; i++)
 			if (Player_profile[i].get_IsActive_Status())
 				Player_profile->Increment_No_of_Profiles();
 	}
-	Car_Shop Cars_Shop[10];
 	{
 		Cars_Shop[0].set_Car_Shape(" ^^ *北* 北 *北* -- ");
 		Cars_Shop[1].set_Car_Shape(" ^^ [北] 北 [北] -- ");	Cars_Shop[1].set_Car_Width(4);
@@ -669,39 +690,15 @@ int main()
 		Cars_Shop[3].set_Car_Color(14);		Cars_Shop[4].set_Car_Color(5);		Cars_Shop[5].set_Car_Color(6);
 		Cars_Shop[6].set_Car_Color(7);		Cars_Shop[7].set_Car_Color(8);		Cars_Shop[8].set_Car_Color(9);
 	}// Car's Shop
-	short position1 = 7;
-	short position = 12;
+	short position1 = 7, position = 12;
 	hidecursor();
-	system("CLS");
 	Player_GamePlay Player;		//Player.set_Position_COORDS(20, 20);		//Player.Draw_Car();
-	if (Driver::get_No_of_Player_Profiles() >= 0)
-	{
-		SetConsoleCursorPosition(Console, { 53,6 });
-		SetConsoleTextAttribute(Console, 15);
-		cout << "1. Career/Profile";
-	}
-	else
-	{
-		SetConsoleCursorPosition(Console, { 53,6 });
-		SetConsoleTextAttribute(Console, 8);
-		cout << "1. Career/Profile";
-	}
-	SetConsoleTextAttribute(Console, 15);
-	SetConsoleCursorPosition(Console, { 53,7 });	cout << "2. Create Profile";
-	SetConsoleCursorPosition(Console, { 53,8 });	cout << "3. View instructions";
-	SetConsoleCursorPosition(Console, { 53,9 });	cout << "4. Exit App";
-	Input[0] = _getch() - '0'; cout << "\a";
-	if (Driver::get_No_of_Player_Profiles() <= -1)
-		Validate_Input(2, Input[0], 4);
-	else
-		Validate_Input(1, Input[0], 4);
+	Main_Menu(Input[0], Player_profile);
 	Driver Selected_Driver_0, Selected_Driver_1;
 	while (Input[0] == 1 || Input[0] == 2 || Input[0] == 3)
 	{
-		short position2 = 7;
-		short position = 0;
+		short position2 = 7, position = 0;
 		char chcheck = 't';
-		int pausecheck = 0;
 		switch (Input[0])
 		{
 		case 1:		//Select Profile
@@ -713,9 +710,7 @@ int main()
 			for (int i = 0; i <= Driver::get_No_of_Player_Profiles(); i++) {
 				SetConsoleCursorPosition(Console, { 50,position++ });
 				if (Player_profile[i].get_IsActive_Status())
-				{
 					cout << i << ". " << Player_profile[i].get_Driver_Name();
-				}
 			}
 			Profile_Selected = _getch() - '0'; cout << "\a";
 			Validate_Input(0, Profile_Selected, Driver::get_No_of_Player_Profiles());
@@ -725,13 +720,13 @@ int main()
 			Selected_Driver_0 = Player_profile[Profile_Selected];
 			Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
 			cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
-			position = 10;
 			SetConsoleCursorPosition(Console, { 50,5 });
 			cout << "Welcome back " << Player_profile[Profile_Selected].get_Driver_Name() << " !";
 			SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
 			SetConsoleTextAttribute(Console, 12);
 			cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
-			SetConsoleTextAttribute(Console, 15);
+			//SetConsoleTextAttribute(Console, 15);
+			/*position = 10;
 			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "1. Select Car and Play";
 			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "2. Buy Car";
 			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "3. Display Owned Cars";
@@ -740,9 +735,8 @@ int main()
 			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "6. Delete Profile";
 			SetConsoleCursorPosition(Console, { 51,position++ }); cout << "7. Exit Profile";
 			Input[1] = _getch() - '0'; cout << "\a";
-			Validate_Input(1, Input[1], 7);
-			SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-			cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
+			Validate_Input(1, Input[1], 7);*/
+			Player_Profile_Menu(Input[1]);
 			while (Input[1] >= 1 || Input[1] <= 7)
 			{
 				if (Input[1] == 1)				//Select Car and Play
@@ -793,7 +787,7 @@ int main()
 						SetConsoleCursorPosition(Console, { 58,10 });	cout << "3. Hard";
 						Input[2] = _getch() - '0';
 						Validate_Input(1, Input[2], 3);
-							 if (Input[2] == 1)								Player.set_Difficulty(900000);
+						if (Input[2] == 1)								Player.set_Difficulty(900000);
 						else if (Input[2] == 2) { No_of_Enemies = 5;		Player.set_Difficulty(90000); } //Medium
 						else if (Input[2] == 3) { No_of_Enemies = 6;		Player.set_Difficulty(60000); } //Hard
 						char ch1;
@@ -840,7 +834,7 @@ int main()
 							Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
 							while (ch1 != 'q' && Game_Running)
 							{
-								for (int i = 0; i < 9000000; i++) {}
+								for (int i = 0; i < Player.get_Difficulty(); i++) {}
 								SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
 								SetConsoleTextAttribute(Console, 11);
 								cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
@@ -971,9 +965,7 @@ int main()
 												|| Position_Cordinates_enemy.X - 2 == Player_Position.X	// player left by two, enemy right(pos).
 												|| Position_Cordinates_enemy.X - 1 == Player_Position.X)	// player left by one, enemy right(pos).			
 											{
-												//COORD collision_Indicator = ADMIN.Lives_Setting();
-												//SetConsoleCursorPosition(Console, { collision_Indicator.X,short(collision_Indicator.Y + 2) });
-												//cout << " Collision";
+												// COLLISION DETECTION !!!
 												--Player;
 												Player.Display_Lives((ADMIN.Lives_Setting()));
 												if (Player.get_Lives() == 0) {
@@ -992,7 +984,7 @@ int main()
 													SetConsoleCursorPosition(Console, { 50,14 });
 													cout << "0. Restart";
 													int INPUTGAMEPLAY = 12;
-													for (int i = 0; i < 100000999; i++) {}
+													for (int i = 0; i < 100099999; i++) {}
 													INPUTGAMEPLAY = _getch() - '0';
 													if (INPUTGAMEPLAY == 0) {
 														system("CLS");
@@ -1010,7 +1002,9 @@ int main()
 														cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << "  ";
 													}
 													else {
+														system("CLS");
 														Game_Running = false;
+
 													}
 												}
 												Enemy2[enemy_loop].Update_Position_Y(Position_Cordinates_enemy.Y - 5);
@@ -1047,7 +1041,6 @@ int main()
 													{
 														bullets[j] = bullets[j + 1];
 													}
-
 													++Player;
 													Player.display_Score();
 													if (Player.get_score() > Player_profile[Profile_Selected].get_high_score())
@@ -1067,9 +1060,7 @@ int main()
 												}
 											}
 										}
-										//test = 1;
 									}
-
 								}
 								for (int i = 0; i < Gun::Number_of_Active_Bullets; i++)
 									bullets[i].Move_Bullet(bullets);
@@ -1309,7 +1300,6 @@ int main()
 				{
 					break;
 				}
-				//for (int i = 0; i < 9000000; i++) {}
 				system("CLS");
 				SetConsoleTextAttribute(Console, 15);
 				SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
@@ -1319,7 +1309,7 @@ int main()
 				SetConsoleTextAttribute(Console, 12);
 				SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
 				cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
-				position = 12;
+				/*position = 12;
 				SetConsoleTextAttribute(Console, 15);
 				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "1. Select Car and Play";
 				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "2. Buy Car";
@@ -1329,15 +1319,16 @@ int main()
 				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "6. Delete Profile";
 				SetConsoleCursorPosition(Console, { 51,position++ }); cout << "7. Exit Profile";
 				Input[1] = _getch() - '0';
-				Validate_Input(1, Input[1], 7);
+				Validate_Input(1, Input[1], 7);*/
+				Player_Profile_Menu(Input[1]);
+
 				if (Input[1] == 7)
 					break;
-				
 			}
 			break;
 		}
-			case 2:	//Create Profile
-			{
+		case 2:	//Create Profile
+		{
 			system("CLS");
 			SetConsoleCursorPosition(Console, { 54,5 });
 			cout << "Profile Creation";
@@ -1345,46 +1336,19 @@ int main()
 			SetConsoleCursorPosition(Console, { 50,7 });
 			Player_profile[Driver::get_No_of_Player_Profiles()].set_Player_Name();
 			break;
-			}
-			case 3: //Instructions
-			{
+		}
+		case 3: //Instructions
+		{
 			system("CLS");
 			Print_GamePlay_Instructions(Player, 0);
 			for (int i = 0; i < 454400000; i++) {}
 			break;
-			}
 		}
-		system("CLS");
-		Player_profile->reset_Number_ofProfiles();
-		for (int i = 0; i < 15; i++)
-			if (Player_profile[i].get_IsActive_Status())
-				Player_profile->Increment_No_of_Profiles();
-		SetConsoleTextAttribute(Console, 15);
-		if (Driver::get_No_of_Player_Profiles() >= 0)
-		{
-			SetConsoleCursorPosition(Console, { 53,6 });
-			SetConsoleTextAttribute(Console, 15);
-			cout << "1. Career/Profile";
-		}
-		else
-		{
-			SetConsoleCursorPosition(Console, { 53,6 });
-			SetConsoleTextAttribute(Console, 8);
-			cout << "1. Career/Profile";
-		}
-		SetConsoleTextAttribute(Console, 15);
-		SetConsoleCursorPosition(Console, { 53,7 });	cout << "2. Create Profile";
-		SetConsoleCursorPosition(Console, { 53,8 });	cout << "3. View Instructions";
-		SetConsoleCursorPosition(Console, { 53,9 });	cout << "4. Exit App (Player Progress will be Saved)";
-		Input[0] = _getch() - '0'; cout << "\a";
-		if (Driver::get_No_of_Player_Profiles() <= -1)
-			Validate_Input(2, Input[0], 4);
-		else
-			Validate_Input(1, Input[0], 4);
-	}
+		}// End of Switch
+		Main_Menu(Input[0], Player_profile);
+	}//End OF While loop
 	ofstream ofstream_ob2;
 	ofstream_ob2.open("Player_profile.txt", ios::out);
 	ofstream_ob2.write((char*)&Player_profile, sizeof(Player_profile));
 	ofstream_ob2.close();
-	exit(0);
 }//End of Main

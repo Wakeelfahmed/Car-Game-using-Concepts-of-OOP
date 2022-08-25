@@ -1,24 +1,35 @@
 #include<iostream>
 #include<fstream>
-#include<Windows.h>
 #include<conio.h>
 #include<ctime>
 #include<string.h>
 #include<string>
 #include<windows.h>
+#include<thread>
 using namespace std;
+typedef struct {
+	short rows, cols;
+} winsz_t;
+winsz_t myvar;
+void get_console_sz()
+{
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	while (1) {
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+		myvar.rows = csbi.srWindow.Bottom - csbi.srWindow.Top;
+		myvar.cols = csbi.srWindow.Right - csbi.srWindow.Left;
+	}
+}
+HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 void hidecursor()
 {
-	HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO info;
 	info.dwSize = 100;
 	info.bVisible = FALSE;
-	SetConsoleCursorInfo(consoleHandle, &info);
+	SetConsoleCursorInfo(Console, &info);
 }
 #define SCREEN_HEIGHT 26
 #define WIN_WIDTH 70
-HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
-char Input_char;
 class Car {
 protected:
 	char Car_Shape[25];
@@ -67,7 +78,6 @@ protected:
 	COORD Position_Cordinates;
 public:
 	Game_Play() : Position_Cordinates({ 0,0 }), Collsion(0), GamePLay_Difficulty(90000) {}
-
 	void set_Position_COORDS(int x, int y) { Position_Cordinates.X = x;		Position_Cordinates.Y = y; }
 	bool get_Collision_Status() const { return Collsion; }
 	COORD get_Player_Position() const { return Position_Cordinates; }
@@ -626,13 +636,18 @@ void Player_Profile_Menu(int& Input) {
 	Input = _getch() - '0'; cout << "\a";
 	Validate_Input(1, Input, 7);
 }
+void Shop_Items_ReadWrite_Menu(int & input) {
+	cout << "Intentory Read() Wirte()\n0.View Exisiting Data\t1.Enter Data\t2.Write to File\t\n(any other key to leave)";
+	input = _getch() - '0';
+}
 int main()
 {
+	thread ReponsiveUI(get_console_sz);
 	//PlaySound(TEXT("mixkit-retro-video-game-bubble-laser-277.wav"), NULL, SND_ASYNC);	//cout << "played"; //	cout << "not played";
 	HWND hWnd = GetConsoleWindow();		ShowWindow(hWnd, SW_SHOWMAXIMIZED);	//Make Console open in Maximized window.
 	Player_GamePlay Car1;
 	SetConsoleTextAttribute(Console, 15);
-	Items_Shop items[10];	/*ITEMS*/	Car_Shop Cars_Shop[10]; /*CARS SHOP*/
+	Items_Shop items[10];	/* ITEMS SHOP */	Car_Shop Cars_Shop[10]; /* CARS SHOP */
 	{ifstream ifstream_ob;
 	ifstream_ob.open("Items_Inventory.txt", ios::in);
 	ifstream_ob.read((char*)&items, sizeof(items));
@@ -642,8 +657,7 @@ int main()
 	int input;
 	items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
 	items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
-	cout << "Intentory Read() Wirte()\n0.View Exisiting Data\t1.Enter Data\t2.Write to File\t\n(any other key to leave)";
-	input = _getch() - '0';
+	Shop_Items_ReadWrite_Menu(input);
 	while (input >= 0 && input < 3) /*ITEMS SHOP READ WRITE*/ {
 		if (input == 0)
 			for (int i = 0; i < 3; i++)
@@ -658,9 +672,7 @@ int main()
 			ofstream_ob.write((char*)&items, sizeof(items));
 			ofstream_ob.close();
 		}
-		cout << "\n0.View Data\t 1.Enter Data\t2.Write to File\t\n(any other key to leave)";
-		input = _getch() - '0';
-		////////  READING FROM FILE  /////////
+		Shop_Items_ReadWrite_Menu(input);
 	}
 	int y;	int Profile_Selected, Car_Selected, Input[5], No_of_Enemies = 4;
 	Driver Player_profile[15];
@@ -691,7 +703,6 @@ int main()
 		Cars_Shop[6].set_Car_Color(7);		Cars_Shop[7].set_Car_Color(8);		Cars_Shop[8].set_Car_Color(9);
 	}// Car's Shop
 	short position1 = 7, position = 12;
-	hidecursor();
 	Player_GamePlay Player;		//Player.set_Position_COORDS(20, 20);		//Player.Draw_Car();
 	Main_Menu(Input[0], Player_profile);
 	Driver Selected_Driver_0, Selected_Driver_1;
@@ -720,8 +731,10 @@ int main()
 			Selected_Driver_0 = Player_profile[Profile_Selected];
 			Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
 			cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
-			SetConsoleCursorPosition(Console, { 50,5 });
-			cout << "Welcome back " << Player_profile[Profile_Selected].get_Driver_Name() << " !";
+			string Message = "Welcome back  !";
+			Message.insert(13, Player_profile[Profile_Selected].get_Driver_Name());
+			SetConsoleCursorPosition(Console, { short(myvar.cols / 2 - Message.size() / 2),5 });//org
+			cout << Message;
 			SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
 			SetConsoleTextAttribute(Console, 12);
 			cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
@@ -778,7 +791,11 @@ int main()
 						Validate_Input(1, Input[2], 3);
 						if (Input[2] == 1)								Player.set_Difficulty(900000);
 						else if (Input[2] == 2) { No_of_Enemies = 5;		Player.set_Difficulty(90000); } //Medium
-						else if (Input[2] == 3) { No_of_Enemies = 6;		Player.set_Difficulty(60000); } //Hard
+						else if (Input[2] == 3) { No_of_Enemies = 6;		Player.set_Difficulty(40000); } //Hard
+						/*
+						if (Input[2] == 1)								Player.set_Difficulty(900000);
+						else if (Input[2] == 2) { No_of_Enemies = 5;		Player.set_Difficulty(90000); } //Medium
+						else if (Input[2] == 3) { No_of_Enemies = 6;		Player.set_Difficulty(60000); } //Hard*/
 						char ch1;
 						SetConsoleTextAttribute(Console, 15);
 						SetConsoleCursorPosition(Console, { 15,22 });
@@ -823,7 +840,7 @@ int main()
 							Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
 							while (ch1 != 'q' && Game_Running)
 							{
-								for (int i = 0; i < Player.get_Difficulty(); i++) {}
+								for (int i = 0; i < Player.get_Difficulty(); i++) {}	//Game Lag/Difficulty
 								SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
 								SetConsoleTextAttribute(Console, 11);
 								cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
@@ -993,7 +1010,6 @@ int main()
 													else {
 														system("CLS");
 														Game_Running = false;
-
 													}
 												}
 												Enemy2[enemy_loop].Update_Position_Y(Position_Cordinates_enemy.Y - 5);
@@ -1004,8 +1020,6 @@ int main()
 										}
 										else
 											Enemy2[enemy_loop].update_Collision_Status(0);
-										int test = 0;
-
 										for (int i = 0; i < Gun::Number_of_Active_Bullets; i++)
 										{
 											if (bullets[i].get_Active_Bullet_Status() == 0)
@@ -1174,7 +1188,6 @@ int main()
 								Input[3] = _getch() - '0';	string s1 = to_string(Input[3]);
 								Input[3] = _getch() - '0';	cout << "\a";	string s2 = to_string(Input[3]);
 								string Final_Option = s1 + s2;
-
 								Final_Option_Num = stoi(Final_Option);
 							}
 							SetConsoleTextAttribute(Console, 15);
@@ -1197,8 +1210,6 @@ int main()
 								else
 									cout << "Insuffient Balance To Apply New Paint!";
 								for (int i = 0; i < 90000100; i++) {}
-
-
 							}
 						}
 						if (Input[3] == 2) {
@@ -1298,7 +1309,7 @@ int main()
 				SetConsoleTextAttribute(Console, 12);
 				SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
 				cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
-				Player_Profile_Menu(Input[1]); //7 options of Player Profile
+				Player_Profile_Menu(Input[1]); // 7 options of Player Profile
 				if (Input[1] == 7)
 					break;
 			}
@@ -1327,4 +1338,5 @@ int main()
 	ofstream_ob2.open("Player_profile.txt", ios::out);
 	ofstream_ob2.write((char*)&Player_profile, sizeof(Player_profile));
 	ofstream_ob2.close();
+	ReponsiveUI.join();
 }//End of Main

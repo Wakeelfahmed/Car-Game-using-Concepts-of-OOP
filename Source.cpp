@@ -8,18 +8,21 @@
 #include<thread>
 using namespace std;
 COORD UI_NEW, UI_OLD;
+bool Reponsive_UI_PauseResume = 0, Reponsive_UI_Thread_running = 0;
+CONSOLE_SCREEN_BUFFER_INFO csbi;
+
 HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 void get_console_sz()
 {
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	while (1)
+	while (0)
 	{
 		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 		UI_OLD = UI_NEW;
-		UI_NEW.X = csbi.srWindow.Bottom - csbi.srWindow.Top; //x  hori
-		UI_NEW.Y = csbi.srWindow.Right - csbi.srWindow.Left;   //y vertical
-		if (UI_NEW.Y != UI_OLD.Y || UI_NEW.X != UI_OLD.X)
+		UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
+		UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
+		if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y)
 			system("CLS");
+		Reponsive_UI_Thread_running = 0;
 	}
 }
 void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
@@ -30,10 +33,9 @@ void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
 	}
 	else 
 		Message_legth_Correction = (Message.size() / 2) - 1;     // Center Align
-	SetConsoleCursorPosition(Console, { short(UI_NEW.Y / 2 - Message_legth_Correction) , Horizontal_Sc_height });
+	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction) , Horizontal_Sc_height });
 	cout << Message;
 }
-bool Reponsive_UI_PauseResume = 0;
 void hidecursor()
 {
 	CONSOLE_CURSOR_INFO info;
@@ -91,28 +93,28 @@ protected:
 	COORD Position_Cordinates;
 public:
 	Game_Play() : Position_Cordinates({ 0,0 }), Collsion(0), GamePLay_Difficulty(90000) {}
-	void set_Position_COORDS(int x, int y) { Position_Cordinates.X = x;		Position_Cordinates.Y = y; }
+	void set_Position_COORDS(int x, int y) { Position_Cordinates.X = x;		Position_Cordinates.X = y; }
 	bool get_Collision_Status() const { return Collsion; }
 	COORD get_Player_Position() const { return Position_Cordinates; }
 	int getPosition_X() const { return Position_Cordinates.X; }
-	int getPosition_Y() const { return Position_Cordinates.Y; }
-	void setPosition_Y(int Y) { Position_Cordinates.Y = Y; }
+	int getPosition_Y() const { return Position_Cordinates.X; }
+	void setPosition_Y(int Y) { Position_Cordinates.X = Y; }
 	void Update_Position_X(int x) { Position_Cordinates.X = x; }
-	void Update_Position_Y(int y) { Position_Cordinates.Y = y; }
+	void Update_Position_Y(int y) { Position_Cordinates.X = y; }
 	virtual void Draw_Car() = 0;
 	void Erase_Car()
 	{
 		COORD X_and_Y;
 		SetConsoleCursorPosition(Console, Position_Cordinates);
 		X_and_Y.X = Position_Cordinates.X;
-		X_and_Y.Y = Position_Cordinates.Y + 1;
+		X_and_Y.X = Position_Cordinates.X + 1;
 		SetConsoleCursorPosition(Console, X_and_Y);
 		for (int i = 0; i < 25; i++)
 		{
 			if (i % 5 == 0)
 			{
 				SetConsoleCursorPosition(Console, X_and_Y);
-				X_and_Y.Y++;
+				X_and_Y.X++;
 			}
 			cout << " ";
 		}
@@ -207,13 +209,13 @@ public:
 		strcpy_s(Car, Game_Car.get_Car_Shape());
 		COORD new_Position;
 		new_Position.X = Position_Cordinates.X;
-		new_Position.Y = Position_Cordinates.Y;
+		new_Position.X = Position_Cordinates.X;
 		SetConsoleTextAttribute(Console, Game_Car.get_Car_Color()); //Car Owned Color
 		for (int i = 0; i <= (4 * Game_Car.get_Car_Height()); i++)			//		for (int i = 0; i < car.size(); i++)
 		{
 			if (i % 4 == 0)
 			{
-				new_Position.Y++;
+				new_Position.X++;
 				SetConsoleCursorPosition(Console, new_Position);
 			}
 			cout << Car[i];
@@ -272,7 +274,7 @@ public:
 	int get_score() const { return Score; }
 	int get_Lives() const { return Lives; }
 	void Display_Lives(COORD Lives_Setting) {
-		SetConsoleCursorPosition(Console, { Lives_Setting.X,short(Lives_Setting.Y - 1) });
+		SetConsoleCursorPosition(Console, { Lives_Setting.X,short(Lives_Setting.X - 1) });
 		SetConsoleTextAttribute(Console, 13);
 		cout << "Lives";
 		for (int i = 0; i < Lives; i++)
@@ -341,25 +343,25 @@ public:
 	}
 	void Move_Bullet(Gun bullets[])
 	{
-		if (!(Bullet_Position.Y < 2))
+		if (!(Bullet_Position.X < 2))
 		{
 			bullet = "\x18";
-			Bullet_Position.Y--;
+			Bullet_Position.X--;
 			SetConsoleTextAttribute(Console, Bullet_color);
 			SetConsoleCursorPosition(Console, Bullet_Position);
 			cout << bullet;
-			SetConsoleCursorPosition(Console, { Bullet_Position.X, short(Bullet_Position.Y + 1) });
+			SetConsoleCursorPosition(Console, { Bullet_Position.X, short(Bullet_Position.X + 1) });
 			cout << " ";
 		}
-		if ((Bullet_Position.Y < 2))
+		if ((Bullet_Position.X < 2))
 		{
-			SetConsoleCursorPosition(Console, { Bullet_Position.X, short((Bullet_Position.Y)) });
+			SetConsoleCursorPosition(Console, { Bullet_Position.X, short((Bullet_Position.X)) });
 			cout << " ";
 			Active_Bullet_Status = 0;
 		}
 	}
 	COORD get_Bullet_Position() const { return Bullet_Position; }
-	int get_Bullet_Position_Y() const { return Bullet_Position.Y; }
+	int get_Bullet_Position_Y() const { return Bullet_Position.X; }
 	int get_Bullet_Position_X() const { return Bullet_Position.X; }
 	bool get_Active_Bullet_Status() const { return Active_Bullet_Status; }
 	void set_Bullet_Collision_wh_Enemy_car_status(bool truefalse) { Bullet_Collision_wh_Enemy_car_status = truefalse; }
@@ -418,7 +420,7 @@ protected:
 public:
 	Enemy_car() {
 		Position_Cordinates.X = generate_Enemy_X_coordinate();
-		Position_Cordinates.Y = 4;	//Starting point of Enemy
+		Position_Cordinates.X = 4;	//Starting point of Enemy
 		Game_Car.set_Car_Color(12);
 		char Car[25] = " -- *北*北北*北* vv ";
 		Game_Car.set_Car_Shape(Car);
@@ -426,7 +428,7 @@ public:
 	int generate_Enemy_X_coordinate() { return 0 + (rand() % WIN_WIDTH + 2); }
 	void resetEnemy() {
 		Position_Cordinates.X = generate_Enemy_X_coordinate();
-		Position_Cordinates.Y = 4;
+		Position_Cordinates.X = 4;
 	}
 	bool get_Enemy_Alive_Status() const { return Enemy_car_Active; }
 	void Draw_Car(Player_GamePlay& Player_GamePlay) //Enemy Car 
@@ -435,11 +437,11 @@ public:
 			return;
 		COORD new_Position = { 0,0 }; //bullet_Position;
 		{
-			if (!(Position_Cordinates.Y > SCREEN_HEIGHT + 2) && !get_Collision_Status())
+			if (!(Position_Cordinates.X > SCREEN_HEIGHT + 2) && !get_Collision_Status())
 			{
 				char car[25];
 				strcpy_s(car, Game_Car.get_Car_Shape());
-				Position_Cordinates.Y++;
+				Position_Cordinates.X++;
 				SetConsoleCursorPosition(Console, Position_Cordinates);
 				int count = 0;
 				new_Position = Position_Cordinates;
@@ -450,15 +452,15 @@ public:
 					if (counter == 5)
 					{
 						counter = 1;
-						new_Position.Y--;
+						new_Position.X--;
 						SetConsoleCursorPosition(Console, new_Position);
 					}
 					SetConsoleTextAttribute(Console, Game_Car.get_Car_Color());
-					if (!(new_Position.Y > SCREEN_HEIGHT - 2)) {
+					if (!(new_Position.X > SCREEN_HEIGHT - 2)) {
 						cout << car[i];
 					}
 				}
-				if (new_Position.Y > SCREEN_HEIGHT - 2)
+				if (new_Position.X > SCREEN_HEIGHT - 2)
 				{
 					Enemy_car_Active = 0;
 					++Player_GamePlay;
@@ -466,7 +468,7 @@ public:
 				}
 				//int minus = 0;				//if (Player_GamePlay.get_items_Availabe_fr_Driv(2))				//	minus = 2000;				//for (int i = 0; i < Player_GamePlay.get_Difficulty() - minus; i++) {}			//	for (int i = 0; i < 988999 - minus; i++) {}	//HOW FAST ENEMY WILL MOVE			/*//	for (int i = 0; i < 918080 - minus; i++) {}	//HOW FAST ENEMY WILL MOVE*/
 				EraseEnemyTrail();
-				if (new_Position.Y > SCREEN_HEIGHT - 2)
+				if (new_Position.X > SCREEN_HEIGHT - 2)
 					resetEnemy();
 			}
 			else
@@ -477,7 +479,7 @@ public:
 	void EraseEnemyTrail() {
 		COORD Old_Position;
 		Old_Position.X = Position_Cordinates.X;
-		Old_Position.Y = (Position_Cordinates.Y - 5);
+		Old_Position.X = (Position_Cordinates.X - 5);
 		SetConsoleCursorPosition(Console, Old_Position);
 		cout << "    ";
 	}
@@ -543,12 +545,12 @@ bool Gun_jammed_Status() {
 	return false;
 }
 void Print_Car_Char_Array(Car_Shop Cars[], COORD& position, int i, bool signal, int Color) {
-	SetConsoleCursorPosition(Console, { short(position.X - 3), short(position.Y + 2) });
+	SetConsoleCursorPosition(Console, { short(position.X - 3), short(position.X + 2) });
 	SetConsoleTextAttribute(Console, 15);//White - 15
 	cout << i << ". ";
-	int yincrease = position.Y;
+	int yincrease = position.X;
 	char* car = Cars[i].get_Car_Shape();	//	" ^^ [北] 北 [北] -- ";  " ^^ \n[北]\n 北 \n[北]\n -- "
-	SetConsoleCursorPosition(Console, { position.X,position.Y });
+	SetConsoleCursorPosition(Console, { position.X,position.X });
 	SetConsoleTextAttribute(Console, Color);
 	for (int j = 0; j < strlen(car); j++)
 	{
@@ -558,12 +560,12 @@ void Print_Car_Char_Array(Car_Shop Cars[], COORD& position, int i, bool signal, 
 	}
 	if (signal) {
 		SetConsoleTextAttribute(Console, 15);
-		SetConsoleCursorPosition(Console, { short(position.X - 2),short(position.Y + 5) });
+		SetConsoleCursorPosition(Console, { short(position.X - 2),short(position.X + 5) });
 		cout << "Price " << Cars[i].get_price() << endl;
 	}
 	position.X += 13; //position.Y -= 4;
 }
-void Read_Player_Profile_From_file(Driver Player_profile[]) {
+/*void Read_Player_Profile_From_file(Driver Player_profile[]) {
 	ifstream ifstream_ob;
 	ifstream_ob.open("Player_profile.txt", ios::in);
 	//cout << "\nReading the object from a file : \n";
@@ -583,7 +585,7 @@ void Read_Items_From_File(Shop items[]) {
 	cout << "\nReading the object from a file : \n";
 	ifstream_ob.read((char*)&items, sizeof(items));
 	ifstream_ob.close();
-}
+}*/
 void Print_GamePlay_Instructions(Player_GamePlay Player, bool signal) {
 	short positionX, positionY;
 	if (signal) {
@@ -606,15 +608,27 @@ void Print_GamePlay_Instructions(Player_GamePlay Player, bool signal) {
 	}
 	SetConsoleCursorPosition(Console, { short(positionX - 2),positionY++ });		cout << "Q - Quit Gameplay";
 }
+void get_console_size()
+{
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	UI_OLD = UI_NEW;
+	UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
+	UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
+	if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y)
+		system("CLS");
+}
 void Main_Menu(int& Input, Driver Player_profile[])
 {
 	system("CLS");
+	Reponsive_UI_Thread_running = 1;
 	Player_profile->reset_Number_ofProfiles();
 	for (int i = 0; i < 15; i++)
 		if (Player_profile[i].get_IsActive_Status())
 			Player_profile->Increment_No_of_Profiles();
-	Reponsive_UI_PauseResume = 1;
+	Reponsive_UI_PauseResume = 1; 
 	while (Reponsive_UI_PauseResume) {
+		get_console_size();
+		Reponsive_UI_Thread_running = 0;
 		if (Driver::get_No_of_Player_Profiles() >= 0)
 		{
 			SetConsoleTextAttribute(Console, 15);
@@ -696,8 +710,9 @@ int main()
 	hidecursor();
 	SUPERADMIN ADMIN;
 	int input;
-	items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
+	{items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
 	items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
+}
 	Reponsive_UI_PauseResume = 1;
 	//while (Reponsive_UI_PauseResume)
 	{
@@ -779,7 +794,7 @@ int main()
 			cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
 			string Message = "Welcome back  !";
 			Message.insert(13, Player_profile[Profile_Selected].get_Driver_Name());
-			//SetConsoleCursorPosition(Console, { short(myvar.cols / 2 - Message.size() / 2),5 });//org
+			SetConsoleCursorPosition(Console, { short((UI_NEW.X / 2) - (Message.size() / 2)),5 });//org
 			cout << Message;
 			SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
 			SetConsoleTextAttribute(Console, 12);
@@ -860,7 +875,7 @@ int main()
 							SetConsoleTextAttribute(Console, 11);
 							cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
 							srand(unsigned int(time(0)));
-							COORD Position;	Position.X = WIN_WIDTH;	Position.Y = SCREEN_HEIGHT;
+							COORD Position;	Position.X = WIN_WIDTH;	Position.X = SCREEN_HEIGHT;
 							Gun bullets[50];
 							position2 = 8;
 							Enemy_car  Enemy2[10];
@@ -998,7 +1013,7 @@ int main()
 										COORD Position_Cordinates_enemy = Enemy2[enemy_loop].get_Player_Position(); // Enemy CAR Position
 										COORD Player_Position = Player.get_Player_Position();
 										//if ((Position_Cordinates.Y - 1) >= Player_Position.Y && (Position_Cordinates.Y - 10) <= Player_Position.Y)
-										if ((Position_Cordinates_enemy.Y - 1) >= Player_Position.Y && (Position_Cordinates_enemy.Y - 11) <= Player_Position.Y)//(//Position_Cordinates.Y - 1) == Player_Position.Y 
+										if ((Position_Cordinates_enemy.X - 1) >= Player_Position.X && (Position_Cordinates_enemy.X - 11) <= Player_Position.X)//(//Position_Cordinates.Y - 1) == Player_Position.Y 
 											/*//	|| (Position_Cordinates.Y - 2) == Player_Position.Y
 											//	|| (Position_Cordinates.Y - 3) == Player_Position.Y
 											//	|| (Position_Cordinates.Y - 4) == Player_Position.Y
@@ -1058,7 +1073,7 @@ int main()
 														Game_Running = false;
 													}
 												}
-												Enemy2[enemy_loop].Update_Position_Y(Position_Cordinates_enemy.Y - 5);
+												Enemy2[enemy_loop].Update_Position_Y(Position_Cordinates_enemy.X - 5);
 												Enemy2[enemy_loop].Erase_Car();
 												Player.Draw_Car();
 												Enemy2[enemy_loop].resetEnemy(); //for checking
@@ -1082,7 +1097,7 @@ int main()
 													|| (Enemy2[enemy_loop].getPosition_X() + 2) == bullets[i].get_Bullet_Position_X()	//3rd col
 													|| (Enemy2[enemy_loop].getPosition_X() + 3) == bullets[i].get_Bullet_Position_X())	//4th col, right most
 												{
-													Enemy2[enemy_loop].Update_Position_Y(Position_Cordinates_enemy.Y - 5);
+													Enemy2[enemy_loop].Update_Position_Y(Position_Cordinates_enemy.X - 5);
 													Enemy2[enemy_loop].Erase_Car();
 													Enemy2[enemy_loop].resetEnemy();
 													bullets[i].~Gun();
@@ -1202,7 +1217,7 @@ int main()
 							Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Player_profile[Profile_Selected].get_Car_Color(Input[2]));
 							SetConsoleCursorPosition(Console, { 55,4 });		cout << "Select New Color";
 							Printing_Cords = { 65,7 };
-							int yincrease = Printing_Cords.Y;
+							int yincrease = Printing_Cords.X;
 							for (int i = 1; i <= 15; i++)
 							{
 								SetConsoleCursorPosition(Console, Printing_Cords);
@@ -1213,7 +1228,7 @@ int main()
 								Printing_Cords.X += 15;
 								if (i % 2 == 0)
 								{
-									Printing_Cords.Y += 2;
+									Printing_Cords.X += 2;
 									Printing_Cords.X = 65;
 								}
 							}

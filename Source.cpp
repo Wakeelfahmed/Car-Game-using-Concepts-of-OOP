@@ -7,20 +7,33 @@
 #include<windows.h>
 #include<thread>
 using namespace std;
-typedef struct {
-	short rows, cols;
-} winsz_t;
-winsz_t myvar;
+COORD UI_NEW, UI_OLD;
+HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 void get_console_sz()
 {
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	while (1) {
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-		myvar.rows = csbi.srWindow.Bottom - csbi.srWindow.Top;
-		myvar.cols = csbi.srWindow.Right - csbi.srWindow.Left;
+	while (1)
+	{
+		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+		UI_OLD = UI_NEW;
+		UI_NEW.X = csbi.srWindow.Bottom - csbi.srWindow.Top; //x  hori
+		UI_NEW.Y = csbi.srWindow.Right - csbi.srWindow.Left;   //y vertical
+		if (UI_NEW.Y != UI_OLD.Y || UI_NEW.X != UI_OLD.X)
+			system("CLS");
 	}
 }
-HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
+void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
+	int Message_Newlegth = Message.size();
+	int Message_legth_Correction = Message.size();
+	if (Message.size() % 2 == 1) {
+		Message_legth_Correction = (Message.size() / 2);
+	}
+	else 
+		Message_legth_Correction = (Message.size() / 2) - 1;     // Center Align
+	SetConsoleCursorPosition(Console, { short(UI_NEW.Y / 2 - Message_legth_Correction) , Horizontal_Sc_height });
+	cout << Message;
+}
+bool Reponsive_UI_PauseResume = 0;
 void hidecursor()
 {
 	CONSOLE_CURSOR_INFO info;
@@ -600,27 +613,55 @@ void Main_Menu(int& Input, Driver Player_profile[])
 	for (int i = 0; i < 15; i++)
 		if (Player_profile[i].get_IsActive_Status())
 			Player_profile->Increment_No_of_Profiles();
-	if (Driver::get_No_of_Player_Profiles() >= 0)
-	{
-		SetConsoleCursorPosition(Console, { 53,6 });
+	Reponsive_UI_PauseResume = 1;
+	while (Reponsive_UI_PauseResume) {
+		if (Driver::get_No_of_Player_Profiles() >= 0)
+		{
+			SetConsoleTextAttribute(Console, 15);
+			Print_Center_Aligned("1. Career/Profile", 6);
+			//SetConsoleCursorPosition(Console, { 53,6 });
+			//cout << "1. Career/Profile";
+		}
+		else
+		{
+			SetConsoleTextAttribute(Console, 8);
+			//SetConsoleCursorPosition(Console, { 53,6 });
+			Print_Center_Aligned("1. Career/Profile", 6);
+			//cout << "1. Career/Profile";
+		}
 		SetConsoleTextAttribute(Console, 15);
-		cout << "1. Career/Profile";
+		//SetConsoleCursorPosition(Console, { 53,7 });	cout << "2. Create Profile";
+		Print_Center_Aligned("2. Create Profile", 7);
+		Print_Center_Aligned("3. View Instructions", 8);
+		Print_Center_Aligned("4. Exit App (Player Progress will be Saved)", 9);
+		//SetConsoleCursorPosition(Console, { 53,8 });	cout << "3. View Instructions";
+		//SetConsoleCursorPosition(Console, { 53,9 });	cout << "4. Exit App (Player Progress will be Saved)";
+		if (_kbhit()) {
+			Input = _getch() - '0';
+			if (Driver::get_No_of_Player_Profiles() <= -1)
+				if (Input < 2 || Input > 4) {
+					if (_kbhit())
+						Input = _getch() - '0';
+				}
+				else
+				{
+					Reponsive_UI_PauseResume = 0;
+				}
+				//Validate_Input(2, Input, 4);
+			else {
+				if (Input < 1 || Input > 4) {
+					if (_kbhit())
+						Input = _getch() - '0';
+				}
+				else
+				{
+					Reponsive_UI_PauseResume = 0;
+				}
+			}
+				//Validate_Input(1, Input, 4);// cout << "\a";
+		}
 	}
-	else
-	{
-		SetConsoleCursorPosition(Console, { 53,6 });
-		SetConsoleTextAttribute(Console, 8);
-		cout << "1. Career/Profile";
-	}
-	SetConsoleTextAttribute(Console, 15);
-	SetConsoleCursorPosition(Console, { 53,7 });	cout << "2. Create Profile";
-	SetConsoleCursorPosition(Console, { 53,8 });	cout << "3. View Instructions";
-	SetConsoleCursorPosition(Console, { 53,9 });	cout << "4. Exit App (Player Progress will be Saved)";
-	Input = _getch() - '0'; cout << "\a";
-	if (Driver::get_No_of_Player_Profiles() <= -1)
-		Validate_Input(2, Input, 4);
-	else
-		Validate_Input(1, Input, 4);
+	
 }
 void Player_Profile_Menu(int& Input) {
 	//system("CLS");
@@ -639,10 +680,10 @@ void Player_Profile_Menu(int& Input) {
 void Shop_Items_ReadWrite_Menu(int & input) {
 	cout << "Intentory Read() Wirte()\n0.View Exisiting Data\t1.Enter Data\t2.Write to File\t\n(any other key to leave)";
 	input = _getch() - '0';
+	Reponsive_UI_PauseResume = 0;
 }
 int main()
 {
-	thread ReponsiveUI(get_console_sz);
 	//PlaySound(TEXT("mixkit-retro-video-game-bubble-laser-277.wav"), NULL, SND_ASYNC);	//cout << "played"; //	cout << "not played";
 	HWND hWnd = GetConsoleWindow();		ShowWindow(hWnd, SW_SHOWMAXIMIZED);	//Make Console open in Maximized window.
 	Player_GamePlay Car1;
@@ -657,7 +698,11 @@ int main()
 	int input;
 	items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
 	items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
-	Shop_Items_ReadWrite_Menu(input);
+	Reponsive_UI_PauseResume = 1;
+	//while (Reponsive_UI_PauseResume)
+	{
+		Shop_Items_ReadWrite_Menu(input);
+	}
 	while (input >= 0 && input < 3) /*ITEMS SHOP READ WRITE*/ {
 		if (input == 0)
 			for (int i = 0; i < 3; i++)
@@ -703,6 +748,7 @@ int main()
 		Cars_Shop[6].set_Car_Color(7);		Cars_Shop[7].set_Car_Color(8);		Cars_Shop[8].set_Car_Color(9);
 	}// Car's Shop
 	short position1 = 7, position = 12;
+	thread ReponsiveUI(get_console_sz);
 	Player_GamePlay Player;		//Player.set_Position_COORDS(20, 20);		//Player.Draw_Car();
 	Main_Menu(Input[0], Player_profile);
 	Driver Selected_Driver_0, Selected_Driver_1;
@@ -733,7 +779,7 @@ int main()
 			cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
 			string Message = "Welcome back  !";
 			Message.insert(13, Player_profile[Profile_Selected].get_Driver_Name());
-			SetConsoleCursorPosition(Console, { short(myvar.cols / 2 - Message.size() / 2),5 });//org
+			//SetConsoleCursorPosition(Console, { short(myvar.cols / 2 - Message.size() / 2),5 });//org
 			cout << Message;
 			SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
 			SetConsoleTextAttribute(Console, 12);

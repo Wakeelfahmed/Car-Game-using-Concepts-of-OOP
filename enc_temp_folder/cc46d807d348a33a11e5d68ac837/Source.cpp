@@ -586,7 +586,7 @@ void Print_GamePlay_Instructions(Player_GamePlay Player, bool signal) {
 	}
 	else {	//3. View Instructions
 		SetConsoleTextAttribute(Console, 15);
-		positionX = UI_NEW.X / 2 - 4;	positionY = 7;	//positionX = 58; //positionX = UI_NEW.X / 2 - 4; good to go
+		positionX = UI_NEW.X / 2 - 4;	positionY = 7;	//positionX = 58;
 	}
 	SetConsoleCursorPosition(Console, { short(positionX - 1),positionY++ });		cout << "Instruction:";
 	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'A\' - Left";

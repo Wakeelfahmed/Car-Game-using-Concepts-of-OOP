@@ -10,7 +10,7 @@
 #define WIN_WIDTH 70
 using namespace std;
 COORD UI_NEW, UI_OLD;
-bool Reponsive_UI_PauseResume = 0, Reponsive_UI_Thread_Running = 0;
+bool Reponsive_UI_PauseResume = 0, Reponsive_UI_Thread_Running = 0, RESPONSIVE_THREADING = 1;
 CONSOLE_SCREEN_BUFFER_INFO csbi;
 HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 void hidecursor()
@@ -100,20 +100,19 @@ public:
 };
 void get_console_sz_THREAD()
 {
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
-	UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
-	while (Reponsive_UI_Thread_Running)
-	{
-		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-		UI_OLD = UI_NEW;
-		UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
-		UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
-		if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y) {
-			system("CLS");
+	while (RESPONSIVE_THREADING) 
+		while (Reponsive_UI_Thread_Running)
+		{
+			GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+			UI_OLD = UI_NEW;
+			UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
+			UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
+			if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y) {
+				system("CLS");
+			}
+			//	Reponsive_UI_Thread_Running = 0;
 		}
-		//	Reponsive_UI_Thread_Running = 0;
-	}
+	
 }
 void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
 	int Message_Newlegth = Message.size();
@@ -546,10 +545,8 @@ bool Gun_jammed_Status() {
 			Counter++;
 	}
 	if (Counter == 3)
-	{
-		//cout << "  FIRE!!  ";
-		return true;
-	}
+		return true;		//cout << "  FIRE!!  ";
+	
 	//cout << "  !NO FIRE  ";
 	return false;
 }
@@ -570,7 +567,7 @@ void Print_Car_Char_Array(Car_Shop Cars[], COORD& position, int i, bool signal, 
 	if (signal) {
 		SetConsoleTextAttribute(Console, 15);
 		SetConsoleCursorPosition(Console, { short(position.X - 2),short(position.Y + 5) });
-		cout << "Price " << Cars[i].get_price() << endl;
+		cout << "Price " << Cars[i].get_price();
 	}
 	position.X += 13; //position.Y -= 4;
 }
@@ -714,10 +711,10 @@ void Player_Profile_Menu(int& Input, SUPERADMIN ADMIN, Driver Player_profile, st
 	short position = 10;
 	SetConsoleTextAttribute(Console, 15);
 	Print_Center_Aligned(Message, 5); //Welcome Back  !
-	Print_Center_Aligned("1. Select Car and Play", position++);		//SetConsoleCursorPosition(Console, { 51,position++ });
-	Print_Center_Aligned("2. Buy Car", position++);					//SetConsoleCursorPosition(Console, { 51,position++ });
-	Print_Center_Aligned("3. Display Owned Cars", position++);		//SetConsoleCursorPosition(Console, { 51,position++ });
-	Print_Center_Aligned("4. Shop items", position++);				//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("1. Select Car and Play",	position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("2. Buy Car",				position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("3. Display Owned Cars",	position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("4. Shop items",			position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
 	Print_Center_Aligned("5. View Items in Inventory", position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
 	Print_Center_Aligned("6. Delete Profile", position++);			//SetConsoleCursorPosition(Console, { 51,position++ });
 	Print_Center_Aligned("7. Exit Profile", position++);			//SetConsoleCursorPosition(Console, { 51,position++ });
@@ -733,6 +730,9 @@ int main()
 {
 	//PlaySound(TEXT("mixkit-retro-video-game-bubble-laser-277.wav"), NULL, SND_ASYNC);	//cout << "played"; //	cout << "not played";
 	HWND hWnd = GetConsoleWindow();		ShowWindow(hWnd, SW_SHOWMAXIMIZED);	//Make Console open in Maximized window.
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
+	UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
 	Player_GamePlay Car1;
 	SetConsoleTextAttribute(Console, 15);
 	Items_Shop items[10];	/* ITEMS SHOP */	Car_Shop Cars_Shop[10]; /* CARS SHOP */
@@ -1359,6 +1359,7 @@ int main()
 				}
 				else if (Input[1] == 6)
 				{
+				Reponsive_UI_Thread_Running = 1;
 					system("CLS");
 					Reponsive_UI_PauseResume = 1;
 					while (Reponsive_UI_PauseResume) {
@@ -1372,15 +1373,16 @@ int main()
 								Player_profile[Profile_Selected].~Driver();
 								for (int j = Profile_Selected; j <= Driver::get_No_of_Player_Profiles(); j++)
 									Player_profile[j] = Player_profile[j + 1];
+								break;
 							}
 							if (Input[2] == 2 || Input[2] == 1)
 							Reponsive_UI_PauseResume = 0;
 						}
 					}
-					break;
 				}
 				if (Input[1] == 7)
 					break;
+
 				Player_Welcome_Message = "Welcome  !";	
 				Player_Welcome_Message.insert(8, Player_profile[Profile_Selected].get_Driver_Name());
 				Player_Profile_Menu(Input[1], ADMIN, Player_profile[Profile_Selected], Player_Welcome_Message); // 7 options of Player Profile
@@ -1413,6 +1415,6 @@ int main()
 	ofstream_ob2.open("Player Profiles.txt", ios::out);
 	ofstream_ob2.write((char*)&Player_profile, sizeof(Player_profile));
 	ofstream_ob2.close();
-	Reponsive_UI_Thread_Running = 0;
+	Reponsive_UI_Thread_Running = 0; RESPONSIVE_THREADING = 0;
 	ReponsiveUI.join();
 }//End of Main

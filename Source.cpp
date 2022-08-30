@@ -107,19 +107,20 @@ void get_console_sz_THREAD()
 			UI_OLD = UI_NEW;
 			UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
 			UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
-			if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y) {
+			if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y) 
 				system("CLS");
-			}
-			//	Reponsive_UI_Thread_Running = 0;
 		}
-	
 }
 void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
-	int Message_Newlegth = Message.size();
+	short Message_Newlegth = Message.size();
+	short Correction = 0;
 	int Message_legth_Correction = Message.size();
-	if (Message.size() % 2 == 1)
+	if (Message.size() % 2 == 1) {
+		Correction++;
 		Message_legth_Correction = (Message.size() / 2);
-	else {		//cout << "here";
+	}
+	else {	
+		Correction++;//cout << "here";
 		Message_legth_Correction = (Message.size() / 2) - 1;  //org -1    // Center Align
 		if (UI_NEW.X % 2 == 1)
 		{
@@ -127,7 +128,7 @@ void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
 			Message_legth_Correction += 1;
 		}
 	}
-	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction) , Horizontal_Sc_height });
+	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction + Correction) , Horizontal_Sc_height });
 	cout << Message;	//if (UI_NEW.X % 2 == 1)		cout << "jkfsd";
 	//if (Message.size() % 2 == 0)		//cout << "here";	
 }
@@ -724,7 +725,6 @@ void Player_Profile_Menu(int& Input, SUPERADMIN ADMIN, Driver Player_profile, st
 void Shop_Items_ReadWrite_Menu(int& input) {
 	cout << "Intentory Read() Wirte()\n0.View Exisiting Data\t1.Enter Data\t2.Write to File\t\n(any other key to leave)";
 	input = _getch() - '0';
-	Reponsive_UI_PauseResume = 0;
 }
 int main()
 {
@@ -1130,9 +1130,7 @@ int main()
 															Score_Coins_Counter = 0;
 														}
 													}
-													SetConsoleTextAttribute(Console, 12);
-													SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
-													cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << "  ";
+													PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 													bullets[i].set_Bullet_Collision_wh_Enemy_car_status(1);
 												}
 											}
@@ -1159,29 +1157,30 @@ int main()
 							Printing_Cords = { 33 ,14 };
 						Print_Car_Char_Array(Cars_Shop, Printing_Cords, i, 1, Cars_Shop[i].get_Car_Color());
 					}
+					Print_Center_Aligned("9. Leave", 22);
 					Input[2] = _getch() - '0';
-					Validate_Input(0, Input[2], 8);
-					if (!(Player_profile[Profile_Selected].check_if_Player_has_Car(Input[2])))
+					Validate_Input(0, Input[2], 9);
+					if (!(Input[2] == 9))
 					{
-						if (Player_profile[Profile_Selected].get_Coins() >= Cars_Shop[Input[2]].get_price())
+						if (!(Player_profile[Profile_Selected].check_if_Player_has_Car(Input[2])))
 						{
-							Player_profile[Profile_Selected].Buy_Car(Cars_Shop[Input[2]].get_Car(), Input[2]);
-							Player_profile[Profile_Selected] - Cars_Shop[Input[2]].get_price();
-							SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-							SetConsoleTextAttribute(Console, 11);
-							cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
-							Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
+							if (Player_profile[Profile_Selected].get_Coins() >= Cars_Shop[Input[2]].get_price())
+							{
+								Player_profile[Profile_Selected].Buy_Car(Cars_Shop[Input[2]].get_Car(), Input[2]);
+								Player_profile[Profile_Selected] - Cars_Shop[Input[2]].get_price();
+								PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+								Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
+							}
+							else {
+								Print_Center_Aligned("Need More Coins!", 24);
+								for (int i = 0; i < 454400000; i++) {}
+							}
 						}
-						else {
-							Print_Center_Aligned("Need More Coins!", 24);
+						else
+						{
+							Print_Center_Aligned("Already owned", 24);	//SetConsoleCursorPosition(Console, { 55,24 });
 							for (int i = 0; i < 454400000; i++) {}
 						}
-					}
-					else
-					{
-						Print_Center_Aligned("Already owned", 24);	//SetConsoleCursorPosition(Console, { 55,24 });
-						SetConsoleTextAttribute(Console, 15);
-						for (int i = 0; i < 454400000; i++) {}
 					}
 				}
 				else if (Input[1] == 3)	//CAR GARAGE
@@ -1205,30 +1204,28 @@ int main()
 						}
 					}
 					SetConsoleTextAttribute(Console, 15);
-					Print_Center_Aligned("9. Leave Garage", 23); //SetConsoleCursorPosition(Console, { 50,23 });
+					Print_Center_Aligned("9. Leave Garage", 22); //SetConsoleCursorPosition(Console, { 50,23 });
 					Input[2] = _getch() - '0';
 					if (Input[2] >= 0 && Input[2] <= 8)
 					{
 						system("CLS");
-						SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-						cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
+						PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 						Printing_Cords = { 40, 11 };
 						int Color = Player_profile[Profile_Selected].get_Car_Color(Input[2]);
 						Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Color);
-						SetConsoleCursorPosition(Console, { 55,10 });
-						cout << "1. Change Car color";
 						SetConsoleCursorPosition(Console, { 55,12 });
-						cout << "2. Sell Car";
+						cout << "1. Change Car color";
+						SetConsoleCursorPosition(Console, { 55,14 });
+						Print_Center_Aligned("2. Sell Car", 14);
+						//cout << "2. Sell Car";
 						Input[3] = _getch() - '0';	cout << "\a";
 						if (Input[3] == 1)
 						{
 							system("CLS");
-							SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-							SetConsoleTextAttribute(Console, 11);
-							cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
+							PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 							Printing_Cords = { 40, 11 };
 							Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Player_profile[Profile_Selected].get_Car_Color(Input[2]));
-							SetConsoleCursorPosition(Console, { 55,4 });		cout << "Select New Color";
+							Print_Center_Aligned("Select New Color", 4);//	SetConsoleCursorPosition(Console, { 55,4 });
 							Printing_Cords = { 65,7 };
 							int yincrease = Printing_Cords.Y;
 							for (int i = 1; i <= 15; i++)
@@ -1271,26 +1268,23 @@ int main()
 								{
 									Player_profile[Profile_Selected] - 50;
 									system("CLS");
-									SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-									SetConsoleTextAttribute(Console, 11);
-									cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
+									PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 									Printing_Cords = { 40, 11 };
 									Player_profile[Profile_Selected].set_Car_Color(temp_Last_option, Input[2]);
 									Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Player_profile[Profile_Selected].get_Car_Color(Input[2]));
-									SetConsoleCursorPosition(Console, { 50,15 });
-									cout << "Congrats! New Paint is Applied";
+									Print_Center_Aligned("Congrats! New Paint is Applied", 14);//SetConsoleCursorPosition(Console, { 50,15 });
+									//cout << "Congrats! New Paint is Applied";
 									for (int i = 0; i < 90000100; i++) {}
 								}
 								else
-									cout << "Insuffient Balance To Apply New Paint!";
+									//Print_Center_Aligned("Insuffient Coins To Apply New Paint!",14);
+									//cout << "Insuffient Balance To Apply New Paint!";
 								for (int i = 0; i < 90000100; i++) {}
 							}
 						}
 						if (Input[3] == 2) {
 							system("CLS");
-							SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-							SetConsoleTextAttribute(Console, 11);
-							cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
+							PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 							Printing_Cords = { 40, 11 };
 							int Color = Player_profile[Profile_Selected].get_Car_Color(Input[2]);
 							Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Color);
@@ -1310,7 +1304,6 @@ int main()
 				{
 					system("CLS");
 					PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
-					//PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 					SetConsoleTextAttribute(Console, 15);
 					Print_Center_Aligned("BUY ITEMS", 5);//	SetConsoleCursorPosition(Console, { 58,5 });
 					position = 7;
@@ -1323,10 +1316,10 @@ int main()
 						cout << "Price " << items[i].get_price();
 						SetConsoleCursorPosition(Console, { 45,position++ });
 					}
-					Print_Center_Aligned("5. Leave Shop", 14);
+					Print_Center_Aligned("4. Leave Shop", 14);
 					Input[2] = _getch() - '0';
-					Validate_Input(0, Input[2], 5);
-					if (!(Input[2] == 5))
+					Validate_Input(0, Input[2], 4);
+					if (!(Input[2] == 4))
 					{
 						if (!(Player_profile[Profile_Selected].check_if_Player_has_item(Input[2])))
 						{

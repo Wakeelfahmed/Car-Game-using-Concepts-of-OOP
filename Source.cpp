@@ -10,7 +10,7 @@
 #define WIN_WIDTH 70
 using namespace std;
 COORD UI_NEW, UI_OLD;
-bool Reponsive_UI_PauseResume = 0, Reponsive_UI_Thread_running = 0;
+bool Reponsive_UI_PauseResume = 0, Reponsive_UI_Thread_Running = 0;
 CONSOLE_SCREEN_BUFFER_INFO csbi;
 HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 void hidecursor()
@@ -22,7 +22,7 @@ void hidecursor()
 }
 void get_console_sz_THREAD()
 {
-	while (1)
+	while (0)
 	{
 		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 		UI_OLD = UI_NEW;
@@ -30,7 +30,7 @@ void get_console_sz_THREAD()
 		UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
 		if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y)
 			system("CLS");
-		Reponsive_UI_Thread_running = 0;
+		Reponsive_UI_Thread_Running = 0;
 	}
 }
 void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
@@ -667,7 +667,7 @@ void Print_Left_wh_refer_Message(string Message, short Horizontal, string wh_res
 void Main_Menu(int& Input, Driver Player_profile[])
 {
 	system("CLS");
-	Reponsive_UI_Thread_running = 1;
+	Reponsive_UI_Thread_Running = 1;
 	Player_profile->reset_Number_ofProfiles();
 	for (int i = 0; i < 15; i++)
 		if (Player_profile[i].get_IsActive_Status())
@@ -675,7 +675,7 @@ void Main_Menu(int& Input, Driver Player_profile[])
 	Reponsive_UI_PauseResume = 1;
 	while (Reponsive_UI_PauseResume) {
 		get_console_size();
-		Reponsive_UI_Thread_running = 0;
+		//Reponsive_UI_Thread_Running = 0;
 		if (Driver::get_No_of_Player_Profiles() >= 0)
 		{
 			SetConsoleTextAttribute(Console, 15);
@@ -695,12 +695,12 @@ void Main_Menu(int& Input, Driver Player_profile[])
 			Input = _getch() - '0';
 			if (Driver::get_No_of_Player_Profiles() <= -1) {
 			//	Validate_Input_on_Kbhit(2, Input, 4);
-				if (Input >= 2 && Input <= 4)
+				if (Input >= 2 && Input <= 4) {
 					Reponsive_UI_PauseResume = 0;
-
+				}
 			}
 			else {
-			//	Validate_Input_on_Kbhit(1, Input, 4);
+				//Validate_Input_on_Kbhit(1, Input, 4);
 				if (Input >= 1 && Input <= 4)
 					Reponsive_UI_PauseResume = 0;
 			}

@@ -20,42 +20,6 @@ void hidecursor()
 	info.bVisible = FALSE;
 	SetConsoleCursorInfo(Console, &info);
 }
-void get_console_sz_THREAD()
-{
-	while (0)
-	{
-		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-		UI_OLD = UI_NEW;
-		UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
-		UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
-		if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y)
-			system("CLS");
-		Reponsive_UI_Thread_Running = 0;
-	}
-}
-void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
-	int Message_Newlegth = Message.size();
-	int Message_legth_Correction = Message.size();
-	if (Message.size() % 2 == 1)
-		Message_legth_Correction = (Message.size() / 2);
-	else {
-		//cout << "here";
-		Message_legth_Correction = (Message.size() / 2) - 1;  //org -1    // Center Align
-		if (UI_NEW.X % 2 == 1)
-		{
-			//cout << "jkfsd";
-			Message_legth_Correction += 1;
-		}
-	}
-
-	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction) , Horizontal_Sc_height });
-
-	cout << Message;	//if (UI_NEW.X % 2 == 1)		cout << "jkfsd";
-	if (Message.size() % 2 == 0)
-	{
-		//cout << "here";
-	}
-}
 class Car {
 protected:
 	char Car_Shape[25];
@@ -134,6 +98,37 @@ public:
 	void set_Difficulty(int Difficulty) { GamePLay_Difficulty = Difficulty; }
 	int get_Difficulty() const { return GamePLay_Difficulty; }
 };
+void get_console_sz_THREAD()
+{
+	while (0)
+	{
+		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+		UI_OLD = UI_NEW;
+		UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
+		UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
+		if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y) {
+			system("CLS");
+		}
+		//	Reponsive_UI_Thread_Running = 0;
+	}
+}
+void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
+	int Message_Newlegth = Message.size();
+	int Message_legth_Correction = Message.size();
+	if (Message.size() % 2 == 1)
+		Message_legth_Correction = (Message.size() / 2);
+	else {		//cout << "here";
+		Message_legth_Correction = (Message.size() / 2) - 1;  //org -1    // Center Align
+		if (UI_NEW.X % 2 == 1)
+		{
+			//cout << "jkfsd";
+			Message_legth_Correction += 1;
+		}
+	}
+	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction) , Horizontal_Sc_height });
+	cout << Message;	//if (UI_NEW.X % 2 == 1)		cout << "jkfsd";
+	//if (Message.size() % 2 == 0)		//cout << "here";	
+}
 class Driver
 {
 protected:
@@ -582,8 +577,11 @@ void get_console_size()
 	UI_OLD = UI_NEW;
 	UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
 	UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
-	if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y)
+	if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y){
+		cout << "Clearing";
+		for (int i = 0; i < 90000000; i++){}
 		system("CLS");
+	}
 }
 string Reference_Message = "1. Career / Profile";
 void Validate_Input_on_Kbhit(int start, int& Input, int end) {
@@ -1427,8 +1425,9 @@ int main()
 		}// End of Switch
 		Main_Menu(Input[0], Player_profile);
 	}//End OF While loop
+	cout << "OUT";
 	ofstream ofstream_ob2;
-	ofstream_ob2.open("Player_profile.txt", ios::out);
+	ofstream_ob2.open("Player_Profile.txt", ios::out);
 	ofstream_ob2.write((char*)&Player_profile, sizeof(Player_profile));
 	ofstream_ob2.close();
 	ReponsiveUI.join();

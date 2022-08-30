@@ -100,7 +100,10 @@ public:
 };
 void get_console_sz_THREAD()
 {
-	while (0)
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+	UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
+	UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
+	while (Reponsive_UI_Thread_Running)
 	{
 		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 		UI_OLD = UI_NEW;
@@ -132,12 +135,12 @@ void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
 class Driver
 {
 protected:
-	char Driver_Name[50] = "";		int High_score;		int Coins;		bool isActive;
+	char Driver_Name[50] = "";			int High_score;		int Coins;		bool isActive;
 	char Items_Owned_Names[51][50];		bool Items_Owned_Check[10];
 	Car Car_Owned[10];					bool Cars_Owned_Check[10];
 	static int No_of_Player_Profiles;
 public:
-	Driver() : Coins(1000), High_score(0), Items_Owned_Check{ false }, Cars_Owned_Check{ false }, isActive(false) {}
+	Driver() : Coins(4000), High_score(0), Items_Owned_Check{ false }, Cars_Owned_Check{ false }, isActive(false) {}
 	bool get_IsActive_Status()const { return isActive; }
 	int static get_No_of_Player_Profiles() { return No_of_Player_Profiles; }
 	void static Increment_No_of_Profiles() { No_of_Player_Profiles++; }
@@ -665,7 +668,6 @@ void Print_Left_wh_refer_Message(string Message, short Horizontal, string wh_res
 void Main_Menu(int& Input, Driver Player_profile[])
 {
 	system("CLS");
-	Reponsive_UI_Thread_Running = 1;
 	Player_profile->reset_Number_ofProfiles();
 	for (int i = 0; i < 15; i++)
 		if (Player_profile[i].get_IsActive_Status())
@@ -673,56 +675,52 @@ void Main_Menu(int& Input, Driver Player_profile[])
 	Reponsive_UI_PauseResume = 1;
 	while (Reponsive_UI_PauseResume) {
 		get_console_size();
-		//Reponsive_UI_Thread_Running = 0;
 		if (Driver::get_No_of_Player_Profiles() >= 0)
 		{
 			SetConsoleTextAttribute(Console, 15);
-			Print_Center_Aligned("1. Career/Profile", 6);									//SetConsoleCursorPosition(Console, { 53,6 });			//cout << "1. Career/Profile";
+			Print_Center_Aligned("1. Career/Profile", 6);//SetConsoleCursorPosition(Console, { 53,6 });
 		}
 		else
 		{
 			SetConsoleTextAttribute(Console, 8);											//SetConsoleCursorPosition(Console, { 53,6 });			//cout << "1. Career/Profile";
 			Print_Center_Aligned("1. Career/Profile", 6);
 		}
-		SetConsoleTextAttribute(Console, 15);												//SetConsoleCursorPosition(Console, { 53,7 });	cout << "2. Create Profile";
-		Print_Center_Aligned("2. Create Profile", 7);
+		SetConsoleTextAttribute(Console, 15);		
+		Print_Center_Aligned("2. Create Profile", 7);	//SetConsoleCursorPosition(Console, { 53,7 });
 		Reference_Message = "1. Career/Profile";
 		Print_Left_wh_refer_Message("3. View Instructions", 8, "1. Career/Profile");
 		Print_Left_wh_refer_Message("4. Exit App (Player Progress will be Saved)", 9, "1. Career/Profile");
 		if (_kbhit()) {
 			Input = _getch() - '0';
 			if (Driver::get_No_of_Player_Profiles() <= -1) {
-			//	Validate_Input_on_Kbhit(2, Input, 4);
-				if (Input >= 2 && Input <= 4) {
+				if (Input >= 2 && Input <= 4)
 					Reponsive_UI_PauseResume = 0;
-				}
 			}
-			else {
-				//Validate_Input_on_Kbhit(1, Input, 4);
+			else 
 				if (Input >= 1 && Input <= 4)
 					Reponsive_UI_PauseResume = 0;
-			}
 		}
 	}
 }
-void Player_Profile_Menu(int& Input) {
-	//system("CLS");
+void PrintInterface(string Message, COORD ADMIN, int color, int Value) {
+	SetConsoleTextAttribute(Console, color);
+	SetConsoleCursorPosition(Console, ADMIN);
+	cout << Message << " " << Value << " ";
+}
+void Player_Profile_Menu(int& Input, SUPERADMIN ADMIN, Driver Player_profile, string Message) {
+	system("CLS");
+	PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile.get_high_score());
+	PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile.get_Coins());
 	short position = 10;
 	SetConsoleTextAttribute(Console, 15);
-	Print_Center_Aligned("1. Select Car and Play", position++);
-	Print_Center_Aligned("2. Buy Car", position++);
-	Print_Center_Aligned("3. Display Owned Cars", position++);
-	Print_Center_Aligned("4. Shop items", position++);
-	Print_Center_Aligned("5. View Items in Inventory", position++);
-	Print_Center_Aligned("6. Delete Profile", position++);
-	Print_Center_Aligned("7. Exit Profile", position++);
-	/*SetConsoleCursorPosition(Console, {51,position++}); cout << "1. Select Car and Play";
-	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "2. Buy Car";
-	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "3. Display Owned Cars";
-	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "4. Shop items";
-	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "5. View Items in Inventory";
-	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "6. Delete Profile";
-	SetConsoleCursorPosition(Console, { 51,position++ }); cout << "7. Exit Profile";*/
+	Print_Center_Aligned(Message, 5); //Welcome Back  !
+	Print_Center_Aligned("1. Select Car and Play", position++);		//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("2. Buy Car", position++);					//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("3. Display Owned Cars", position++);		//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("4. Shop items", position++);				//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("5. View Items in Inventory", position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("6. Delete Profile", position++);			//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("7. Exit Profile", position++);			//SetConsoleCursorPosition(Console, { 51,position++ });
 	Input = _getch() - '0'; cout << "\a";
 	Validate_Input(1, Input, 7);
 }
@@ -730,11 +728,6 @@ void Shop_Items_ReadWrite_Menu(int& input) {
 	cout << "Intentory Read() Wirte()\n0.View Exisiting Data\t1.Enter Data\t2.Write to File\t\n(any other key to leave)";
 	input = _getch() - '0';
 	Reponsive_UI_PauseResume = 0;
-}
-void PrintInterface(string Message, COORD ADMIN, int color, int Value) {
-	SetConsoleTextAttribute(Console, color);
-	SetConsoleCursorPosition(Console, ADMIN);
-	cout << Message << " " << Value << " ";
 }
 int main()
 {
@@ -781,7 +774,7 @@ int main()
 	if (y == 1)
 	{
 		ifstream ifstream_ob1;
-		ifstream_ob1.open("Player_profile.txt", ios::in);
+		ifstream_ob1.open("Player Profiles.txt", ios::in);
 		ifstream_ob1.read((char*)&Player_profile, sizeof(Player_profile));
 		ifstream_ob1.close();
 		for (int i = 0; i < 15; i++)
@@ -816,30 +809,23 @@ int main()
 		case 1:	//Select Profile
 		{
 			system("CLS");
-			position = 12; //SEEMS USELESS
 			Print_Center_Aligned("Select your Profile", 5); 				//Select Profile
 			string message;
+			position = 10; //SEEMS USELESS
 			for (int i = 0; i <= Driver::get_No_of_Player_Profiles(); i++) {
 				//SetConsoleCursorPosition(Console, { 50,position++ });
 				if (Player_profile[i].get_IsActive_Status()) {
 
-					message = to_string(i) + ". ";
-					Print_Center_Aligned(message, position++);
-					cout << Player_profile[i].get_Driver_Name(); // << i << ". "
+					message = to_string(i) + ". " + Player_profile[i].get_Driver_Name();
+					Print_Center_Aligned(message, position++);	//cout << Player_profile[i].get_Driver_Name(); // << i << ". "
 				}
 			}
-			Profile_Selected = _getch() - '0'; cout << "\a";
+			Profile_Selected = _getch() - '0';
 			Validate_Input(0, Profile_Selected, Driver::get_No_of_Player_Profiles());
-			system("CLS");
 			//Selected_Driver_0 = Player_profile[Profile_Selected];
 			Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
-			string Message = "Welcome back  !";
-			Message.insert(13, Player_profile[Profile_Selected].get_Driver_Name());
-			SetConsoleTextAttribute(Console, 15);
-			Print_Center_Aligned(Message, 5);
-			PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
-			PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
-			Player_Profile_Menu(Input[1]);
+			string Player_Welcome_Message = "Welcome back  !";	Player_Welcome_Message.insert(13, Player_profile[Profile_Selected].get_Driver_Name());
+			Player_Profile_Menu(Input[1], ADMIN, Player_profile[Profile_Selected], Player_Welcome_Message);
 			while (Input[1] >= 1 || Input[1] <= 7)
 			{
 				if (Input[1] == 1)				//Select Car and Play
@@ -850,8 +836,8 @@ int main()
 						PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 						PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 						SetConsoleTextAttribute(Console, 15);
-						Print_Center_Aligned("You don't have any Car", short(position - 8)); //Length 22
-						Print_Center_Aligned("Buy Car first !!", short(position - 7)); //16
+						Print_Center_Aligned("You don't have any Car", 8); //Length 22
+						Print_Center_Aligned("Buy Car first !!", 9); //16
 						//SetConsoleCursorPosition(Console, { 50,short(position - 7) });
 						//cout << "Buy Car first !!";
 						for (int i = 0; i < 454400000; i++) {}
@@ -1337,33 +1323,35 @@ int main()
 						cout << "Price " << items[i].get_price();
 						SetConsoleCursorPosition(Console, { 45,position++ });
 					}
+					Print_Center_Aligned("5. Leave Shop", 14);
 					Input[2] = _getch() - '0';
-					cout << "\a";
-					if (!(Player_profile[Profile_Selected].check_if_Player_has_item(Input[2])))
+					Validate_Input(0, Input[2], 5);
+					if (!(Input[2] == 5))
 					{
-						if (Player_profile[Profile_Selected].get_Coins() >= items[Input[2]].get_price())
+						if (!(Player_profile[Profile_Selected].check_if_Player_has_item(Input[2])))
 						{
-							Player_profile[Profile_Selected].Buy_Item(items[Input[2]].get_Char_Item_Name(), Input[2]);
-							Player_profile[Profile_Selected] - items[Input[2]].get_price();
-							SetConsoleTextAttribute(Console, 11);
-							SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-							cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
-							if (Input[2] == 1)Gun::update_Gun_Maganize(10);
+							if (Player_profile[Profile_Selected].get_Coins() >= items[Input[2]].get_price())
+							{
+								Player_profile[Profile_Selected].Buy_Item(items[Input[2]].get_Char_Item_Name(), Input[2]);
+								Player_profile[Profile_Selected] - items[Input[2]].get_price();
+								PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+								if (Input[2] == 1)Gun::update_Gun_Maganize(10);
+							}
+							else {
+								Print_Center_Aligned("Need More Coins!", 13);
+								for (int i = 0; i < 454400000; i++) {}
+							}
 						}
 						else {
-							Print_Center_Aligned("Need More Coins!", 13);
+							Print_Center_Aligned("Already owned", 13);
 							for (int i = 0; i < 454400000; i++) {}
 						}
-					}
-					else {
-						Print_Center_Aligned("Already owned", 13);
-						for (int i = 0; i < 454400000; i++) {}
 					}
 				}
 				else if (Input[1] == 5)
 				{
 					system("CLS");
-					Print_Center_Aligned("Items Owned", 5);//	SetConsoleCursorPosition(Console, { 58,5 }); cout << "Items Owned";
+					Print_Center_Aligned("Items Owned", 5);//	SetConsoleCursorPosition(Console, { 58,5 });
 					short position = 12;
 					for (int i = 0; i < 4; i++)
 						Player_profile[Profile_Selected].Display_items_Owned();
@@ -1375,8 +1363,8 @@ int main()
 					Reponsive_UI_PauseResume = 1;
 					while (Reponsive_UI_PauseResume) {
 						Print_Center_Aligned("Delete Profile ?", 5);
-						SetConsoleCursorPosition(Console, { 54,7 });	cout << "1. Yes, Delete Profile.";
-						SetConsoleCursorPosition(Console, { 54,8 });	cout << "2. No, Don\'t Delete Profile.";
+						Print_Center_Aligned("1. Yes, Delete Profile.", 7);			//SetConsoleCursorPosition(Console, { 54,7 });
+						Print_Center_Aligned("2. No, Don\'t Delete Profile.", 8);	//SetConsoleCursorPosition(Console, { 54,8 });		
 						if (_kbhit()) 
 						{
 							Input[2] = _getch() - '0';		//Validate_Input()
@@ -1392,16 +1380,12 @@ int main()
 					break;
 				}
 				if (Input[1] == 7)
-				{
 					break;
-				}
-				system("CLS");
-				PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
-				PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
-				SetConsoleTextAttribute(Console, 15);
+				Player_Welcome_Message = "Welcome  !";	
+				Player_Welcome_Message.insert(8, Player_profile[Profile_Selected].get_Driver_Name());
+				Player_Profile_Menu(Input[1], ADMIN, Player_profile[Profile_Selected], Player_Welcome_Message); // 7 options of Player Profile
 				if (Player.get_score() > Player_profile[Profile_Selected].get_high_score())
 					Player_profile[Profile_Selected].update_high_Score(Player.get_score());
-				Player_Profile_Menu(Input[1]); // 7 options of Player Profile
 				if (Input[1] == 7)
 					break;
 			}
@@ -1426,8 +1410,9 @@ int main()
 		Main_Menu(Input[0], Player_profile);
 	}//End OF While loop
 	ofstream ofstream_ob2;
-	ofstream_ob2.open("Player Profile.txt", ios::out);
+	ofstream_ob2.open("Player Profiles.txt", ios::out);
 	ofstream_ob2.write((char*)&Player_profile, sizeof(Player_profile));
 	ofstream_ob2.close();
+	Reponsive_UI_Thread_Running = 0;
 	ReponsiveUI.join();
 }//End of Main

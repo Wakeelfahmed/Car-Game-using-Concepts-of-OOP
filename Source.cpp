@@ -1425,9 +1425,8 @@ int main()
 		}// End of Switch
 		Main_Menu(Input[0], Player_profile);
 	}//End OF While loop
-	cout << "OUT";
 	ofstream ofstream_ob2;
-	ofstream_ob2.open("Player_Profile.txt", ios::out);
+	ofstream_ob2.open("Player Profile.txt", ios::out);
 	ofstream_ob2.write((char*)&Player_profile, sizeof(Player_profile));
 	ofstream_ob2.close();
 	ReponsiveUI.join();

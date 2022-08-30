@@ -13,7 +13,7 @@ CONSOLE_SCREEN_BUFFER_INFO csbi;
 HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
 void get_console_sz()
 {
-	while (0)
+	while (1)
 	{
 		GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 		UI_OLD = UI_NEW;
@@ -27,12 +27,25 @@ void get_console_sz()
 void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
 	int Message_Newlegth = Message.size();
 	int Message_legth_Correction = Message.size();
-	if (Message.size() % 2 == 1) 
+	if (Message.size() % 2 == 1)
 		Message_legth_Correction = (Message.size() / 2);
-	else 
-		Message_legth_Correction = (Message.size() / 2) - 1;     // Center Align
+	else {
+		cout << "here";
+		Message_legth_Correction = (Message.size() / 2) - 1;  //org -1    // Center Align
+		if (UI_NEW.X % 2 == 1)
+		{
+			//cout << "jkfsd";
+			Message_legth_Correction += 1;
+		}
+	}
+
 	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction) , Horizontal_Sc_height });
-	cout << Message;
+
+	cout << Message;	//if (UI_NEW.X % 2 == 1)		cout << "jkfsd";
+	if (Message.size() % 2 == 0)
+	{
+		//cout << "here";
+	}
 }
 void hidecursor()
 {
@@ -134,7 +147,7 @@ public:
 	int static get_No_of_Player_Profiles() { return No_of_Player_Profiles; }
 	void static Increment_No_of_Profiles() { No_of_Player_Profiles++; }
 	static void reset_Number_ofProfiles() { No_of_Player_Profiles = -1; }
-	void set_Player_Name() { isActive = true;  Print_Center_Aligned("Enter Name: ",7); cin.getline(Driver_Name, 50, '\n'); /*cout << "Enter Name: "; */ }
+	void set_Player_Name() { isActive = true;  Print_Center_Aligned("Enter Name: ", 7); cin.getline(Driver_Name, 50, '\n'); /*cout << "Enter Name: "; */ }
 	char* get_Driver_Name() { return Driver_Name; }
 	void Buy_Item(char Name[], int Item_Index) {
 		strcpy_s((Items_Owned_Names[Item_Index]), Name);
@@ -572,11 +585,11 @@ void get_console_size()
 	if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y)
 		system("CLS");
 }
-string Reference_Message ="1. Career / Profile";
-void Validate_Input_on_Kbhit(int start, int & Input, int end) {
+string Reference_Message = "1. Career / Profile";
+void Validate_Input_on_Kbhit(int start, int& Input, int end) {
 	if (Input < start || Input > end)
-		if(_kbhit())
-		Input = _getch() - '0';
+		if (_kbhit())
+			Input = _getch() - '0';
 }
 void Print_GamePlay_Instructions(Player_GamePlay Player, bool signal) {
 	short positionX, positionY;
@@ -585,10 +598,19 @@ void Print_GamePlay_Instructions(Player_GamePlay Player, bool signal) {
 		positionX = 100;	positionY = 8;
 	}
 	else {	//3. View Instructions
+		string message = "Instruction:";
+		short Message_legth_Correction;
+		if (message.size() % 2 == 1)
+			Message_legth_Correction = (message.size() / 2);
+		else
+			Message_legth_Correction = (message.size() / 2) - 1;
 		SetConsoleTextAttribute(Console, 15);
-		positionX = UI_NEW.X / 2 - 4;	positionY = 7;	//positionX = 58; //positionX = UI_NEW.X / 2 - 4; good to go
+		positionX = UI_NEW.X / 2 - Message_legth_Correction;	positionY = 7;	//positionX = 58; //positionX = UI_NEW.X / 2 - 4; good to go
 	}
-	SetConsoleCursorPosition(Console, { short(positionX - 1),positionY++ });		cout << "Instruction:";
+	Print_Center_Aligned("Instruction:", positionY++);
+
+	//SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "Instruction:";
+	//SetConsoleCursorPosition(Console, { short(positionX - 1),positionY++ });		cout << "Instruction:";
 	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'A\' - Left";
 	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'D\' - Right";
 	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'W\' - Up";
@@ -600,8 +622,40 @@ void Print_GamePlay_Instructions(Player_GamePlay Player, bool signal) {
 	}
 	SetConsoleCursorPosition(Console, { short(positionX - 2),positionY++ });		cout << "Q - Quit Gameplay";
 }
+void Print_Game_Instructions(Player_GamePlay Player) {
+	short positionX, positionY;
+	//3. View Instructions
+	string message = "Instruction:";
+	short Message_legth_Correction;
+	if (message.size() % 2 == 1)
+		Message_legth_Correction = (message.size() / 2);
+	else
+		Message_legth_Correction = (message.size() / 2) - 1;
+	SetConsoleTextAttribute(Console, 15);
+	positionX = UI_NEW.X / 2 - Message_legth_Correction;	positionY = 7;	//positionX = 58; //positionX = UI_NEW.X / 2 - 4; good to go
+
+	//	while (Reponsive_UI_PauseResume) {}
+
+	//Print_Center_Aligned("Instruction:",positionY++);
+	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "Instruction:";
+	//SetConsoleCursorPosition(Console, { short(positionX - 1),positionY++ });		cout << "Instruction:";
+	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'A\' - Left";
+	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'D\' - Right";
+	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'W\' - Up";
+	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'S\' - Down";
+	SetConsoleCursorPosition(Console, { short(positionX - 3),positionY++ });		cout << "\'P\' - Pause\\Resume Game";
+	if (Player.get_items_Availabe_fr_Driv(0) || Player.get_items_Availabe_fr_Driv(2) || 1) {
+		SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'R\' - Reload";
+		SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "Space - Fire";
+	}
+	SetConsoleCursorPosition(Console, { short(positionX - 2),positionY++ });		cout << "Q - Quit Gameplay";
+	//for (size_t i = 0; i < 900000000000; i++)
+	{
+
+	}
+}
 void Print_Left_wh_refer_Message(string Message, short Horizontal, string wh_respect_to) {
-	for (int i = 0; i < 90000; i++)	{}
+	for (int i = 0; i < 90000; i++) {}
 	int Message_legth_Correction = wh_respect_to.size();
 	if (wh_respect_to.size() % 2 == 1)
 		Message_legth_Correction = (wh_respect_to.size() / 2);
@@ -641,9 +695,9 @@ void Main_Menu(int& Input, Driver Player_profile[])
 			Input = _getch() - '0';
 			if (Driver::get_No_of_Player_Profiles() <= -1) {
 				Validate_Input_on_Kbhit(2, Input, 4);
-				if (Input >= 2 && Input <= 4) 	
-				Reponsive_UI_PauseResume = 0;
-				
+				if (Input >= 2 && Input <= 4)
+					Reponsive_UI_PauseResume = 0;
+
 			}
 			else {
 				Validate_Input_on_Kbhit(1, Input, 4);
@@ -675,11 +729,22 @@ void Player_Profile_Menu(int& Input) {
 	Input = _getch() - '0'; cout << "\a";
 	Validate_Input(1, Input, 7);
 }
-void Shop_Items_ReadWrite_Menu(int & input) {
+void Shop_Items_ReadWrite_Menu(int& input) {
 	cout << "Intentory Read() Wirte()\n0.View Exisiting Data\t1.Enter Data\t2.Write to File\t\n(any other key to leave)";
 	input = _getch() - '0';
 	Reponsive_UI_PauseResume = 0;
 }
+void PrintInterface(string Message, COORD ADMIN, int color, int Value) {
+	SetConsoleTextAttribute(Console, color);
+	SetConsoleCursorPosition(Console, ADMIN);
+	cout << Message << " " << Value << " ";
+
+}
+/*void PrintCoins(COORD ADINCoinsSetting, int Value) {
+	SetConsoleCursorPosition(Console, ADINCoinsSetting);
+	SetConsoleTextAttribute(Console, 11);
+	cout << "Coins " << Value;
+}*/
 int main()
 {
 	//PlaySound(TEXT("mixkit-retro-video-game-bubble-laser-277.wav"), NULL, SND_ASYNC);	//cout << "played"; //	cout << "not played";
@@ -696,7 +761,7 @@ int main()
 	int input;
 	{items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
 	items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
-}
+	}
 	Reponsive_UI_PauseResume = 1;
 	//while (Reponsive_UI_PauseResume)
 	{
@@ -750,7 +815,7 @@ int main()
 	thread ReponsiveUI(get_console_sz);
 	Player_GamePlay Player;		//Player.set_Position_COORDS(20, 20);		//Player.Draw_Car();
 	Main_Menu(Input[0], Player_profile);
-	Driver Selected_Driver_0, Selected_Driver_1;
+	Driver Selected_Driver_1;// Selected_Driver_0
 	while (Input[0] == 1 || Input[0] == 2 || Input[0] == 3)
 	{
 		short position2 = 7, position = 0;
@@ -768,30 +833,23 @@ int main()
 			for (int i = 0; i <= Driver::get_No_of_Player_Profiles(); i++) {
 				//SetConsoleCursorPosition(Console, { 50,position++ });
 				if (Player_profile[i].get_IsActive_Status()) {
-					
+
 					message = to_string(i) + ". ";
 					Print_Center_Aligned(message, position++);
-					for (int i = 0; i < 90000000; i++){}
 					cout << Player_profile[i].get_Driver_Name(); // << i << ". "
-						for (int i = 0; i < 90000000; i++){}
-
 				}
 			}
 			Profile_Selected = _getch() - '0'; cout << "\a";
 			Validate_Input(0, Profile_Selected, Driver::get_No_of_Player_Profiles());
 			system("CLS");
-			SetConsoleTextAttribute(Console, 15);
-			SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-			Selected_Driver_0 = Player_profile[Profile_Selected];
+			//Selected_Driver_0 = Player_profile[Profile_Selected];
 			Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
-			cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
 			string Message = "Welcome back  !";
 			Message.insert(13, Player_profile[Profile_Selected].get_Driver_Name());
-			SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message.size() / 2),5 });//org
-			cout << Message;
-			SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
-			SetConsoleTextAttribute(Console, 12);
-			cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
+			SetConsoleTextAttribute(Console, 15);
+			Print_Center_Aligned(Message, 5);
+			PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
+			PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 			Player_Profile_Menu(Input[1]);
 			while (Input[1] >= 1 || Input[1] <= 7)
 			{
@@ -800,15 +858,12 @@ int main()
 					if (Player_profile[Profile_Selected].get_Number_of_Cars_Owned() == 0)
 					{
 						system("CLS");
-						SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-						cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
-						SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
-						SetConsoleTextAttribute(Console, 12);
-						cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
+						PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+						PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 						SetConsoleTextAttribute(Console, 15);
 						//SetConsoleCursorPosition(Console, { 50,short(position - 8) });
-						Print_Center_Aligned("You don't have any Car", short(position - 8));
-						Print_Center_Aligned("Buy Car first !!", short(position - 7));
+						Print_Center_Aligned("You don't have any Car", short(position - 8)); //Length 22
+						Print_Center_Aligned("Buy Car first !!", short(position - 7)); //16
 						//SetConsoleCursorPosition(Console, { 50,short(position - 7) });
 						//cout << "Buy Car first !!";
 						for (int i = 0; i < 454400000; i++) {}
@@ -871,9 +926,8 @@ int main()
 							Player.Reset_Lives();
 							system("CLS");
 							Player.Display_Lives((ADMIN.Lives_Setting()));
-							SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-							SetConsoleTextAttribute(Console, 11);
-							cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
+							PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+							SetConsoleTextAttribute(Console, 15);
 							srand(unsigned int(time(0)));
 							COORD Position;	Position.X = WIN_WIDTH;	Position.Y = SCREEN_HEIGHT;
 							Gun bullets[50];
@@ -891,9 +945,7 @@ int main()
 									Score_Coins_Counter = 0;
 								}
 							}
-							SetConsoleTextAttribute(Console, 12);
-							SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
-							cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << "  ";
+							PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 							Print_GamePlay_Instructions(Player, 1);
 							bool Game_Running = true;
 							static int Counter = 0;
@@ -902,9 +954,7 @@ int main()
 							while (ch1 != 'q' && Game_Running)
 							{
 								for (int i = 0; i < Player.get_Difficulty(); i++) {}	//Game Lag/Difficulty
-								SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-								SetConsoleTextAttribute(Console, 11);
-								cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
+								PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 								if (Score_Coins_Counter % 10 == 0 && Score_Coins_Counter != 0)
 								{
 									Player_profile[Profile_Selected].Give_Coins();
@@ -1006,8 +1056,7 @@ int main()
 											}
 										}
 										SetConsoleTextAttribute(Console, 12);
-										SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
-										cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
+										PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 										COORD Position_Cordinates_enemy = Enemy2[enemy_loop].get_Player_Position(); // Enemy CAR Position
 										COORD Player_Position = Player.get_Player_Position();
 										//if ((Position_Cordinates.Y - 1) >= Player_Position.Y && (Position_Cordinates.Y - 10) <= Player_Position.Y)
@@ -1059,12 +1108,8 @@ int main()
 														Print_GamePlay_Instructions(Player, 1);
 														Player.display_Score();
 														Player.Display_Lives((ADMIN.Lives_Setting()));
-														SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-														SetConsoleTextAttribute(Console, 11);
-														cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
-														SetConsoleTextAttribute(Console, 12);
-														SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
-														cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << "  ";
+														PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+														PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 													}
 													else {
 														system("CLS");
@@ -1132,8 +1177,9 @@ int main()
 				}
 				else if (Input[1] == 2) {	//Buy Car
 					system("CLS");
-					SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-					cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
+					PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+					//PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
+					SetConsoleTextAttribute(Console, 15);
 					short position1 = 7;
 					COORD Printing_Cords = { 33 ,7 };
 					Print_Center_Aligned("BUY CAR", 5);
@@ -1163,21 +1209,21 @@ int main()
 					}
 					else
 					{
-						SetConsoleCursorPosition(Console, { 55,24 });
+						Print_Center_Aligned("Already owned", 24);	//SetConsoleCursorPosition(Console, { 55,24 });
 						SetConsoleTextAttribute(Console, 15);
-						cout << "Already owned";
 						for (int i = 0; i < 454400000; i++) {}
 					}
 				}
 				else if (Input[1] == 3)	//CAR GARAGE
 				{
 					system("CLS");
-					SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-					cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
+					PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+					//PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
+					SetConsoleTextAttribute(Console, 15);
 					short position1 = 7;
 					COORD Printing_Cords = { 33 ,7 };
 					int Counter = 0;
-					Print_Center_Aligned("CAR GARAGE", 5);
+					Print_Center_Aligned("CAR GARAGE", 5); // length 10
 					for (int i = 0; i < 9; i++)
 					{
 						if (Counter == 5) {
@@ -1188,9 +1234,8 @@ int main()
 							Counter++;
 						}
 					}
-					SetConsoleCursorPosition(Console, { 50,23 });
 					SetConsoleTextAttribute(Console, 15);
-					cout << "9.    Leave Garage";
+					Print_Center_Aligned("9. Leave Garage", 23); 					//SetConsoleCursorPosition(Console, { 50,23 });
 					Input[2] = _getch() - '0';
 					if (Input[2] >= 0 && Input[2] <= 8)
 					{
@@ -1294,9 +1339,10 @@ int main()
 				else if (Input[1] == 4)	//BUY ITEMS
 				{
 					system("CLS");
-					SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-					cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
-					SetConsoleCursorPosition(Console, { 58,5 }); cout << "BUY ITEMS";
+					PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+					//PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
+					SetConsoleTextAttribute(Console, 15);
+					Print_Center_Aligned("BUY ITEMS", 5);//	SetConsoleCursorPosition(Console, { 58,5 }); cout << "BUY ITEMS";
 					position = 7;
 					SetConsoleCursorPosition(Console, { 45,position++ });
 					for (int i = 0; i < 4; i++)
@@ -1333,7 +1379,7 @@ int main()
 				else if (Input[1] == 5)
 				{
 					system("CLS");
-					SetConsoleCursorPosition(Console, { 58,5 }); cout << "Items Owned";
+					Print_Center_Aligned("Items Owned", 5);//	SetConsoleCursorPosition(Console, { 58,5 }); cout << "Items Owned";
 					short position = 12;
 					for (int i = 0; i < 4; i++)
 					{
@@ -1360,14 +1406,11 @@ int main()
 					break;
 				}
 				system("CLS");
+				PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+				PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 				SetConsoleTextAttribute(Console, 15);
-				SetConsoleCursorPosition(Console, ADMIN.Coins_Settings());
-				cout << "Coins " << Player_profile[Profile_Selected].get_Coins();
 				if (Player.get_score() > Player_profile[Profile_Selected].get_high_score())
 					Player_profile[Profile_Selected].update_high_Score(Player.get_score());
-				SetConsoleTextAttribute(Console, 12);
-				SetConsoleCursorPosition(Console, ADMIN.High_Score_Settings());
-				cout << "High Score " << Player_profile[Profile_Selected].get_high_score() << " ";
 				Player_Profile_Menu(Input[1]); // 7 options of Player Profile
 				if (Input[1] == 7)
 					break;
@@ -1377,10 +1420,8 @@ int main()
 		case 2:	//Create Profile
 		{
 			system("CLS");
-			Print_Center_Aligned("Profile Creation", 5);
-			//SetConsoleCursorPosition(Console, { 54,5 });	cout << "Profile Creation";
+			Print_Center_Aligned("Profile Creation", 5);	//SetConsoleCursorPosition(Console, { 54,5 });
 			Driver::Increment_No_of_Profiles();
-			//SetConsoleCursorPosition(Console, { 50,7 });
 			Player_profile[Driver::get_No_of_Player_Profiles()].set_Player_Name();
 			break;
 		}

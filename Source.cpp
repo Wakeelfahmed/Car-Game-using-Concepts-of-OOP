@@ -606,8 +606,9 @@ void Print_GamePlay_Instructions(Player_GamePlay Player, bool signal) {
 		SetConsoleTextAttribute(Console, 15);
 		positionX = UI_NEW.X / 2 - Message_legth_Correction;	positionY = 7;	//positionX = 58; //positionX = UI_NEW.X / 2 - 4; good to go
 	}
-	Print_Center_Aligned("Instruction:", positionY++);
-
+	//Print_Center_Aligned("Instruction:", positionY++);
+	SetConsoleCursorPosition(Console, { short(positionX - 1),positionY++ });
+	cout << "Instruction:";
 	//SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "Instruction:";
 	//SetConsoleCursorPosition(Console, { short(positionX - 1),positionY++ });		cout << "Instruction:";
 	SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "\'A\' - Left";
@@ -654,13 +655,17 @@ void Print_Game_Instructions(Player_GamePlay Player) {
 	}
 }
 void Print_Left_wh_refer_Message(string Message, short Horizontal, string wh_respect_to) {
-	for (int i = 0; i < 90000; i++) {}
+	int correction = 0;
 	int Message_legth_Correction = wh_respect_to.size();
-	if (wh_respect_to.size() % 2 == 1)
+	if (wh_respect_to.size() % 2 == 1) {
+		correction++;
 		Message_legth_Correction = (wh_respect_to.size() / 2);
-	else
-		Message_legth_Correction = (wh_respect_to.size() / 2) - 1;     // Center Align
-	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction) , Horizontal });
+	}
+	else {
+		Message_legth_Correction = (wh_respect_to.size() / 2) - 1;	
+		correction++;
+	}
+	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction + correction) , Horizontal });
 	cout << Message;
 }
 void Main_Menu(int& Input, Driver Player_profile[])
@@ -740,7 +745,7 @@ int main()
 	ifstream_ob.open("Items_Inventory.txt", ios::in);
 	ifstream_ob.read((char*)&items, sizeof(items));
 	ifstream_ob.close(); }
-	//hidecursor();
+	hidecursor();
 	SUPERADMIN ADMIN;
 	int input;
 	{items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);

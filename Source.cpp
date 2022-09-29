@@ -13,6 +13,7 @@ COORD UI_NEW, UI_OLD;
 bool Reponsive_UI_PauseResume = 0, Reponsive_UI_Thread_Running = 0, RESPONSIVE_THREADING = 1;
 CONSOLE_SCREEN_BUFFER_INFO csbi;
 HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
+int loop_iterator = 0;
 void hidecursor()
 {
 	CONSOLE_CURSOR_INFO info;
@@ -47,6 +48,8 @@ private:
 	COORD Score;
 	COORD High_Score;
 	COORD Lives;
+	//COORD Coins_Responisve;
+
 public:
 	SUPERADMIN() {
 		Password = 1234;
@@ -54,6 +57,7 @@ public:
 		Score = { 87,10 };
 		High_Score = { 80, 7 };
 		Lives = { 103 , 4 };
+		//Coins_Responisve = {UI_NEW.X }
 	}
 	COORD Coins_Settings() const { return Coins; }
 	COORD High_Score_Settings() const { return High_Score; }
@@ -84,9 +88,9 @@ public:
 		X_and_Y.X = Position_Cordinates.X;
 		X_and_Y.Y = Position_Cordinates.Y + 1;
 		SetConsoleCursorPosition(Console, X_and_Y);
-		for (int i = 0; i < 25; i++)
+		for (loop_iterator = 0; loop_iterator < 25; loop_iterator++)
 		{
-			if (i % 5 == 0)
+			if (loop_iterator % 5 == 0)
 			{
 				SetConsoleCursorPosition(Console, X_and_Y);
 				X_and_Y.Y++;
@@ -100,14 +104,14 @@ public:
 };
 void get_console_sz_THREAD()
 {
-	while (RESPONSIVE_THREADING) 
+	while (RESPONSIVE_THREADING)
 		while (Reponsive_UI_Thread_Running)
 		{
 			GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
 			UI_OLD = UI_NEW;
 			UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
 			UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
-			if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y) 
+			if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y)
 				system("CLS");
 		}
 }
@@ -119,7 +123,7 @@ void Print_Center_Aligned(string Message, short Horizontal_Sc_height) {
 		Correction++;
 		Message_legth_Correction = (Message.size() / 2);
 	}
-	else {	
+	else {
 		Correction++;//cout << "here";
 		Message_legth_Correction = (Message.size() / 2) - 1;  //org -1    // Center Align
 		if (UI_NEW.X % 2 == 1)
@@ -158,10 +162,10 @@ public:
 	void Display_items_Owned()
 	{
 		short position = 12;
-		for (int i = 0; i < 4; i++)
-			if (Items_Owned_Check[i] == true || Items_Owned_Check[i] == 1) {
+		for (loop_iterator = 0; loop_iterator < 4; loop_iterator++)
+			if (Items_Owned_Check[loop_iterator] == true || Items_Owned_Check[loop_iterator] == 1) {
 				SetConsoleCursorPosition(Console, { 55, position++ });
-				cout << i << ". " << Items_Owned_Names[i];
+				cout << loop_iterator << ". " << Items_Owned_Names[loop_iterator];
 			}
 	}
 	void update_high_Score(int new_high_score) { High_score = High_score + (new_high_score - High_score); }
@@ -177,8 +181,8 @@ public:
 	int get_Number_of_Cars_Owned()
 	{
 		int Counter = 0;
-		for (int i = 0; i < 10; i++)
-			if (Cars_Owned_Check[i] == true)
+		for (loop_iterator = 0; loop_iterator < 10; loop_iterator++)
+			if (Cars_Owned_Check[loop_iterator] == true)
 				Counter++;
 		return Counter;
 	}
@@ -193,11 +197,11 @@ public:
 			No_of_Player_Profiles--;
 		strcpy_s(Driver_Name, "");
 		High_score = 0;
-		for (int i = 0; i < 10; i++) {
-			Items_Owned_Check[i] = false;
-			Cars_Owned_Check[i] = false;
-			Car_Owned[i].~Car();
-			strcpy_s(Items_Owned_Names[i], "");
+		for (loop_iterator = 0; loop_iterator < 10; loop_iterator++) {
+			Items_Owned_Check[loop_iterator] = false;
+			Cars_Owned_Check[loop_iterator] = false;
+			Car_Owned[loop_iterator].~Car();
+			strcpy_s(Items_Owned_Names[loop_iterator], "");
 		}
 	}
 };
@@ -220,14 +224,14 @@ public:
 		new_Position.X = Position_Cordinates.X;
 		new_Position.Y = Position_Cordinates.Y;
 		SetConsoleTextAttribute(Console, Game_Car.get_Car_Color()); //Car Owned Color
-		for (int i = 0; i <= (4 * Game_Car.get_Car_Height()); i++)			//		for (int i = 0; i < car.size(); i++)
+		for (loop_iterator = 0; loop_iterator <= (4 * Game_Car.get_Car_Height()); loop_iterator++)			//		for (loop_iterator = 0; loop_iterator < car.size(); loop_iterator++)
 		{
-			if (i % 4 == 0)
+			if (loop_iterator % 4 == 0)
 			{
 				new_Position.Y++;
 				SetConsoleCursorPosition(Console, new_Position);
 			}
-			cout << Car[i];
+			cout << Car[loop_iterator];
 		}
 	}
 	void Move_Player_Car(char UserInput) {
@@ -286,7 +290,7 @@ public:
 		SetConsoleCursorPosition(Console, { Lives_Setting.X,short(Lives_Setting.Y - 1) });
 		SetConsoleTextAttribute(Console, 13);
 		cout << "Lives";
-		for (int i = 0; i < Lives; i++)
+		for (loop_iterator = 0; loop_iterator < Lives; loop_iterator++)
 		{
 			SetConsoleCursorPosition(Console, Lives_Setting);
 			cout << char(3) << "  ";
@@ -318,9 +322,9 @@ public:
 		Active_Bullet_Status = 1;
 		Bullet_Collision_wh_Enemy_car_status = 0;
 		Gun_Maganize = 5;
-		for (int i = 0; i < 3; i++)
+		for (loop_iterator = 0; loop_iterator < 3; loop_iterator++)
 		{
-			Maganize_Reload[i];
+			Maganize_Reload[loop_iterator];
 		}
 	}		//Check this
 	static void update_Gun_Maganize(int newMaganize) { Gun_Maganize = newMaganize; }
@@ -455,7 +459,7 @@ public:
 				int count = 0;
 				new_Position = Position_Cordinates;
 				int counter = 0;
-				for (int i = 19; i >= 0; i--)
+				for (loop_iterator = 19; loop_iterator >= 0; loop_iterator--)
 				{
 					counter++;
 					if (counter == 5)
@@ -466,7 +470,7 @@ public:
 					}
 					SetConsoleTextAttribute(Console, Game_Car.get_Car_Color());
 					if (!(new_Position.Y > SCREEN_HEIGHT - 2)) {
-						cout << car[i];
+						cout << car[loop_iterator];
 					}
 				}
 				if (new_Position.Y > SCREEN_HEIGHT - 2)
@@ -475,7 +479,7 @@ public:
 					++Player_GamePlay;
 					Player_GamePlay.display_Score();
 				}
-				//int minus = 0;				//if (Player_GamePlay.get_items_Availabe_fr_Driv(2))				//	minus = 2000;				//for (int i = 0; i < Player_GamePlay.get_Difficulty() - minus; i++) {}			//	for (int i = 0; i < 988999 - minus; i++) {}	//HOW FAST ENEMY WILL MOVE			/*//	for (int i = 0; i < 918080 - minus; i++) {}	//HOW FAST ENEMY WILL MOVE*/
+				//int minus = 0;				//if (Player_GamePlay.get_items_Availabe_fr_Driv(2))				//	minus = 2000;				//for (loop_iterator = 0; loop_iterator < Player_GamePlay.get_Difficulty() - minus; loop_iterator++) {}			//	for (loop_iterator = 0; loop_iterator < 988999 - minus; loop_iterator++) {}	//HOW FAST ENEMY WILL MOVE			/*//	for (loop_iterator = 0; loop_iterator < 918080 - minus; loop_iterator++) {}	//HOW FAST ENEMY WILL MOVE*/
 				EraseEnemyTrail();
 				if (new_Position.Y > SCREEN_HEIGHT - 2)
 					resetEnemy();
@@ -541,22 +545,22 @@ void Validate_Input(int start, int& Input, int end) {
 }
 bool Gun_jammed_Status() {
 	int Counter = 0;
-	for (int i = 0; i < 3; i++) {
-		if (Gun::get_Maganize_Reload(i) == true)
+	for (loop_iterator = 0; loop_iterator < 3; loop_iterator++) {
+		if (Gun::get_Maganize_Reload(loop_iterator) == true)
 			Counter++;
 	}
 	if (Counter == 3)
 		return true;		//cout << "  FIRE!!  ";
-	
+
 	//cout << "  !NO FIRE  ";
 	return false;
 }
-void Print_Car_Char_Array(Car_Shop Cars[], COORD& position, int i, bool signal, int Color) {
+void Print_Car_Char_Array(Car_Shop Cars[], COORD& position, int loop_iterator, bool signal, int Color) {
 	SetConsoleCursorPosition(Console, { short(position.X - 3), short(position.Y + 2) });
 	SetConsoleTextAttribute(Console, 15);//White - 15
-	cout << i << ". ";
+	cout << loop_iterator << ". ";
 	int yincrease = position.Y;
-	char* car = Cars[i].get_Car_Shape();	//	" ^^ [北] 北 [北] -- ";  " ^^ \n[北]\n 北 \n[北]\n -- "
+	char* car = Cars[loop_iterator].get_Car_Shape();	//	" ^^ [北] 北 [北] -- ";  " ^^ \n[北]\n 北 \n[北]\n -- "
 	SetConsoleCursorPosition(Console, { position.X,position.Y });
 	SetConsoleTextAttribute(Console, Color);
 	for (int j = 0; j < strlen(car); j++)
@@ -568,7 +572,7 @@ void Print_Car_Char_Array(Car_Shop Cars[], COORD& position, int i, bool signal, 
 	if (signal) {
 		SetConsoleTextAttribute(Console, 15);
 		SetConsoleCursorPosition(Console, { short(position.X - 2),short(position.Y + 5) });
-		cout << "Price " << Cars[i].get_price();
+		cout << "Price " << Cars[loop_iterator].get_price();
 	}
 	position.X += 13; //position.Y -= 4;
 }
@@ -578,9 +582,9 @@ void get_console_size()
 	UI_OLD = UI_NEW;
 	UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
 	UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
-	if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y){
+	if (UI_NEW.X != UI_OLD.X || UI_NEW.Y != UI_OLD.Y) {
 		cout << "Clearing";
-		for (int i = 0; i < 90000000; i++){}
+		for (loop_iterator = 0; loop_iterator < 90000000; loop_iterator++) {}
 		system("CLS");
 	}
 }
@@ -649,7 +653,7 @@ void Print_Game_Instructions(Player_GamePlay Player) {
 		SetConsoleCursorPosition(Console, { positionX,positionY++ });		cout << "Space - Fire";
 	}
 	SetConsoleCursorPosition(Console, { short(positionX - 2),positionY++ });		cout << "Q - Quit Gameplay";
-	//for (size_t i = 0; i < 900000000000; i++)
+	//for (size_t loop_iterator = 0; loop_iterator < 900000000000; loop_iterator++)
 	{
 
 	}
@@ -662,7 +666,7 @@ void Print_Left_wh_refer_Message(string Message, short Horizontal, string wh_res
 		Message_legth_Correction = (wh_respect_to.size() / 2);
 	}
 	else {
-		Message_legth_Correction = (wh_respect_to.size() / 2) - 1;	
+		Message_legth_Correction = (wh_respect_to.size() / 2) - 1;
 		correction++;
 	}
 	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction + correction) , Horizontal });
@@ -672,8 +676,8 @@ void Main_Menu(int& Input, Driver Player_profile[])
 {
 	system("CLS");
 	Player_profile->reset_Number_ofProfiles();
-	for (int i = 0; i < 15; i++)
-		if (Player_profile[i].get_IsActive_Status())
+	for (loop_iterator = 0; loop_iterator < 15; loop_iterator++)
+		if (Player_profile[loop_iterator].get_IsActive_Status())
 			Player_profile->Increment_No_of_Profiles();
 	Reponsive_UI_PauseResume = 1;
 	while (Reponsive_UI_PauseResume) {
@@ -688,7 +692,7 @@ void Main_Menu(int& Input, Driver Player_profile[])
 			SetConsoleTextAttribute(Console, 8);											//SetConsoleCursorPosition(Console, { 53,6 });			//cout << "1. Career/Profile";
 			Print_Center_Aligned("1. Career/Profile", 6);
 		}
-		SetConsoleTextAttribute(Console, 15);		
+		SetConsoleTextAttribute(Console, 15);
 		Print_Center_Aligned("2. Create Profile", 7);	//SetConsoleCursorPosition(Console, { 53,7 });
 		Reference_Message = "1. Career/Profile";
 		Print_Left_wh_refer_Message("3. View Instructions", 8, "1. Career/Profile");
@@ -699,7 +703,7 @@ void Main_Menu(int& Input, Driver Player_profile[])
 				if (Input >= 2 && Input <= 4)
 					Reponsive_UI_PauseResume = 0;
 			}
-			else 
+			else
 				if (Input >= 1 && Input <= 4)
 					Reponsive_UI_PauseResume = 0;
 		}
@@ -710,6 +714,13 @@ void PrintInterface(string Message, COORD ADMIN, int color, int Value) {
 	SetConsoleCursorPosition(Console, ADMIN);
 	cout << Message << " " << Value << " ";
 }
+void PrintInterface_Wh_Percentage(string Message, short Percentage, short Horizontal, int color, int Value) {
+	string Interface_Message = Message + " " + to_string(Value);
+	SetConsoleTextAttribute(Console, color);
+	SetConsoleCursorPosition(Console, { short(UI_NEW.X * (Percentage) / 100 - Interface_Message.size() / 2),Horizontal });
+	cout << Message << " " << Value << " ";
+}
+
 void Player_Profile_Menu(int& Input, SUPERADMIN ADMIN, Driver Player_profile, string Message) {
 	system("CLS");
 	PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile.get_high_score());
@@ -717,10 +728,10 @@ void Player_Profile_Menu(int& Input, SUPERADMIN ADMIN, Driver Player_profile, st
 	short position = 10;
 	SetConsoleTextAttribute(Console, 15);
 	Print_Center_Aligned(Message, 5); //Welcome Back  !
-	Print_Center_Aligned("1. Select Car and Play",	position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
-	Print_Center_Aligned("2. Buy Car",				position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
-	Print_Center_Aligned("3. Display Owned Cars",	position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
-	Print_Center_Aligned("4. Shop items",			position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("1. Select Car and Play", position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("2. Buy Car", position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("3. Display Owned Cars", position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
+	Print_Center_Aligned("4. Shop items", position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
 	Print_Center_Aligned("5. View Items in Inventory", position++);	//SetConsoleCursorPosition(Console, { 51,position++ });
 	Print_Center_Aligned("6. Delete Profile", position++);			//SetConsoleCursorPosition(Console, { 51,position++ });
 	Print_Center_Aligned("7. Exit Profile", position++);			//SetConsoleCursorPosition(Console, { 51,position++ });
@@ -752,17 +763,15 @@ int main()
 	items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
 	}
 	Reponsive_UI_PauseResume = 1;
-	//while (Reponsive_UI_PauseResume)
-	{
-		Shop_Items_ReadWrite_Menu(input);
-	}
+	Shop_Items_ReadWrite_Menu(input);
+
 	while (input >= 0 && input < 3) /*ITEMS SHOP READ WRITE*/ {
 		if (input == 0)
-			for (int i = 0; i < 3; i++)
-				items[i].Print_Details();
+			for (loop_iterator = 0; loop_iterator < 3; loop_iterator++)
+				items[loop_iterator].Print_Details();
 		else if (input == 1)
-			for (int i = 0; i < 3; i++)
-				items[i].User_Input();
+			for (loop_iterator = 0; loop_iterator < 3; loop_iterator++)
+				items[loop_iterator].User_Input();
 		else if (input == 2)
 		{
 			ofstream ofstream_ob;
@@ -782,8 +791,8 @@ int main()
 		ifstream_ob1.open("Player Profiles.txt", ios::in);
 		ifstream_ob1.read((char*)&Player_profile, sizeof(Player_profile));
 		ifstream_ob1.close();
-		for (int i = 0; i < 15; i++)
-			if (Player_profile[i].get_IsActive_Status())
+		for (loop_iterator = 0; loop_iterator < 15; loop_iterator++)
+			if (Player_profile[loop_iterator].get_IsActive_Status())
 				Player_profile->Increment_No_of_Profiles();
 	}
 	{
@@ -817,12 +826,12 @@ int main()
 			Print_Center_Aligned("Select your Profile", 5); 				//Select Profile
 			string message;
 			position = 10; //SEEMS USELESS
-			for (int i = 0; i <= Driver::get_No_of_Player_Profiles(); i++) {
+			for (loop_iterator = 0; loop_iterator <= Driver::get_No_of_Player_Profiles(); loop_iterator++) {
 				//SetConsoleCursorPosition(Console, { 50,position++ });
-				if (Player_profile[i].get_IsActive_Status()) {
+				if (Player_profile[loop_iterator].get_IsActive_Status()) {
 
-					message = to_string(i) + ". " + Player_profile[i].get_Driver_Name();
-					Print_Center_Aligned(message, position++);	//cout << Player_profile[i].get_Driver_Name(); // << i << ". "
+					message = to_string(loop_iterator) + ". " + Player_profile[loop_iterator].get_Driver_Name();
+					Print_Center_Aligned(message, position++);	//cout << Player_profile[loop_iterator].get_Driver_Name(); // << loop_iterator << ". "
 				}
 			}
 			Profile_Selected = _getch() - '0';
@@ -837,15 +846,28 @@ int main()
 				{
 					if (Player_profile[Profile_Selected].get_Number_of_Cars_Owned() == 0)
 					{
+						int loop_iterator = 0;
+						string Coins_Message = "Coins " + to_string(Player_profile[Profile_Selected].get_Coins());
+						Reponsive_UI_PauseResume = 1;
 						system("CLS");
-						PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
-						PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
-						SetConsoleTextAttribute(Console, 15);
-						Print_Center_Aligned("You don't have any Car", 8); //Length 22
-						Print_Center_Aligned("Buy Car first !!", 9); //16
-						//SetConsoleCursorPosition(Console, { 50,short(position - 7) });
-						//cout << "Buy Car first !!";
-						for (int i = 0; i < 454400000; i++) {}
+						while (Reponsive_UI_PauseResume)
+						{
+							get_console_size();
+							PrintInterface_Wh_Percentage("Coins", 87, 7, 14, Player_profile[Profile_Selected].get_Coins());
+							PrintInterface("Coins", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+							//	PrintInterface("Coins", { short(UI_NEW.X * (87) / 100 - Coins_Message.size() / 2), 7 }, 14, Player_profile[Profile_Selected].get_Coins());
+							PrintInterface("High Score", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
+							SetConsoleTextAttribute(Console, 15);
+							Print_Center_Aligned("You don't have any Car", 8); //Length 22
+							Print_Center_Aligned("Buy Car first !!", 9); //16
+							//SetConsoleCursorPosition(Console, { 50,short(position - 7) });
+							//cout << "Buy Car first !!";
+						//	for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
+							if (loop_iterator == 900)
+								Reponsive_UI_PauseResume = 0;
+							cout << loop_iterator;
+							loop_iterator++;
+						}
 					}
 					else
 					{
@@ -854,13 +876,13 @@ int main()
 						Print_Center_Aligned("Select your Car", 4);//SetConsoleCursorPosition(Console, { 55,4 });
 						COORD Printing_Cords = { 33 ,7 };
 						int Counter = 0;
-						for (int i = 0; i < 10; i++)
-							if (Player_profile[Profile_Selected].check_if_Player_has_Car(i))
+						for (loop_iterator = 0; loop_iterator < 10; loop_iterator++)
+							if (Player_profile[Profile_Selected].check_if_Player_has_Car(loop_iterator))
 							{
 								if (Counter == 5) {
 									Printing_Cords = { 33 ,14 };
 								}
-								Print_Car_Char_Array(Cars_Shop, Printing_Cords, i, 0, Player_profile[Profile_Selected].get_Car_Color(i));
+								Print_Car_Char_Array(Cars_Shop, Printing_Cords, loop_iterator, 0, Player_profile[Profile_Selected].get_Car_Color(loop_iterator));
 								Counter++;
 							}
 						Car_Selected = _getch() - '0';
@@ -929,10 +951,14 @@ int main()
 							Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
 							while (ch1 != 'q' && Game_Running)
 							{
-								for (int i = 0; i < Player.get_Difficulty(); i++) {}	//Game Lag/Difficulty
-								PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+								string Coins_Message = "Coins " + to_string(Player_profile[Profile_Selected].get_Coins());
+								for (loop_iterator = 0; loop_iterator < Player.get_Difficulty(); loop_iterator++) {}	//Game Lag/Difficulty
+								PrintInterface("Coins", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
+								PrintInterface_Wh_Percentage("Coins", 87, 7, 14, Player_profile[Profile_Selected].get_Coins());
+								//PrintInterface("Coins", { short(UI_NEW.X * (87) / 100 - Coins_Message.size() / 2), 7 }, 14, Player_profile[Profile_Selected].get_Coins());
 								if (Score_Coins_Counter % 10 == 0 && Score_Coins_Counter != 0)
 								{
+									cout << "GIVING";
 									Player_profile[Profile_Selected].Give_Coins();
 									Score_Coins_Counter = 0;
 								}
@@ -953,8 +979,8 @@ int main()
 									{
 										SetConsoleCursorPosition(Console, { 44,28 });
 										cout << "RELOADING!!!";
-										for (int i = 0; i < 5; i++)
-											Gun::Maganize_Reload[i] = false;
+										for (loop_iterator = 0; loop_iterator < 5; loop_iterator++)
+											Gun::Maganize_Reload[loop_iterator] = false;
 									}
 									else if (ch1 == 32 && Player.get_items_Availabe_fr_Driv(0) || Player.get_items_Availabe_fr_Driv(2) && Gun_jammed_Status() && ch1 == 32)
 									{
@@ -966,8 +992,8 @@ int main()
 										{
 											SetConsoleCursorPosition(Console, { 44,28 });
 											cout << "RELOADING!!!";
-											for (int i = 0; i < 5; i++)
-												Gun::Maganize_Reload[i] = false;
+											for (loop_iterator = 0; loop_iterator < 5; loop_iterator++)
+												Gun::Maganize_Reload[loop_iterator] = false;
 										}
 										if (Player.get_items_Availabe_fr_Driv(2) && Gun_jammed_Status()) {
 
@@ -976,8 +1002,8 @@ int main()
 											{
 												SetConsoleCursorPosition(Console, { 42,28 });
 												cout << "RELOADING!!!";
-												for (int i = 0; i < 5; i++)
-													Gun::Maganize_Reload[i] = false;
+												for (loop_iterator = 0; loop_iterator < 5; loop_iterator++)
+													Gun::Maganize_Reload[loop_iterator] = false;
 											}
 										}
 									}
@@ -985,7 +1011,7 @@ int main()
 										COORD Genederight = { 15,15 };
 										COORD Genedeleft = { 15,15 }; //Player.get_Player_Position()
 										int Counter = 0;
-										for (int i = 0; i < 10; i++)
+										for (loop_iterator = 0; loop_iterator < 10; loop_iterator++)
 										{
 											SetConsoleCursorPosition(Console, Genederight);
 											cout << "@";
@@ -994,14 +1020,14 @@ int main()
 												Genederight.Y++;
 												Counter = 0;
 											}
-											for (int i = 0; i < 9999999; i++) {}
+											for (loop_iterator = 0; loop_iterator < 9999999; loop_iterator++) {}
 											Counter++;
 										}
-										for (int i = 0; i < 10; i++)
+										for (loop_iterator = 0; loop_iterator < 10; loop_iterator++)
 										{
 											SetConsoleCursorPosition(Console, Genedeleft);
 											cout << "#";
-											for (int i = 0; i < 9999999; i++) {}
+											for (loop_iterator = 0; loop_iterator < 9999999; loop_iterator++) {}
 											Genedeleft.X--; Genedeleft.Y++;
 										}
 									}*/
@@ -1073,7 +1099,7 @@ int main()
 													SetConsoleCursorPosition(Console, { 50,14 });
 													cout << "0. Restart";
 													int INPUTGAMEPLAY = 12;
-													for (int i = 0; i < 100099999; i++) {}
+													for (loop_iterator = 0; loop_iterator < 100099999; loop_iterator++) {}
 													INPUTGAMEPLAY = _getch() - '0';
 													if (INPUTGAMEPLAY == 0) {
 														system("CLS");
@@ -1099,27 +1125,27 @@ int main()
 										}
 										else
 											Enemy2[enemy_loop].update_Collision_Status(0);
-										for (int i = 0; i < Gun::Number_of_Active_Bullets; i++)
+										for (loop_iterator = 0; loop_iterator < Gun::Number_of_Active_Bullets; loop_iterator++)
 										{
-											if (bullets[i].get_Active_Bullet_Status() == 0)
+											if (bullets[loop_iterator].get_Active_Bullet_Status() == 0)
 											{
-												bullets[i].~Gun();
-												for (int j = i; j < Gun::Number_of_Active_Bullets; j++) {
+												bullets[loop_iterator].~Gun();
+												for (int j = loop_iterator; j < Gun::Number_of_Active_Bullets; j++) {
 													bullets[j] = bullets[j + 1];
 												}
 											}
-											if (Enemy2[enemy_loop].getPosition_Y() == bullets[i].get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 1 == bullets[i].get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 2 == bullets[i].get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 3 == bullets[i].get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 4 == bullets[i].get_Bullet_Position_Y())
+											if (Enemy2[enemy_loop].getPosition_Y() == bullets[loop_iterator].get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 1 == bullets[loop_iterator].get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 2 == bullets[loop_iterator].get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 3 == bullets[loop_iterator].get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 4 == bullets[loop_iterator].get_Bullet_Position_Y())
 											{
-												if (Enemy2[enemy_loop].getPosition_X() == bullets[i].get_Bullet_Position_X()		//left most (1st col)
-													|| (Enemy2[enemy_loop].getPosition_X() + 1) == bullets[i].get_Bullet_Position_X()	// 2nd column
-													|| (Enemy2[enemy_loop].getPosition_X() + 2) == bullets[i].get_Bullet_Position_X()	//3rd col
-													|| (Enemy2[enemy_loop].getPosition_X() + 3) == bullets[i].get_Bullet_Position_X())	//4th col, right most
+												if (Enemy2[enemy_loop].getPosition_X() == bullets[loop_iterator].get_Bullet_Position_X()		//left most (1st col)
+													|| (Enemy2[enemy_loop].getPosition_X() + 1) == bullets[loop_iterator].get_Bullet_Position_X()	// 2nd column
+													|| (Enemy2[enemy_loop].getPosition_X() + 2) == bullets[loop_iterator].get_Bullet_Position_X()	//3rd col
+													|| (Enemy2[enemy_loop].getPosition_X() + 3) == bullets[loop_iterator].get_Bullet_Position_X())	//4th col, right most
 												{
 													Enemy2[enemy_loop].Update_Position_Y(Position_Cordinates_enemy.Y - 5);
 													Enemy2[enemy_loop].Erase_Car();
 													Enemy2[enemy_loop].resetEnemy();
-													bullets[i].~Gun();
-													for (int j = i; j < Gun::Number_of_Active_Bullets; j++)
+													bullets[loop_iterator].~Gun();
+													for (int j = loop_iterator; j < Gun::Number_of_Active_Bullets; j++)
 													{
 														bullets[j] = bullets[j + 1];
 													}
@@ -1136,14 +1162,14 @@ int main()
 														}
 													}
 													PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
-													bullets[i].set_Bullet_Collision_wh_Enemy_car_status(1);
+													bullets[loop_iterator].set_Bullet_Collision_wh_Enemy_car_status(1);
 												}
 											}
 										}
 									}
 								}
-								for (int i = 0; i < Gun::Number_of_Active_Bullets; i++)
-									bullets[i].Move_Bullet(bullets);
+								for (loop_iterator = 0; loop_iterator < Gun::Number_of_Active_Bullets; loop_iterator++)
+									bullets[loop_iterator].Move_Bullet(bullets);
 							}
 						}
 					}
@@ -1156,11 +1182,11 @@ int main()
 					short position1 = 7;
 					COORD Printing_Cords = { 33 ,7 };
 					Print_Center_Aligned("BUY CAR", 5);
-					for (int i = 0; i < 9; i++)
+					for (loop_iterator = 0; loop_iterator < 9; loop_iterator++)
 					{
-						if (i == 5)
+						if (loop_iterator == 5)
 							Printing_Cords = { 33 ,14 };
-						Print_Car_Char_Array(Cars_Shop, Printing_Cords, i, 1, Cars_Shop[i].get_Car_Color());
+						Print_Car_Char_Array(Cars_Shop, Printing_Cords, loop_iterator, 1, Cars_Shop[loop_iterator].get_Car_Color());
 					}
 					Print_Center_Aligned("9. Leave", 22);
 					Input[2] = _getch() - '0';
@@ -1178,13 +1204,13 @@ int main()
 							}
 							else {
 								Print_Center_Aligned("Need More Coins!", 24);
-								for (int i = 0; i < 454400000; i++) {}
+								for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 							}
 						}
 						else
 						{
 							Print_Center_Aligned("Already owned", 24);	//SetConsoleCursorPosition(Console, { 55,24 });
-							for (int i = 0; i < 454400000; i++) {}
+							for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 						}
 					}
 				}
@@ -1198,13 +1224,13 @@ int main()
 					COORD Printing_Cords = { 33 ,7 };
 					int Counter = 0;
 					Print_Center_Aligned("CAR GARAGE", 5); // length 10
-					for (int i = 0; i < 9; i++)
+					for (loop_iterator = 0; loop_iterator < 9; loop_iterator++)
 					{
 						if (Counter == 5) {
 							Printing_Cords = { 33 ,14 };
 						}
-						if (Player_profile[Profile_Selected].check_if_Player_has_Car(i)) {
-							Print_Car_Char_Array(Cars_Shop, Printing_Cords, i, 1, Player_profile[Profile_Selected].get_Car_Color(i));
+						if (Player_profile[Profile_Selected].check_if_Player_has_Car(loop_iterator)) {
+							Print_Car_Char_Array(Cars_Shop, Printing_Cords, loop_iterator, 1, Player_profile[Profile_Selected].get_Car_Color(loop_iterator));
 							Counter++;
 						}
 					}
@@ -1233,15 +1259,15 @@ int main()
 							Print_Center_Aligned("Select New Color", 4);//	SetConsoleCursorPosition(Console, { 55,4 });
 							Printing_Cords = { 65,7 };
 							int yincrease = Printing_Cords.Y;
-							for (int i = 1; i <= 15; i++)
+							for (loop_iterator = 1; loop_iterator <= 15; loop_iterator++)
 							{
 								SetConsoleCursorPosition(Console, Printing_Cords);
-								SetConsoleTextAttribute(Console, i);
-								if (i < 10)
+								SetConsoleTextAttribute(Console, loop_iterator);
+								if (loop_iterator < 10)
 									cout << "0";
-								cout << i << ". \xDB\xDB";
+								cout << loop_iterator << ". \xDB\xDB";
 								Printing_Cords.X += 15;
-								if (i % 2 == 0)
+								if (loop_iterator % 2 == 0)
 								{
 									Printing_Cords.Y += 2;
 									Printing_Cords.X = 65;
@@ -1279,12 +1305,12 @@ int main()
 									Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Player_profile[Profile_Selected].get_Car_Color(Input[2]));
 									Print_Center_Aligned("Congrats! New Paint is Applied", 14);//SetConsoleCursorPosition(Console, { 50,15 });
 									//cout << "Congrats! New Paint is Applied";
-									for (int i = 0; i < 90000100; i++) {}
+									for (loop_iterator = 0; loop_iterator < 90000100; loop_iterator++) {}
 								}
 								else
 									//Print_Center_Aligned("Insuffient Coins To Apply New Paint!",14);
 									//cout << "Insuffient Balance To Apply New Paint!";
-								for (int i = 0; i < 90000100; i++) {}
+									for (loop_iterator = 0; loop_iterator < 90000100; loop_iterator++) {}
 							}
 						}
 						if (Input[3] == 2) {
@@ -1313,12 +1339,12 @@ int main()
 					Print_Center_Aligned("BUY ITEMS", 5);//	SetConsoleCursorPosition(Console, { 58,5 });
 					position = 7;
 					SetConsoleCursorPosition(Console, { 45,position++ });
-					for (int i = 0; i < 4; i++)
+					for (loop_iterator = 0; loop_iterator < 4; loop_iterator++)
 					{
-						cout << i << ". ";
-						cout << "Item: " << items[i].get_Char_Item_Name();
+						cout << loop_iterator << ". ";
+						cout << "Item: " << items[loop_iterator].get_Char_Item_Name();
 						SetConsoleCursorPosition(Console, { 75,short(position - 1) });
-						cout << "Price " << items[i].get_price();
+						cout << "Price " << items[loop_iterator].get_price();
 						SetConsoleCursorPosition(Console, { 45,position++ });
 					}
 					Print_Center_Aligned("4. Leave Shop", 14);
@@ -1337,12 +1363,12 @@ int main()
 							}
 							else {
 								Print_Center_Aligned("Need More Coins!", 13);
-								for (int i = 0; i < 454400000; i++) {}
+								for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 							}
 						}
 						else {
 							Print_Center_Aligned("Already owned", 13);
-							for (int i = 0; i < 454400000; i++) {}
+							for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 						}
 					}
 				}
@@ -1351,20 +1377,20 @@ int main()
 					system("CLS");
 					Print_Center_Aligned("Items Owned", 5);//	SetConsoleCursorPosition(Console, { 58,5 });
 					short position = 12;
-					for (int i = 0; i < 4; i++)
+					for (loop_iterator = 0; loop_iterator < 4; loop_iterator++)
 						Player_profile[Profile_Selected].Display_items_Owned();
-					for (int i = 0; i < 454400000; i++) {}
+					for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 				}
 				else if (Input[1] == 6)
 				{
-				Reponsive_UI_Thread_Running = 1;
+					Reponsive_UI_Thread_Running = 1;
 					system("CLS");
 					Reponsive_UI_PauseResume = 1;
 					while (Reponsive_UI_PauseResume) {
 						Print_Center_Aligned("Delete Profile ?", 5);
 						Print_Center_Aligned("1. Yes, Delete Profile.", 7);			//SetConsoleCursorPosition(Console, { 54,7 });
 						Print_Center_Aligned("2. No, Don\'t Delete Profile.", 8);	//SetConsoleCursorPosition(Console, { 54,8 });		
-						if (_kbhit()) 
+						if (_kbhit())
 						{
 							Input[2] = _getch() - '0';		//Validate_Input()
 							if (Input[2] == 1) {
@@ -1374,14 +1400,14 @@ int main()
 								break;
 							}
 							if (Input[2] == 2 || Input[2] == 1)
-							Reponsive_UI_PauseResume = 0;
+								Reponsive_UI_PauseResume = 0;
 						}
 					}
 				}
 				if (Input[1] == 7)
 					break;
 
-				Player_Welcome_Message = "Welcome  !";	
+				Player_Welcome_Message = "Welcome  !";
 				Player_Welcome_Message.insert(8, Player_profile[Profile_Selected].get_Driver_Name());
 				Player_Profile_Menu(Input[1], ADMIN, Player_profile[Profile_Selected], Player_Welcome_Message); // 7 options of Player Profile
 				if (Player.get_score() > Player_profile[Profile_Selected].get_high_score())
@@ -1403,7 +1429,7 @@ int main()
 		{
 			system("CLS");
 			Print_GamePlay_Instructions(Player, 0);
-			for (int i = 0; i < 454400000; i++) {}
+			for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 			break;
 		}
 		}// End of Switch

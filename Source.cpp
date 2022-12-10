@@ -7,7 +7,7 @@
 #include<windows.h>
 #include<thread>
 #include<windows.h>
-//unsigned int microsecond = 1000000;
+#include"Shop.h"
 #define SCREEN_HEIGHT 26
 #define WIN_WIDTH 70
 using namespace std;
@@ -23,26 +23,6 @@ void hidecursor()
 	info.bVisible = FALSE;
 	SetConsoleCursorInfo(Console, &info);
 }
-class Car {
-protected:
-	char Car_Shape[25];
-	int Car_Color;
-	int Car_Width;
-	int Car_Height;
-public:
-	Car() : Car_Color(10), Car_Width(4), Car_Height(5) {}
-	void set_Car_Shape(char New_Car_Shape[]) { strcpy_s(Car_Shape, New_Car_Shape); }
-	void set_Car_Color(int New_Car_Color) { Car_Color = New_Car_Color; }
-	void set_Car_Width(int New_Car_Height) { Car_Width = New_Car_Height; }
-	void set_Car_Height(int New_Car_Height) { Car_Height = New_Car_Height; }
-	int get_Car_Color() const { return Car_Color; }
-	int get_Car_Width() const { return Car_Width; }
-	int get_Car_Height() const { return Car_Height; }
-	char* get_Car_Shape() { return Car_Shape; }
-	~Car() {
-		strcpy_s(Car_Shape, " ");
-	}
-};
 class SUPERADMIN {
 private:
 	int Password; //To Allow ADMIN TO ACCESS Special Features.
@@ -505,42 +485,6 @@ public:
 		Position_Cordinates = { 0, 4 };
 	}
 };
-class Shop
-{
-protected:
-	int Price;
-public:
-	Shop() : Price(0) {}
-	Shop(int price) : Price(price) {}
-	void set_Item_Price(int price) { this->Price = price; }
-	int get_price() const { return Price; }
-};
-class Items_Shop : public Shop {
-private:
-	char Item_Name[50] = "";
-public:
-	void  set_Item_Name(string Name) { strcpy_s(Item_Name, Name.c_str()); }
-	char* get_Char_Item_Name() { return Item_Name; }
-	void Print_Details() { cout << "\nName of item: "; cout << Item_Name;	cout << "\tPrice: "; cout << Price; }
-	void User_Input()
-	{
-		cin.ignore();		cout << "Enter Name of item:";			cin.getline(Item_Name, 50, '\n');
-		cout << "Enter Price:"; 			cin >> Price;
-	}
-};
-class Car_Shop : public Shop {
-private:
-	Car Cars;
-public:
-	Car_Shop() { Price = 100; }
-	void set_Car_Shape(string Name) { char Cararray[25]; strcpy_s(Cararray, Name.c_str());	Cars.set_Car_Shape(Cararray); }
-	void set_Car_Width(int Car_Width) { Cars.set_Car_Width(Car_Width); }
-	void set_Car_Height(int Car_Height) { Cars.set_Car_Height(Car_Height); }
-	void set_Car_Color(int Car_Color) { Cars.set_Car_Color(Car_Color); }
-	Car get_Car() const { return Cars; }
-	int get_Car_Color() const { return Cars.get_Car_Color(); }
-	char* get_Car_Shape() { return Cars.get_Car_Shape(); }
-};
 void Validate_Input(int start, int& Input, int end) {
 	while (Input < start || Input > end)
 		Input = _getch() - '0';
@@ -748,7 +692,7 @@ int main()
 	//PlaySound(TEXT("mixkit-retro-video-game-bubble-laser-277.wav"), NULL, SND_ASYNC);	//cout << "played"; //	cout << "not played";
 	HWND hWnd = GetConsoleWindow();		ShowWindow(hWnd, SW_SHOWMAXIMIZED);	//Make Console open in Maximized window.
 	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
-	UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top; //y  vertical
+	UI_NEW.Y = csbi.srWindow.Bottom - csbi.srWindow.Top;	//y  vertical
 	UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
 	Player_GamePlay Car1;
 	SetConsoleTextAttribute(Console, 15);
@@ -765,7 +709,6 @@ int main()
 	SUPERADMIN ADMIN;
 	int input;
 	Reponsive_UI_PauseResume = 1;
-
 	//while (input >= 0 && input < 3) /*ITEMS SHOP READ WRITE*/ {
 	//	if (input == 0)
 	//		for (loop_iterator = 0; loop_iterator < 3; loop_iterator++)
@@ -910,7 +853,7 @@ int main()
 						SetConsoleTextAttribute(Console, 15);
 						SetConsoleCursorPosition(Console, { 15,22 });
 						cout << "q - Cancel";
-						Print_Center_Aligned("Press Spacebar To Start Game!", 19);//SetConsoleCursorPosition(Console, { 48,19 });
+						Print_Center_Aligned("Press Spacebar To Start Game!", 19);
 						ch1 = _getch(); cout << "\a";
 						Player.reset_Score();
 						int Score_Coins_Counter = 0;
@@ -925,7 +868,7 @@ int main()
 							COORD Position;	Position.X = WIN_WIDTH;	Position.Y = SCREEN_HEIGHT;
 							Gun bullets[50];
 							position2 = 8;
-							Enemy_car  Enemy2[10];
+							Enemy_car Enemy2[10];
 							Player.Draw_Car();
 							Player.display_Score();
 							if (Player.get_score() > Player_profile[Profile_Selected].get_high_score())

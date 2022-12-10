@@ -6,6 +6,8 @@
 #include<string>
 #include<windows.h>
 #include<thread>
+#include<windows.h>
+//unsigned int microsecond = 1000000;
 #define SCREEN_HEIGHT 26
 #define WIN_WIDTH 70
 using namespace std;
@@ -720,7 +722,6 @@ void PrintInterface_Wh_Percentage(string Message, short Percentage, short Horizo
 	SetConsoleCursorPosition(Console, { short(UI_NEW.X * (Percentage) / 100 - Interface_Message.size() / 2),Horizontal });
 	cout << Message << " " << Value << " ";
 }
-
 void Player_Profile_Menu(int& Input, SUPERADMIN ADMIN, Driver Player_profile, string Message) {
 	system("CLS");
 	PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile.get_high_score());
@@ -756,36 +757,36 @@ int main()
 	ifstream_ob.open("Items_Inventory.txt", ios::in);
 	ifstream_ob.read((char*)&items, sizeof(items));
 	ifstream_ob.close(); }
+	//{items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
+	//items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
+	//}
+	//Shop_Items_ReadWrite_Menu(input);
 	hidecursor();
 	SUPERADMIN ADMIN;
 	int input;
-	{items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
-	items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
-	}
 	Reponsive_UI_PauseResume = 1;
-	Shop_Items_ReadWrite_Menu(input);
 
-	while (input >= 0 && input < 3) /*ITEMS SHOP READ WRITE*/ {
-		if (input == 0)
-			for (loop_iterator = 0; loop_iterator < 3; loop_iterator++)
-				items[loop_iterator].Print_Details();
-		else if (input == 1)
-			for (loop_iterator = 0; loop_iterator < 3; loop_iterator++)
-				items[loop_iterator].User_Input();
-		else if (input == 2)
-		{
-			ofstream ofstream_ob;
-			ofstream_ob.open("Items_Inventory.txt", ios::out);
-			ofstream_ob.write((char*)&items, sizeof(items));
-			ofstream_ob.close();
-		}
-		Shop_Items_ReadWrite_Menu(input);
-	}
-	int y;	int Profile_Selected, Car_Selected, Input[5], No_of_Enemies = 4;
+	//while (input >= 0 && input < 3) /*ITEMS SHOP READ WRITE*/ {
+	//	if (input == 0)
+	//		for (loop_iterator = 0; loop_iterator < 3; loop_iterator++)
+	//			items[loop_iterator].Print_Details();
+	//	else if (input == 1)
+	//		for (loop_iterator = 0; loop_iterator < 3; loop_iterator++)
+	//			items[loop_iterator].User_Input();
+	//	else if (input == 2)
+	//	{
+	//		ofstream ofstream_ob;
+	//		ofstream_ob.open("Items_Inventory.txt", ios::out);
+	//		ofstream_ob.write((char*)&items, sizeof(items));
+	//		ofstream_ob.close();
+	//	}
+	//	Shop_Items_ReadWrite_Menu(input);
+	//}
+	int y =1;	int Profile_Selected, Car_Selected, Input[5], No_of_Enemies = 4;
 	Driver Player_profile[15];
-	cout << "\nDo you want to Read Players Records\?\nPress 1 to Read (any other key to leave)";
-	y = _getch() - '0';	cout << "\a";
-	if (y == 1)
+	//cout << "\nDo you want to Read Players Records\?\nPress 1 to Read (any other key to leave)";
+	//y = _getch() - '0';	cout << "\a";
+	if (y == 1 || 1)
 	{
 		ifstream ifstream_ob1;
 		ifstream_ob1.open("Player Profiles.txt", ios::in);
@@ -859,9 +860,7 @@ int main()
 							PrintInterface("High Score", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 							SetConsoleTextAttribute(Console, 15);
 							Print_Center_Aligned("You don't have any Car", 8); //Length 22
-							Print_Center_Aligned("Buy Car first !!", 9); //16
-							//SetConsoleCursorPosition(Console, { 50,short(position - 7) });
-							//cout << "Buy Car first !!";
+							Print_Center_Aligned("Buy Car first !!", 9); //16			//SetConsoleCursorPosition(Console, { 50,short(position - 7) });
 						//	for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 							if (loop_iterator == 900)
 								Reponsive_UI_PauseResume = 0;
@@ -894,19 +893,15 @@ int main()
 						Player.Set_Player_Car(Player_profile[Profile_Selected].get_Player_Car(Car_Selected));
 						system("CLS");
 						SetConsoleTextAttribute(Console, 15);
-						Print_Center_Aligned("Select Difficulty", 4);
-						Print_Center_Aligned("1. Easy", 6);
-						Print_Center_Aligned("2. Medium", 8);
-						Print_Center_Aligned("3. Hard", 10);
-						//SetConsoleCursorPosition(Console, { 55,4 });	cout << "Select Difficulty";
-						//SetConsoleCursorPosition(Console, { 58,6 });	cout << "1. Easy";
-						//SetConsoleCursorPosition(Console, { 58,8 });	cout << "2. Medium";
-						//SetConsoleCursorPosition(Console, { 58,10 });	cout << "3. Hard";
+						Print_Center_Aligned("Select Difficulty", 4);	//SetConsoleCursorPosition(Console, { 55,4 });
+						Print_Center_Aligned("1. Easy", 6);				//SetConsoleCursorPosition(Console, { 58,6 });	
+						Print_Center_Aligned("2. Medium", 8);			//SetConsoleCursorPosition(Console, { 58,8 });
+						Print_Center_Aligned("3. Hard", 10);			//SetConsoleCursorPosition(Console, { 58,10 });	
 						Input[2] = _getch() - '0';
 						Validate_Input(1, Input[2], 3);
-						if (Input[2] == 1)								Player.set_Difficulty(900000);
-						else if (Input[2] == 2) { No_of_Enemies = 5;		Player.set_Difficulty(90000); } //Medium
-						else if (Input[2] == 3) { No_of_Enemies = 6;		Player.set_Difficulty(40000); } //Hard
+						if (Input[2] == 1)								Player.set_Difficulty(25);		//Easy
+						else if (Input[2] == 2) { No_of_Enemies = 5;		Player.set_Difficulty(15); } //Medium
+						else if (Input[2] == 3) { No_of_Enemies = 6;		Player.set_Difficulty(5); } //Hard
 						/*
 						if (Input[2] == 1)								Player.set_Difficulty(900000);
 						else if (Input[2] == 2) { No_of_Enemies = 5;		Player.set_Difficulty(90000); } //Medium
@@ -952,7 +947,8 @@ int main()
 							while (ch1 != 'q' && Game_Running)
 							{
 								string Coins_Message = "Coins " + to_string(Player_profile[Profile_Selected].get_Coins());
-								for (loop_iterator = 0; loop_iterator < Player.get_Difficulty(); loop_iterator++) {}	//Game Lag/Difficulty
+							//	for (loop_iterator = 0; loop_iterator < Player.get_Difficulty(); loop_iterator++) {}	//Game Lag/Difficulty
+								Sleep(Player.get_Difficulty());
 								PrintInterface("Coins", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 								PrintInterface_Wh_Percentage("Coins", 87, 7, 14, Player_profile[Profile_Selected].get_Coins());
 								//PrintInterface("Coins", { short(UI_NEW.X * (87) / 100 - Coins_Message.size() / 2), 7 }, 14, Player_profile[Profile_Selected].get_Coins());
@@ -1125,7 +1121,7 @@ int main()
 										}
 										else
 											Enemy2[enemy_loop].update_Collision_Status(0);
-										for (loop_iterator = 0; loop_iterator < Gun::Number_of_Active_Bullets; loop_iterator++)
+	/*sinlge variable breaks the code*/	for (int loop_iterator = 0; loop_iterator < Gun::Number_of_Active_Bullets; loop_iterator++)
 										{
 											if (bullets[loop_iterator].get_Active_Bullet_Status() == 0)
 											{

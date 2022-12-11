@@ -62,7 +62,7 @@ public:
 	void setPosition_Y(int Y) { Position_Cordinates.Y = Y; }
 	void Update_Position_X(int x) { Position_Cordinates.X = x; }
 	void Update_Position_Y(int y) { Position_Cordinates.Y = y; }
-	virtual void Draw_Car() = 0;
+	virtual void Draw_Car() = 0 ;
 	void Erase_Car()
 	{
 		COORD X_and_Y;
@@ -80,7 +80,7 @@ public:
 			cout << " ";
 		}
 	}
-	int get_Car_width() { return Game_Car.get_Car_Width(); }
+	int get_Car_width() const { return Game_Car.get_Car_Width(); }
 	void set_Difficulty(int Difficulty) { GamePLay_Difficulty = Difficulty; }
 	int get_Difficulty() const { return GamePLay_Difficulty; }
 };
@@ -141,7 +141,7 @@ public:
 		if (Items_Owned_Check[index] == 1 || Items_Owned_Check[index] == true)
 			return Items_Owned_Names[index];
 	}
-	void Display_items_Owned()
+	void Display_items_Owned() const
 	{
 		short position = 12;
 		for (loop_iterator = 0; loop_iterator < 4; loop_iterator++)
@@ -157,10 +157,10 @@ public:
 	bool check_if_Player_has_Car(int item_Index) const { return Cars_Owned_Check[item_Index]; }
 	void Buy_Car(Car New_Car, int Car_Number) { Car_Owned[Car_Number] = New_Car; Cars_Owned_Check[Car_Number] = true; }
 	void set_Car_Color(int Color, int Car_Number) { Car_Owned[Car_Number].set_Car_Color(Color); }
-	int get_Car_width(int index) { return Car_Owned[index].get_Car_Width(); }
+	int get_Car_width(int index) const { return Car_Owned[index].get_Car_Width(); }
 	int get_Car_Color(int Car_Number) const { return Car_Owned[Car_Number].get_Car_Color(); }
-	Car get_Player_Car(int Car_Number)const { return Car_Owned[Car_Number]; }
-	int get_Number_of_Cars_Owned()
+	Car get_Player_Car(int Car_Number) const { return Car_Owned[Car_Number]; }
+	int get_Number_of_Cars_Owned() const
 	{
 		int Counter = 0;
 		for (loop_iterator = 0; loop_iterator < 10; loop_iterator++)
@@ -258,7 +258,7 @@ public:
 			return true;
 		return false;
 	}
-	void display_Score() {
+	void display_Score() const {
 		COORD Score_Position = { 83,4 };
 		SetConsoleTextAttribute(Console, 14);
 		SetConsoleCursorPosition(Console, Score_Position);
@@ -268,7 +268,7 @@ public:
 	void reset_Score() { Score = 0; }
 	int get_score() const { return Score; }
 	int get_Lives() const { return Lives; }
-	void Display_Lives(COORD Lives_Setting) {
+	void Display_Lives(COORD Lives_Setting) const {
 		SetConsoleCursorPosition(Console, { Lives_Setting.X,short(Lives_Setting.Y - 1) });
 		SetConsoleTextAttribute(Console, 13);
 		cout << "Lives";
@@ -471,7 +471,7 @@ public:
 		}
 	}
 	void Draw_Car() {}
-	void EraseEnemyTrail() {
+	void EraseEnemyTrail() const {
 		COORD Old_Position;
 		Old_Position.X = Position_Cordinates.X;
 		Old_Position.Y = (Position_Cordinates.Y - 5);
@@ -890,7 +890,6 @@ int main()
 							while (ch1 != 'q' && Game_Running)
 							{
 								string Coins_Message = "Coins " + to_string(Player_profile[Profile_Selected].get_Coins());
-							//	for (loop_iterator = 0; loop_iterator < Player.get_Difficulty(); loop_iterator++) {}	//Game Lag/Difficulty
 								Sleep(Player.get_Difficulty());
 								PrintInterface("Coins", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 								PrintInterface_Wh_Percentage("Coins", 87, 7, 14, Player_profile[Profile_Selected].get_Coins());

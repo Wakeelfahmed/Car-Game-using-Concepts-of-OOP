@@ -18,7 +18,7 @@ private:
 public:
 	void  set_Item_Name(string Name);
 	char* get_Char_Item_Name();
-	void Print_Details();
+	void Print_Details() const;
 	void User_Input();
 };
 class Car_Shop : public Shop {

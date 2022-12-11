@@ -8,7 +8,7 @@ int Shop::get_price() const { return Price; }
 
 void  Items_Shop::set_Item_Name(string Name) { strcpy_s(Item_Name, Name.c_str()); }
 char* Items_Shop::get_Char_Item_Name() { return Item_Name; }
-void Items_Shop::Print_Details() { cout << "\nName of item: "; cout << Item_Name;	cout << "\tPrice: "; cout << Price; }
+void Items_Shop::Print_Details() const { cout << "\nName of item: "; cout << Item_Name;	cout << "\tPrice: "; cout << Price; }
 void Items_Shop::User_Input()
 {
 	cin.ignore();		cout << "Enter Name of item:";			cin.getline(Item_Name, 50, '\n');

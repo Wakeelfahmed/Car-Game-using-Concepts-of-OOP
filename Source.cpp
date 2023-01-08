@@ -786,7 +786,7 @@ int main()
 				if (_kbhit())
 				{
 					Profile_Selected = _getch() - '0';
-					if (Profile_Selected >= 0 || Profile_Selected <= Driver::get_No_of_Player_Profiles())
+					if (Profile_Selected >= 0 && Profile_Selected <= Driver::get_No_of_Player_Profiles())
 						break;
 				}
 			}
@@ -846,7 +846,6 @@ int main()
 						}
 						Player.Set_Player_Car(Player_profile[Profile_Selected].get_Player_Car(Car_Selected));
 						system("CLS");
-						//SetConsoleTextAttribute(Console, 15);
 						Print_Center_Aligned("Select Difficulty", 4, 15);	//SetConsoleCursorPosition(Console, { 55,4 });
 						Print_Center_Aligned("1. Easy", 6, 15);				//SetConsoleCursorPosition(Console, { 58,6 });	
 						Print_Center_Aligned("2. Medium", 8, 15);			//SetConsoleCursorPosition(Console, { 58,8 });

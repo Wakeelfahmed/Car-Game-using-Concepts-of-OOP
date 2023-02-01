@@ -1,7 +1,7 @@
 #pragma once
 class Car {
 protected:
-	char Car_Shape[25];
+	char Car_Shape[25]{ 0 };
 	int Car_Color;
 	int Car_Width;
 	int Car_Height;
@@ -17,5 +17,3 @@ public:
 	char* get_Car_Shape();
 	~Car();
 };
-
-

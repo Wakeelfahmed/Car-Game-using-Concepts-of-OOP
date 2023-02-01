@@ -128,11 +128,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Car.cpp" />
+    <ClCompile Include="Game_Play.cpp" />
+    <ClCompile Include="List\list.cpp" />
+    <ClCompile Include="List\Node.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h" />
+    <ClInclude Include="Game_Play.h" />
+    <ClInclude Include="List\list.h" />
+    <ClInclude Include="List\Node.h" />
     <ClInclude Include="Shop.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

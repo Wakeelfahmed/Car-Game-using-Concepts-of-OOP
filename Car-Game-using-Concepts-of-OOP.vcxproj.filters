@@ -24,12 +24,30 @@
     <ClCompile Include="Shop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game_Play.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="List\list.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="List\Node.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Car.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="List\list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="List\Node.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game_Play.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

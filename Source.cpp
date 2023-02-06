@@ -348,7 +348,6 @@ public:
 	}
 };
 int Gun::Gun_Maganize = 5;
-//int Gun::Number_of_Active_Bullets = 0; // static initialization
 int Gun::Maganize_Counter = 0; // static initialization
 bool Gun::Maganize_Reload[10] = { true };
 class Enemy_car : public Game_Play		//***** Enemy Car *****//
@@ -404,7 +403,6 @@ public:
 					++Player_GamePlay;
 					Player_GamePlay.display_Score();
 				}
-				//int minus = 0;				//if (Player_GamePlay.get_items_Availabe_fr_Driv(2))				//	minus = 2000;				//for (loop_iterator = 0; loop_iterator < Player_GamePlay.get_Difficulty() - minus; loop_iterator++) {}			//	for (loop_iterator = 0; loop_iterator < 988999 - minus; loop_iterator++) {}	//HOW FAST ENEMY WILL MOVE			/*//	for (loop_iterator = 0; loop_iterator < 918080 - minus; loop_iterator++) {}	//HOW FAST ENEMY WILL MOVE*/
 				EraseEnemyTrail();
 				if (new_Position.Y > SCREEN_HEIGHT - 2)
 					resetEnemy();
@@ -885,11 +883,8 @@ int main()
 												Gun::Maganize_Reload[loop_iterator] = false;
 										}
 										if (Player.get_items_Availabe_fr_Driv(2) && Gun_jammed_Status()) {
-											//temp.Fire_Bullet(Player, 2);
 											Bullets_list.get_Node_by_Pos(Bullets_list.Number_of_Nodes())->Data.Fire_Bullet(Player, 2);
 											Bullets_list.insert_end({});
-											//Bullets_list.insert_end(temp);
-											//temp.~Gun();
 											if (Gun::Maganize_Counter % Gun::get_Gun_Maganize() == 0 && Gun::Maganize_Counter != 0)
 											{
 												SetConsoleCursorPosition(Console, { 42,28 });

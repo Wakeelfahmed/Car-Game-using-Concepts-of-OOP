@@ -28,49 +28,6 @@ public:
 			p->next = head;  //last Node point to head
 		}
 	}
-	void insert_specfic_Position(int Position, T newvalue) {
-		int position_count = 1;
-		if (Position > Number_of_Nodes()) {
-			cout << "List has less nodes than the place, Node CAN't be inserted!!\n";
-			return;
-		}
-		Node<T>* NewNode = new Node(newvalue);		//NewNode->Data = newvalue;
-		Node<T>* p = head;
-		while (p != head)
-		{
-			if (Position == 1) {
-				insert_beg(newvalue);
-				return;
-			}
-			else if (Position == Number_of_Nodes()) {
-				insert_end(newvalue);
-				return;
-			}
-			else if (position_count == Position - 1 && Position != 0) {
-				NewNode->next = p->next;
-				p->next = NewNode;
-				return;
-			}
-			p = p->next;		//move to next node
-			position_count++;
-		}
-	}
-	void insert_after(T oldvalue, T newvalue) {
-		Node<T>* p = head;
-		if (isEmpty())
-			return;
-		do
-		{
-			if (p->get_Data().X == oldvalue.X && p->get_Data().Y == oldvalue.Y)
-			{
-				Node<T>* NewNode = new Node(newvalue);
-				NewNode->next = p->next;
-				p->next = NewNode;
-				return;
-			}
-			p = p->next;
-		} while (p != head);
-	}
 	void insert_end(T value) {
 		Node<T>* NewNode = new Node<T>(value);
 		if (isEmpty()) {
@@ -157,19 +114,6 @@ public:
 			cout << Number_of_Nodes() << endl;
 		}
 	}
-	list<T> concatenate(const list<T>& list2) {
-		list Result = *this;
-		Node<T>* p = get_head();	Node<T>* loop2 = list2.get_head();
-		while (p->next != get_head())
-			p = p->next;
-		while (loop2->next != list2.get_head())
-			loop2 = loop2->next;
-		loop2->next = head;	//connect last node of list2 to head of list1 making circular
-		p->next = list2.get_head();//connect last node of list1 to head of list2.
-		cout << "Concatenated list is:\n";
-		Result.Display_list();
-		return Result;
-	}
 	int Number_of_Nodes() const {
 		if (isEmpty())
 		{
@@ -203,9 +147,6 @@ public:
 			}
 		} while (p != head);
 		//cout << "Leaving ~\n";
-	}
-	list(list& list) {
-		head = list.head;
 	}
 	Node<T>* get_Node_by_Pos(int index) {
 		int i = 1;

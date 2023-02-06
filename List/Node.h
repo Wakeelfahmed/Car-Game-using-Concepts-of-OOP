@@ -3,8 +3,8 @@
 template <class T>
 class Node
 {
-	T Data{};
 public:
+	T Data{};
 	Node<T>* next;
 	Node() : next(0) {}
 	Node(T Data) : Data(Data), next(0) {}
@@ -26,5 +26,6 @@ public:
 			return 1;
 		return 0;
 	}*/
-	T get_Data() const { return Data; }
+	//T get_Data() const { return Data; }
+	T get_Data() { return Data; }
 };

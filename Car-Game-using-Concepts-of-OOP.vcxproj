@@ -129,8 +129,6 @@
   <ItemGroup>
     <ClCompile Include="Car.cpp" />
     <ClCompile Include="Game_Play.cpp" />
-    <ClCompile Include="List\list.cpp" />
-    <ClCompile Include="List\Node.cpp" />
     <ClCompile Include="Shop.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>

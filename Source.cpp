@@ -2,9 +2,7 @@
 #include<fstream>
 #include<conio.h>
 #include<ctime>
-//#include<string.h>
 #include<string>
-//#include<windows.h>
 #include<thread>
 #include"Game_Play.h"
 #include"List/list.h"
@@ -217,16 +215,13 @@ public:
 		}
 	}
 	bool get_items_Availabe_fr_Driv(int Index) const {
-		if (Driver_of_Car.check_if_Player_has_item(Index))
-			return true;
-		return false;
+		return Driver_of_Car.check_if_Player_has_item(Index);
 	}
 	void display_Score() const {
 		COORD Score_Position = { 83,4 };
 		SetConsoleTextAttribute(Console, 14);
 		SetConsoleCursorPosition(Console, Score_Position);
 		cout << "Score:" << Score;
-		return;
 	}
 	void reset_Score() { Score = 0; }
 	int get_score() const { return Score; }
@@ -251,47 +246,31 @@ protected:
 	int Bullet_color = 9;
 	string bullet = "\x18";
 	COORD Bullet_Position;
-	bool Active_Bullet_Status{ 0 };
-	bool Bullet_Collision_wh_Enemy_car_status{ 0 };
+
 public:
 	bool operator==(const Gun Gun2) const {
-		return (Bullet_Position.X == Gun2.Bullet_Position.X && Bullet_Position.Y == Gun2.Bullet_Position.Y
-			&& Active_Bullet_Status == Gun2.Active_Bullet_Status
-			);
+		return (Bullet_Position.X == Gun2.Bullet_Position.X && Bullet_Position.Y == Gun2.Bullet_Position.Y);
 	}
 	static int Gun_Maganize;
-	static int Number_of_Active_Bullets;
 	static int Maganize_Counter;
 	static bool Maganize_Reload[10];
 	Gun()
 	{
 		Maganize_Counter = 0;
-		Number_of_Active_Bullets = 0;
 		bullet = "\x18";
-		Active_Bullet_Status = 1;
-		Bullet_Collision_wh_Enemy_car_status = 0;
 		Gun_Maganize = 5;
-		for (loop_iterator = 0; loop_iterator < 3; loop_iterator++)
-		{
-			Maganize_Reload[loop_iterator];
-		}
-	}		//Check this
+	}
 	static void update_Gun_Maganize(int newMaganize) { Gun_Maganize = newMaganize; }
 	static int get_Gun_Maganize() { return  Gun_Maganize; }
 	void Fire_Bullet(Player_GamePlay Player, int Signal)
 	{
 		Maganize_Counter++;
-		Active_Bullet_Status = 1;
-		//Number_of_Active_Bullets++;
-		//cout << Number_of_Active_Bullets;
 		Bullet_Position = Player.get_Player_Position();
 		if (Player.get_items_Availabe_fr_Driv(2) && Signal == 1)
 		{
 			if (Player.get_Car_width() == 3) {
 				Bullet_Position.X += 1;
 			}
-			/*		if (Player.get_Car_width() == 4) {
-					}*/
 		}
 		if (Player.get_items_Availabe_fr_Driv(2) && Signal == 2)
 			Bullet_Position.X += 3;
@@ -303,7 +282,7 @@ public:
 		cout << "\x18";
 		//cout << bullet;
 	}
-	void Move_Bullet()
+	bool Move_Bullet() //signal 1 to destory bullet i.e it has passed the entire screen
 	{
 		if (!(Bullet_Position.Y < 2))
 		{
@@ -314,20 +293,19 @@ public:
 			cout << bullet;
 			SetConsoleCursorPosition(Console, { Bullet_Position.X, short(Bullet_Position.Y + 1) });
 			cout << " ";
+			return 0;
 		}
 		if ((Bullet_Position.Y < 2))
 		{
 			SetConsoleCursorPosition(Console, { Bullet_Position.X, short((Bullet_Position.Y)) });
 			cout << " ";
-			Active_Bullet_Status = 0;
+			return 1;
 		}
 	}
 	COORD get_Bullet_Position() const { return Bullet_Position; }
-	int get_Bullet_Position_Y() const { return Bullet_Position.Y; }
+	short get_Bullet_Position_Y() const { return Bullet_Position.Y; }
+	void set_Bullet_Position_Y(short Y) { Bullet_Position.Y = Y; }
 	int get_Bullet_Position_X() const { return Bullet_Position.X; }
-	bool get_Active_Bullet_Status() const { return Active_Bullet_Status; }
-	void set_Bullet_Collision_wh_Enemy_car_status(bool truefalse) { Bullet_Collision_wh_Enemy_car_status = truefalse; }
-	bool get_Bullet_Collision_wh_Enemy_car_status() const { return Bullet_Collision_wh_Enemy_car_status; }
 	static void Jamm_Gun_till_reload() {
 		SetConsoleCursorPosition(Console, { 34,28 });
 		SetConsoleTextAttribute(Console, 9);
@@ -366,13 +344,11 @@ public:
 	~Gun() {
 		bullet = "\x18";
 		Bullet_Position = { 0 ,0 };
-		Active_Bullet_Status = 0;
-		if (Number_of_Active_Bullets != 0)
-			Number_of_Active_Bullets--;
+		int Bullet_color = 9;
 	}
 };
 int Gun::Gun_Maganize = 5;
-int Gun::Number_of_Active_Bullets = 0; // static initialization
+//int Gun::Number_of_Active_Bullets = 0; // static initialization
 int Gun::Maganize_Counter = 0; // static initialization
 bool Gun::Maganize_Reload[10] = { true };
 class Enemy_car : public Game_Play		//***** Enemy Car *****//
@@ -694,7 +670,6 @@ int main()
 	//}
 	int y = 1;	int Profile_Selected, Car_Selected, Input[5], No_of_Enemies = 4;
 	Driver Player_profile[15];
-	Gun temp;
 	//cout << "\nDo you want to Read Players Records\?\nPress 1 to Read (any other key to leave)";
 	//y = _getch() - '0';	cout << "\a";
 	if (y == 1 || 1)
@@ -762,7 +737,7 @@ int main()
 			Player_Profile_Menu(Input[1], ADMIN, Player_profile[Profile_Selected], Player_Welcome_Message);
 			while (Input[1] >= 1 || Input[1] <= 7)
 			{
-				if (Input[1] == 1)				//Select Car and Play
+				if (Input[1] == 1)  //Select Car and Play
 				{
 					if (Player_profile[Profile_Selected].get_Number_of_Cars_Owned() == 0)
 					{
@@ -794,7 +769,7 @@ int main()
 						Print_Center_Aligned("Select your Car", 4, 15);//SetConsoleCursorPosition(Console, { 55,4 });
 						COORD Printing_Cords = { 33 ,7 };
 						int Counter = 0;
-						for (loop_iterator = 0; loop_iterator < 10; loop_iterator++)
+						for (int loop_iterator = 0; loop_iterator < 10; loop_iterator++)
 							if (Player_profile[Profile_Selected].check_if_Player_has_Car(loop_iterator))
 							{
 								if (Counter == 5) {
@@ -864,7 +839,6 @@ int main()
 							while (ch1 != 'q' && Game_Running)
 							{
 								string Coins_Message = "Coins " + to_string(Player_profile[Profile_Selected].get_Coins());
-								Sleep(Player.get_Difficulty());
 								PrintInterface("Coins", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 								PrintInterface_Wh_Percentage("Coins", 87, 7, 14, Player_profile[Profile_Selected].get_Coins());
 								//PrintInterface("Coins", { short(UI_NEW.X * (87) / 100 - Coins_Message.size() / 2), 7 }, 14, Player_profile[Profile_Selected].get_Coins());
@@ -894,14 +868,15 @@ int main()
 									}
 									else if (ch1 == 32 && Player.get_items_Availabe_fr_Driv(0) || Player.get_items_Availabe_fr_Driv(2) && Gun_jammed_Status() && ch1 == 32)
 									{
+										//Gun temp;
 										if (Gun_jammed_Status())
 										{
-											temp.Fire_Bullet(Player, 1);
-											Bullets_list.insert_end(temp);
-											Gun::Number_of_Active_Bullets++;
-											//Bullets_list.get_Node_by_Pos(Gun::Number_of_Active_Bullets)->get_Data().Fire_Bullet(Player, 1);
-											//bullets[Gun::Number_of_Active_Bullets].Fire_Bullet(Player, 1);		//now remove
-								  		}
+											//temp.Fire_Bullet(Player, 1);
+											Bullets_list.insert_end({});
+											Bullets_list.get_Node_by_Pos(Bullets_list.Number_of_Nodes())->Data.Fire_Bullet(Player, 1);
+											//Bullets_list.insert_end(temp);
+											//temp.~Gun();
+										}
 										if (Gun::Maganize_Counter % Gun::get_Gun_Maganize() == 0 && Gun::Maganize_Counter != 0)
 										{
 											SetConsoleCursorPosition(Console, { 44,28 });
@@ -910,11 +885,11 @@ int main()
 												Gun::Maganize_Reload[loop_iterator] = false;
 										}
 										if (Player.get_items_Availabe_fr_Driv(2) && Gun_jammed_Status()) {
-											Gun::Number_of_Active_Bullets++;
-											//bullets[Gun::Number_of_Active_Bullets].Fire_Bullet(Player, 2);		//now remove
-											temp.Fire_Bullet(Player, 2);
-											Bullets_list.insert_end(temp);
-											//Bullets_list.get_Node_by_Pos(Gun::Number_of_Active_Bullets)->get_Data().Fire_Bullet(Player, 2);
+											//temp.Fire_Bullet(Player, 2);
+											Bullets_list.get_Node_by_Pos(Bullets_list.Number_of_Nodes())->Data.Fire_Bullet(Player, 2);
+											Bullets_list.insert_end({});
+											//Bullets_list.insert_end(temp);
+											//temp.~Gun();
 											if (Gun::Maganize_Counter % Gun::get_Gun_Maganize() == 0 && Gun::Maganize_Counter != 0)
 											{
 												SetConsoleCursorPosition(Console, { 42,28 });
@@ -955,11 +930,11 @@ int main()
 										if ((Position_Cordinates_enemy.Y - 1) >= Player_Position.Y && (Position_Cordinates_enemy.Y - 11) <= Player_Position.Y)//(//Position_Cordinates.Y - 1) == Player_Position.Y 
 										{
 											if (Position_Cordinates_enemy.X == Player_Position.X
-												|| Position_Cordinates_enemy.X + 1 == Player_Position.X		//player right by one, enemy left(pos).
-												|| Position_Cordinates_enemy.X + 2 == Player_Position.X	//// player right by two, enemy left(pos).
+												|| Position_Cordinates_enemy.X + 1 == Player_Position.X	 //player right by one, enemy left(pos).
+												|| Position_Cordinates_enemy.X + 2 == Player_Position.X	 //player right by two, enemy left(pos).
 												|| Player.get_Car_width() == 4 && Position_Cordinates_enemy.X + 3 == Player_Position.X //(pos)player right ,enemy left.   player most left collision with enemy most right(disable in thinner car)
-												|| Position_Cordinates_enemy.X - 3 == Player_Position.X	//(pos)player left ,enemy right.   player most right collision with enemy most left
-												|| Position_Cordinates_enemy.X - 2 == Player_Position.X	// player left by two, enemy right(pos).
+												|| Position_Cordinates_enemy.X - 3 == Player_Position.X	 //(pos)player left ,enemy right.   player most right collision with enemy most left
+												|| Position_Cordinates_enemy.X - 2 == Player_Position.X	 // player left by two, enemy right(pos).
 												|| Position_Cordinates_enemy.X - 1 == Player_Position.X)	// player left by one, enemy right(pos).			
 											{
 												// COLLISION DETECTION !!!
@@ -1011,33 +986,17 @@ int main()
 										//for (int loop_iterator = 0; loop_iterator < Gun::Number_of_Active_Bullets; loop_iterator++)
 										for (int loop_iterator = 1; loop_iterator <= Bullets_list.Number_of_Nodes(); loop_iterator++)
 										{
-											if (Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Active_Bullet_Status() == 0)
+											if (Enemy2[enemy_loop].getPosition_Y() == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 1 == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 2 == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 3 == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 4 == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y())
 											{
-												//Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().~Gun();
-												//for (int j = loop_iterator; j < Gun::Number_of_Active_Bullets; j++) {
-												Bullets_list.delete_Node(Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data());
-												//Bullets_list.get_Node_by_Pos(j)->set_Data(Bullets_list.get_Node_by_Pos(j + 1)->get_Data());
-													//bullets[j] = bullets[j + 1];
-												//}
-											}
-											if (Enemy2[enemy_loop].getPosition_Y() == Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 1 == Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 2 == Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 3 == Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 4 == Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Bullet_Position_Y())
-											{
-												if (Enemy2[enemy_loop].getPosition_X() == Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Bullet_Position_X()		//left most (1st col)
-													|| (Enemy2[enemy_loop].getPosition_X() + 1) == Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Bullet_Position_X()	// 2nd column
-													|| (Enemy2[enemy_loop].getPosition_X() + 2) == Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Bullet_Position_X()	//3rd col
-													|| (Enemy2[enemy_loop].getPosition_X() + 3) == Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().get_Bullet_Position_X())	//4th col, right most
+												if (Enemy2[enemy_loop].getPosition_X() == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_X()		//left most (1st col)
+													|| (Enemy2[enemy_loop].getPosition_X() + 1) == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_X()	// 2nd column
+													|| (Enemy2[enemy_loop].getPosition_X() + 2) == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_X()	//3rd col
+													|| (Enemy2[enemy_loop].getPosition_X() + 3) == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_X())	//4th col, right most
 												{
 													Enemy2[enemy_loop].Update_Position_Y(Position_Cordinates_enemy.Y - 5);
 													Enemy2[enemy_loop].Erase_Car();
 													Enemy2[enemy_loop].resetEnemy();
-													//Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().~Gun();
-													//for (int j = loop_iterator; j < Gun::Number_of_Active_Bullets; j++)
-													for (int j = loop_iterator; j < Bullets_list.Number_of_Nodes(); j++)
-													{
-														Bullets_list.delete_Node(Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data());
-														//	Bullets_list.delete_Node(Bullets_list.get_Node_by_Pos(j)->get_Data());
-															//bullets[j] = bullets[j + 1];
-													}
+													Bullets_list.delete_Node(Bullets_list.get_Node_by_Pos(loop_iterator)->Data);
 													++Player;
 													Player.display_Score();
 													if (Player.get_score() > Player_profile[Profile_Selected].get_high_score())
@@ -1051,17 +1010,38 @@ int main()
 														}
 													}
 													PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
-													Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().set_Bullet_Collision_wh_Enemy_car_status(1);
 												}
 											}
 										}
 									}
 								}
-								Gun::Number_of_Active_Bullets = Bullets_list.Number_of_Nodes();
-								cout << "Gun::Number_of_Active_Bullets:" << Gun::Number_of_Active_Bullets;
-								//for (loop_iterator = 0; loop_iterator < Gun::Number_of_Active_Bullets; loop_iterator++)
-								for (loop_iterator = 1; loop_iterator <= Bullets_list.Number_of_Nodes(); loop_iterator++)
-									Bullets_list.get_Node_by_Pos(loop_iterator)->get_Data().Move_Bullet();
+								if (Bullets_list.Number_of_Nodes() >= 1) {
+									//Gun::Number_of_Active_Bullets = Bullets_list.Number_of_Nodes();
+									//cout << "Gun::Number_of_Active_Bullets:" << Gun::Number_of_Active_Bullets;
+									//for (loop_iterator = 0; loop_iterator < Gun::Number_of_Active_Bullets; loop_iterator++)
+									Node<Gun>* Temp = Bullets_list.get_head();
+									Gun Temp1;
+									do
+									{
+										//short new_CORDS = Temp->Data.get_Bullet_Position_Y() - 1;
+										//Temp->Data.Move_Bullet();
+										if (Temp->Data.Move_Bullet()) {
+											Temp1 = Temp->Data;
+											Temp = Temp->next;
+											Bullets_list.delete_Node(Temp1);
+										}
+										if (Bullets_list.isEmpty())
+											break;
+										Temp = Temp->next;
+									} while (Temp != Bullets_list.get_head());
+									/*	for (int loop_iterator = 1; loop_iterator <= Bullets_list.Number_of_Nodes(); loop_iterator++) {
+
+											Bullets_list.get_Node_by_Pos(loop_iterator)->Data.Move_Bullet();
+										}*/
+								}
+								Sleep(Player.get_Difficulty());
+								//Sleep(100);
+
 							}
 						}
 					}

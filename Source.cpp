@@ -104,7 +104,8 @@ public:
 	}
 	void Display_items_Owned() const
 	{
-		short position = 12;
+		static short position;
+		position = 12;
 		for (loop_iterator = 0; loop_iterator < 4; loop_iterator++)
 			if (Items_Owned_Check[loop_iterator] == true || Items_Owned_Check[loop_iterator] == 1) {
 				SetConsoleCursorPosition(Console, { 55, position++ });
@@ -637,7 +638,7 @@ int main()
 	UI_NEW.X = csbi.srWindow.Right - csbi.srWindow.Left;   //x hori
 	//Player_GamePlay Car1;
 	SetConsoleTextAttribute(Console, 15);
-	Items_Shop items[4];	/* ITEMS SHOP */	Car_Shop Cars_Shop[10]; /* CARS SHOP */
+	Items_Shop items[4];	/* ITEMS SHOP */	Car_Shop Cars_Shop[9]; /* CARS SHOP */
 	{ifstream ifstream_ob;
 	ifstream_ob.open("Items_Inventory.txt", ios::in);
 	ifstream_ob.read((char*)&items, sizeof(items));
@@ -680,8 +681,6 @@ int main()
 		for (loop_iterator = 0; loop_iterator < sizeof(Player_profile) / sizeof(Driver); loop_iterator++)
 			if (Player_profile[loop_iterator].get_IsActive_Status())
 				Player_profile->Increment_No_of_Profiles();
-		cout << Driver::No_of_Player_Profiles << endl;
-
 	}
 	{
 		Cars_Shop[0].set_Car_Shape(" ^^ *±±* ±± *±±* -- ");
@@ -705,13 +704,13 @@ int main()
 	while (Input[0] == 1 || Input[0] == 2 || Input[0] == 3)
 	{
 		short position2 = 7, position = 0;
-		char chcheck = 't';
+		static char chcheck = 't';
 		switch (Input[0])
 		{
 		case 1:	//Select Profile
 		{
 			system("CLS");
-			string message;
+			static string message;
 			while (1) {
 				position = 10;
 				get_console_size();
@@ -733,8 +732,11 @@ int main()
 			//Validate_Input(0, Profile_Selected, Driver::get_No_of_Player_Profiles());
 			//Selected_Driver_0 = Player_profile[Profile_Selected];
 			Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
-			string Player_Welcome_Message = "Welcome back  !";	Player_Welcome_Message.insert(13, Player_profile[Profile_Selected].get_Driver_Name());
-			Player_Profile_Menu(Input[1], ADMIN, Player_profile[Profile_Selected], Player_Welcome_Message);
+			message = "Welcome back  !";
+			//static string Player_Welcome_Message = "Welcome back  !";
+			//Player_Welcome_Message = "Welcome back  !"; 
+			message.insert(13, Player_profile[Profile_Selected].get_Driver_Name());
+			Player_Profile_Menu(Input[1], ADMIN, Player_profile[Profile_Selected], message);
 			while (Input[1] >= 1 || Input[1] <= 7)
 			{
 				if (Input[1] == 1)  //Select Car and Play
@@ -742,7 +744,6 @@ int main()
 					if (Player_profile[Profile_Selected].get_Number_of_Cars_Owned() == 0)
 					{
 						int loop_iterator = 0;
-						string Coins_Message = "Coins " + to_string(Player_profile[Profile_Selected].get_Coins());
 						Reponsive_UI_PauseResume = 1;
 						system("CLS");
 						while (Reponsive_UI_PauseResume)
@@ -795,7 +796,7 @@ int main()
 						if (Input[2] == 1)								Player.set_Difficulty(25);		//Easy
 						else if (Input[2] == 2) { No_of_Enemies = 5;	Player.set_Difficulty(15); } //Medium
 						else if (Input[2] == 3) { No_of_Enemies = 6;	Player.set_Difficulty(5); } //Hard
-						char ch1;
+						static char ch1;
 						SetConsoleTextAttribute(Console, 15);
 						SetConsoleCursorPosition(Console, { 15,22 });
 						cout << "q - Cancel";
@@ -944,7 +945,7 @@ int main()
 													cout << "\b\b" << Player.get_score();
 													Print_Center_Aligned("0. Restrart\t\t\t               ", 14, 10);
 													Print_Center_Aligned("\t\t\tPress any key to Continue", 14, 10);
-													int INPUTGAMEPLAY = 12;
+													static int INPUTGAMEPLAY = 12;
 													for (loop_iterator = 0; loop_iterator < 100099999; loop_iterator++) {}
 													INPUTGAMEPLAY = _getch() - '0';
 													if (INPUTGAMEPLAY == 0) {
@@ -1006,7 +1007,7 @@ int main()
 								}
 								if (Bullets_list.Number_of_Nodes() >= 1) {
 									Node<Gun>* Temp = Bullets_list.get_head();
-									Gun Temp1;
+									static Gun Temp1;
 									do
 									{
 										if (Temp->Data.Move_Bullet()) {
@@ -1091,7 +1092,8 @@ int main()
 						system("CLS");
 						PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 						Printing_Cords = { 40, 11 };
-						int Color = Player_profile[Profile_Selected].get_Car_Color(Input[2]);
+						static int Color;
+						Color = Player_profile[Profile_Selected].get_Car_Color(Input[2]);
 						Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Color);
 						SetConsoleCursorPosition(Console, { 55,12 });
 						cout << "1. Change Car color";
@@ -1127,21 +1129,24 @@ int main()
 							cout << "21. Apply Paint for 50 coins";
 							Input[3] = _getch() - '0';		string s1 = to_string(Input[3]);
 							Input[3] = _getch() - '0';	cout << "\a";	string s2 = to_string(Input[3]);
-							string Final_Option = s1 + s2;
-							int Final_Option_Num = stoi(Final_Option);
-							int temp_Last_option = Final_Option_Num;
-							while (Final_Option_Num >= 1 && Final_Option_Num <= 15)
+							//string * Final_Option = &s1 + &s2;
+							string* Final_Option = new string;
+							*Final_Option = s1 + s2;
+							int* Final_Option_Num = new int;
+							*Final_Option_Num = stoi(*Final_Option);
+							int temp_Last_option = *Final_Option_Num;
+							while (*Final_Option_Num >= 1 && *Final_Option_Num <= 15)
 							{
 								Printing_Cords = { 40, 11 };
-								Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 0, Final_Option_Num);
-								temp_Last_option = Final_Option_Num;
+								Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 0, *Final_Option_Num);
+								temp_Last_option = *Final_Option_Num;
 								Input[3] = _getch() - '0';	string s1 = to_string(Input[3]);
 								Input[3] = _getch() - '0';	cout << "\a";	string s2 = to_string(Input[3]);
 								string Final_Option = s1 + s2;
-								Final_Option_Num = stoi(Final_Option);
+								*Final_Option_Num = stoi(Final_Option);
 							}
 							SetConsoleTextAttribute(Console, 15);
-							if (Final_Option_Num == 21 && !(temp_Last_option == Final_Option_Num))
+							if (*Final_Option_Num == 21 && !(temp_Last_option == *Final_Option_Num))
 							{
 								if (Player_profile[Profile_Selected].get_Coins() >= 50)
 								{
@@ -1159,14 +1164,17 @@ int main()
 									//cout << "Insuffient Balance To Apply New Paint!";
 									for (loop_iterator = 0; loop_iterator < 90000100; loop_iterator++) {}
 							}
+							delete Final_Option;
+							delete Final_Option_Num;
 						}
 						if (Input[3] == 2) {
 							system("CLS");
 							PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 							Printing_Cords = { 40, 11 };
-							int Color = Player_profile[Profile_Selected].get_Car_Color(Input[2]);
+							static int Color;
+							Color = Player_profile[Profile_Selected].get_Car_Color(Input[2]);
 							Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Color);
-							char UserInput;
+							static char UserInput;
 							SetConsoleCursorPosition(Console, { 55,8 });	cout << "Sell Car for " << Cars_Shop[Input[2]].get_price() / 2 << "\?";
 							SetConsoleCursorPosition(Console, { 55,10 });	cout << "N. Don't Sell";
 							SetConsoleCursorPosition(Console, { 55,12 });	cout << "Y. Sell";
@@ -1251,9 +1259,9 @@ int main()
 				if (Input[1] == 7)
 					break;
 
-				Player_Welcome_Message = "Welcome  !";
-				Player_Welcome_Message.insert(8, Player_profile[Profile_Selected].get_Driver_Name());
-				Player_Profile_Menu(Input[1], ADMIN, Player_profile[Profile_Selected], Player_Welcome_Message); // 7 options of Player Profile
+				message = "Welcome  !";
+				message.insert(8, Player_profile[Profile_Selected].get_Driver_Name());
+				Player_Profile_Menu(Input[1], ADMIN, Player_profile[Profile_Selected], message); // 7 options of Player Profile
 				if (Player.get_score() > Player_profile[Profile_Selected].get_high_score())
 					Player_profile[Profile_Selected].update_high_Score(Player.get_score());
 				if (Input[1] == 7)

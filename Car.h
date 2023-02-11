@@ -1,6 +1,6 @@
 #pragma once
 class Car {
-protected:
+private:
 	char Car_Shape[25]{ 0 };
 	int Car_Color;
 	int Car_Width;

@@ -81,7 +81,7 @@ void Print_Center_Aligned(string Message, short Horizontal_Sc_height, int Text_c
 }
 class Driver
 {
-protected:
+private:
 	char Driver_Name[50] = "";			int High_score;		int Coins;		bool isActive{ 0 };
 	char Items_Owned_Names[51][50];		bool Items_Owned_Check[10];
 	Car Car_Owned[10];					bool Cars_Owned_Check[10];
@@ -104,8 +104,7 @@ public:
 	}
 	void Display_items_Owned() const
 	{
-		static short position;
-		position = 12;
+		short position = 12;
 		for (loop_iterator = 0; loop_iterator < 4; loop_iterator++)
 			if (Items_Owned_Check[loop_iterator] == true || Items_Owned_Check[loop_iterator] == 1) {
 				SetConsoleCursorPosition(Console, { 55, position++ });
@@ -152,7 +151,7 @@ public:
 int Driver::No_of_Player_Profiles = -1;
 class Player_GamePlay : public Game_Play	//Player car
 {
-protected:
+private:
 	Driver Driver_of_Car;
 	int Score;
 	int Lives;
@@ -243,7 +242,7 @@ public:
 	void operator++() { Score++; }
 };
 class Gun {
-protected:
+private:
 	int Bullet_color = 9;
 	string bullet = "\x18";
 	COORD Bullet_Position;
@@ -353,7 +352,7 @@ int Gun::Maganize_Counter = 0; // static initialization
 bool Gun::Maganize_Reload[10] = { true };
 class Enemy_car : public Game_Play		//***** Enemy Car *****//
 {
-protected:
+private:
 	bool Enemy_car_Active;
 public:
 	Enemy_car() {

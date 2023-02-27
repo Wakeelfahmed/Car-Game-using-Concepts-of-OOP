@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 #include<fstream>
 #include<conio.h>
 #include<ctime>
@@ -13,7 +13,7 @@ COORD UI_NEW, UI_OLD;
 bool Reponsive_UI_PauseResume = 0, Reponsive_UI_Thread_Running = 0, RESPONSIVE_THREADING = 1;
 CONSOLE_SCREEN_BUFFER_INFO csbi;
 HANDLE Console = GetStdHandle(STD_OUTPUT_HANDLE);
-int loop_iterator = 0;
+short loop_iterator = 0;
 void hidecursor()
 {
 	CONSOLE_CURSOR_INFO info;
@@ -23,7 +23,7 @@ void hidecursor()
 }
 class SUPERADMIN {
 private:
-	int Password; //To Allow ADMIN TO ACCESS Special Features.
+	short Password; //To Allow ADMIN TO ACCESS Special Features.
 	COORD Coins;
 	COORD Score;
 	COORD High_Score;
@@ -46,7 +46,7 @@ public:
 void get_console_sz_THREAD()
 {
 	//cout << "CALLED";
-	//for (int i = 0; i < 1000000; i++) {}
+	//for (short i = 0; i < 1000000; i++) {}
 	while (RESPONSIVE_THREADING)
 		while (Reponsive_UI_Thread_Running)
 		{
@@ -58,17 +58,17 @@ void get_console_sz_THREAD()
 				system("CLS");
 		}
 }
-void Print_Center_Aligned(string Message, short Horizontal_Sc_height, int Text_color) {
-	short Message_Newlegth = Message.size();
+void Print_Center_Aligned(string Message, short Horizontal_Sc_height, short Text_color) {
+	short Message_Newlegth = short(Message.size());
 	short Correction = 0;
-	int Message_legth_Correction = Message.size();
+	short Message_legth_Correction = short(Message.size());
 	if (Message.size() % 2 == 1) {
 		Correction++;
-		Message_legth_Correction = (Message.size() / 2);
+		Message_legth_Correction = short((Message.size() / 2));
 	}
 	else {
 		Correction++;//cout << "here";
-		Message_legth_Correction = (Message.size() / 2) - 1;  //org -1    // Center Align
+		Message_legth_Correction = short((Message.size() / 2) - 1);  //org -1    // Center Align
 		if (UI_NEW.X % 2 == 1)
 		{
 			Message_legth_Correction += 1;
@@ -83,47 +83,31 @@ class Driver
 {
 private:
 	char Driver_Name[50] = "";			int High_score;		int Coins;		bool isActive{ 0 };
-	char Items_Owned_Names[51][50];		bool Items_Owned_Check[10];
+	bool Items_Owned_Check[10];
 	Car Car_Owned[10];					bool Cars_Owned_Check[10];
 public:
-	static int No_of_Player_Profiles;
+	static short No_of_Player_Profiles;
 	Driver() : Coins(4000), High_score(0), Items_Owned_Check{ false }, Cars_Owned_Check{ false }, isActive(false) {}
 	bool get_IsActive_Status()const { return isActive; }
-	int static get_No_of_Player_Profiles() { return No_of_Player_Profiles; }
+	short static get_No_of_Player_Profiles() { return No_of_Player_Profiles; }
 	void static Increment_No_of_Profiles() { No_of_Player_Profiles++; }
 	static void reset_Number_ofProfiles() { No_of_Player_Profiles = -1; }
 	void set_Player_Name() { isActive = true;  Print_Center_Aligned("Enter Name: ", 7, 15); cin.getline(Driver_Name, 50, '\n'); /*cout << "Enter Name: "; */ }
 	char* get_Driver_Name() { return Driver_Name; }
-	void Buy_Item(char Name[], int Item_Index) {
-		strcpy_s((Items_Owned_Names[Item_Index]), Name);
-		Items_Owned_Check[Item_Index] = true;
-	}
-	char* get_item_Owned_Name(int index) {
-		if (Items_Owned_Check[index] == 1 || Items_Owned_Check[index] == true)
-			return Items_Owned_Names[index];
-	}
-	void Display_items_Owned() const
-	{
-		short position = 12;
-		for (loop_iterator = 0; loop_iterator < 4; loop_iterator++)
-			if (Items_Owned_Check[loop_iterator] == true || Items_Owned_Check[loop_iterator] == 1) {
-				SetConsoleCursorPosition(Console, { 55, position++ });
-				cout << loop_iterator << ". " << Items_Owned_Names[loop_iterator];
-			}
-	}
+	void Buy_Item(char Name[], short Item_Index) { Items_Owned_Check[Item_Index] = true; }
 	void update_high_Score(int new_high_score) { High_score = High_score + (new_high_score - High_score); }
 	int get_high_score() const { return High_score; }
-	void set_Player_Has_Car(int Car_Number, bool TrueFalse) { Cars_Owned_Check[Car_Number] = TrueFalse; }
-	bool check_if_Player_has_item(int item_Index) const { return Items_Owned_Check[item_Index]; }
-	bool check_if_Player_has_Car(int item_Index) const { return Cars_Owned_Check[item_Index]; }
-	void Buy_Car(Car New_Car, int Car_Number) { Car_Owned[Car_Number] = New_Car; Cars_Owned_Check[Car_Number] = true; }
-	void set_Car_Color(int Color, int Car_Number) { Car_Owned[Car_Number].set_Car_Color(Color); }
-	int get_Car_width(int index) const { return Car_Owned[index].get_Car_Width(); }
-	int get_Car_Color(int Car_Number) const { return Car_Owned[Car_Number].get_Car_Color(); }
-	Car get_Player_Car(int Car_Number) const { return Car_Owned[Car_Number]; }
-	int get_Number_of_Cars_Owned() const
+	void set_Player_Has_Car(short Car_Number, bool TrueFalse) { Cars_Owned_Check[Car_Number] = TrueFalse; }
+	bool check_if_Player_has_item(short item_Index) const { return Items_Owned_Check[item_Index]; }
+	bool check_if_Player_has_Car(short item_Index) const { return Cars_Owned_Check[item_Index]; }
+	void Buy_Car(Car New_Car, short Car_Number) { Car_Owned[Car_Number] = New_Car; Cars_Owned_Check[Car_Number] = true; }
+	void set_Car_Color(short Color, short Car_Number) { Car_Owned[Car_Number].set_Car_Color(Color); }
+	short get_Car_width(short index) const { return Car_Owned[index].get_Car_Width(); }
+	short get_Car_Color(short Car_Number) const { return Car_Owned[Car_Number].get_Car_Color(); }
+	Car get_Player_Car(short Car_Number) const { return Car_Owned[Car_Number]; }
+	short get_Number_of_Cars_Owned() const
 	{
-		int Counter = 0;
+		short Counter = 0;
 		for (loop_iterator = 0; loop_iterator < 10; loop_iterator++)
 			if (Cars_Owned_Check[loop_iterator] == true)
 				Counter++;
@@ -144,17 +128,16 @@ public:
 			Items_Owned_Check[loop_iterator] = false;
 			Cars_Owned_Check[loop_iterator] = false;
 			Car_Owned[loop_iterator].~Car();
-			strcpy_s(Items_Owned_Names[loop_iterator], "");
 		}
 	}
 };
-int Driver::No_of_Player_Profiles = -1;
+short Driver::No_of_Player_Profiles = -1;
 class Player_GamePlay : public Game_Play	//Player car
 {
 private:
 	Driver Driver_of_Car;
 	int Score;
-	int Lives;
+	short Lives;
 public:
 	Player_GamePlay() { Position_Cordinates = { 45,21 };	Score = 0;		Lives = 3; }
 	void set_Driver_of_Car(Driver DriverofCar) { Driver_of_Car = DriverofCar; }
@@ -214,7 +197,7 @@ public:
 			}
 		}
 	}
-	bool get_items_Availabe_fr_Driv(int Index) const {
+	bool get_items_Availabe_fr_Driv(short Index) const {
 		return Driver_of_Car.check_if_Player_has_item(Index);
 	}
 	void display_Score() const {
@@ -225,7 +208,7 @@ public:
 	}
 	void reset_Score() { Score = 0; }
 	int get_score() const { return Score; }
-	int get_Lives() const { return Lives; }
+	short get_Lives() const { return Lives; }
 	void Display_Lives(COORD Lives_Setting) const {
 		SetConsoleCursorPosition(Console, { Lives_Setting.X,short(Lives_Setting.Y - 1) });
 		SetConsoleTextAttribute(Console, 13);
@@ -243,21 +226,21 @@ public:
 };
 class Gun {
 private:
-	int Bullet_color = 9;
+	short Bullet_color = 9;
 	string bullet = "\x18";
 	COORD Bullet_Position;
 public:
-	static int Gun_Maganize;
-	static int Maganize_Counter;
+	static short Gun_Maganize;
+	static short Maganize_Counter;
 	static bool Maganize_Reload[10];
 	Gun()
 	{
 		bullet = "\x18";
 		//Gun_Maganize = 5;
 	}
-	static void update_Gun_Maganize(int newMaganize) { Gun_Maganize = newMaganize; }
-	static int get_Gun_Maganize() { return  Gun_Maganize; }
-	void Fire_Bullet(Player_GamePlay Player, int Signal)
+	static void update_Gun_Maganize(short newMaganize) { Gun_Maganize = newMaganize; }
+	static short get_Gun_Maganize() { return  Gun_Maganize; }
+	void Fire_Bullet(Player_GamePlay Player, short Signal)
 	{
 		Maganize_Counter++;
 		Bullet_Position = Player.get_Player_Position();
@@ -300,7 +283,7 @@ public:
 	COORD get_Bullet_Position() const { return Bullet_Position; }
 	short get_Bullet_Position_Y() const { return Bullet_Position.Y; }
 	void set_Bullet_Position_Y(short Y) { Bullet_Position.Y = Y; }
-	int get_Bullet_Position_X() const { return Bullet_Position.X; }
+	short get_Bullet_Position_X() const { return Bullet_Position.X; }
 	static void Jamm_Gun_till_reload() {
 		SetConsoleCursorPosition(Console, { 34,28 });
 		SetConsoleTextAttribute(Console, 9);
@@ -339,7 +322,7 @@ public:
 			return;
 		}
 	}
-	static bool get_Maganize_Reload(int index) { return Maganize_Reload[index]; }
+	static bool get_Maganize_Reload(short index) { return Maganize_Reload[index]; }
 	bool operator==(const Gun Gun2) const { return (Bullet_Position.X == Gun2.Bullet_Position.X && Bullet_Position.Y == Gun2.Bullet_Position.Y); }
 	~Gun() {
 		bullet = "\x18";
@@ -347,8 +330,8 @@ public:
 		Bullet_color = 9;
 	}
 };
-int Gun::Gun_Maganize = 5;
-int Gun::Maganize_Counter = 0; // static initialization
+short Gun::Gun_Maganize = 5;
+short Gun::Maganize_Counter = 0; // static initialization
 bool Gun::Maganize_Reload[10] = { true };
 class Enemy_car : public Game_Play		//***** Enemy Car *****//
 {
@@ -359,10 +342,10 @@ public:
 		Position_Cordinates.X = generate_Enemy_X_coordinate();
 		Position_Cordinates.Y = 4;	//Starting point of Enemy
 		Game_Car.set_Car_Color(12);
-		char Car[25] = " -- *±±*±±±±*±±* vv ";
+		char Car[25] = " -- *Â±Â±*Â±Â±Â±Â±*Â±Â±* vv ";
 		Game_Car.set_Car_Shape(Car);
 	}
-	int generate_Enemy_X_coordinate() { return 0 + (rand() % WIN_WIDTH + 2); }
+	short generate_Enemy_X_coordinate() { return 0 + (rand() % WIN_WIDTH + 2); }
 	void resetEnemy() {
 		Position_Cordinates.X = generate_Enemy_X_coordinate();
 		Position_Cordinates.Y = 4;
@@ -380,9 +363,9 @@ public:
 				strcpy_s(car, Game_Car.get_Car_Shape());
 				Position_Cordinates.Y++;
 				SetConsoleCursorPosition(Console, Position_Cordinates);
-				int count = 0;
+				short count = 0;
 				new_Position = Position_Cordinates;
-				int counter = 0;
+				short counter = 0;
 				for (loop_iterator = 19; loop_iterator >= 0; loop_iterator--)
 				{
 					counter++;
@@ -426,12 +409,12 @@ public:
 		Position_Cordinates = { 0, 4 };
 	}
 };
-void Validate_Input(int start, int& Input, int end) {
+void Validate_Input(short start, short& Input, short end) {
 	while (Input < start || Input > end)
 		Input = _getch() - '0';
 }
 bool Gun_jammed_Status() {
-	int Counter = 0;
+	short Counter = 0;
 	for (loop_iterator = 0; loop_iterator < 3; loop_iterator++) {
 		if (Gun::get_Maganize_Reload(loop_iterator) == true)
 			Counter++;
@@ -442,15 +425,15 @@ bool Gun_jammed_Status() {
 	//cout << "  !NO FIRE  ";
 	return false;
 }
-void Print_Car_Char_Array(Car_Shop Cars[], COORD& position, int loop_iterator, bool signal, int Color) {
+void Print_Car_Char_Array(Car_Shop Cars[], COORD& position, short loop_iterator, bool signal, short Color) {
 	SetConsoleCursorPosition(Console, { short(position.X - 3), short(position.Y + 2) });
 	SetConsoleTextAttribute(Console, 15);//White - 15
 	cout << loop_iterator << ". ";
-	int yincrease = position.Y;
-	char* car = Cars[loop_iterator].get_Car_Shape();	//	" ^^ [±±] ±± [±±] -- ";  " ^^ \n[±±]\n ±± \n[±±]\n -- "
+	short yincrease = position.Y;
+	char* car = Cars[loop_iterator].get_Car_Shape();	//	" ^^ [Â±Â±] Â±Â± [Â±Â±] -- ";  " ^^ \n[Â±Â±]\n Â±Â± \n[Â±Â±]\n -- "
 	SetConsoleCursorPosition(Console, { position.X,position.Y });
 	SetConsoleTextAttribute(Console, Color);
-	for (int j = 0; j < strlen(car); j++)
+	for (short j = 0; j < strlen(car); j++)
 	{
 		if (j % (4) == 0)
 			SetConsoleCursorPosition(Console, { position.X,short(yincrease++) });
@@ -476,7 +459,7 @@ void get_console_size()
 	}
 }
 string Reference_Message = "1. Career / Profile";
-void Validate_Input_on_Kbhit(int start, int& Input, int end) {
+void Validate_Input_on_Kbhit(short start, short& Input, short end) {
 	if (Input < start || Input > end)
 		if (_kbhit())
 			Input = _getch() - '0';
@@ -491,9 +474,9 @@ void Print_GamePlay_Instructions(Player_GamePlay Player, bool signal) {
 		string message = "Instruction:";
 		short Message_legth_Correction;
 		if (message.size() % 2 == 1)
-			Message_legth_Correction = (message.size() / 2);
+			Message_legth_Correction = short((message.size() / 2));
 		else
-			Message_legth_Correction = (message.size() / 2) - 1;
+			Message_legth_Correction = short((message.size() / 2) - 1);
 		SetConsoleTextAttribute(Console, 15);
 		positionX = UI_NEW.X / 2 - Message_legth_Correction;	positionY = 7;	//positionX = 58; //positionX = UI_NEW.X / 2 - 4; good to go
 	}
@@ -519,9 +502,9 @@ void Print_Game_Instructions(Player_GamePlay Player) {
 	string message = "Instruction:";
 	short Message_legth_Correction;
 	if (message.size() % 2 == 1)
-		Message_legth_Correction = (message.size() / 2);
+		Message_legth_Correction = short((message.size() / 2));
 	else
-		Message_legth_Correction = (message.size() / 2) - 1;
+		Message_legth_Correction = short((message.size() / 2) - 1);
 	SetConsoleTextAttribute(Console, 15);
 	positionX = UI_NEW.X / 2 - Message_legth_Correction;	positionY = 7;	//positionX = 58; //positionX = UI_NEW.X / 2 - 4; good to go
 
@@ -546,20 +529,20 @@ void Print_Game_Instructions(Player_GamePlay Player) {
 	}
 }
 void Print_Left_wh_refer_Message(string Message, short Horizontal, string wh_respect_to) {
-	int correction = 0;
-	int Message_legth_Correction = wh_respect_to.size();
+	short correction = 0;
+	short Message_legth_Correction = short(wh_respect_to.size());
 	if (wh_respect_to.size() % 2 == 1) {
 		correction++;
-		Message_legth_Correction = (wh_respect_to.size() / 2);
+		Message_legth_Correction = short((wh_respect_to.size() / 2));
 	}
 	else {
-		Message_legth_Correction = (wh_respect_to.size() / 2) - 1;
+		Message_legth_Correction = short((wh_respect_to.size() / 2) - 1);
 		correction++;
 	}
 	SetConsoleCursorPosition(Console, { short(UI_NEW.X / 2 - Message_legth_Correction + correction) , Horizontal });
 	cout << Message;
 }
-void Main_Menu(int& Input, Driver Player_profile[], int size)
+void Main_Menu(short& Input, Driver Player_profile[], short size)
 {
 	system("CLS");
 	Player_profile->reset_Number_ofProfiles();
@@ -590,18 +573,18 @@ void Main_Menu(int& Input, Driver Player_profile[], int size)
 		}
 	}
 }
-void PrintInterface(string Message, COORD ADMIN, int color, int Value) {
+void PrintInterface(string Message, COORD ADMIN, short color, short Value) {
 	SetConsoleTextAttribute(Console, color);
 	SetConsoleCursorPosition(Console, ADMIN);
 	cout << Message << " " << Value << " ";
 }
-void PrintInterface_Wh_Percentage(string Message, short Percentage, short Horizontal, int color, int Value) {
+void PrintInterface_Wh_Percentage(string Message, short Percentage, short Horizontal, short color, short Value) {
 	string Interface_Message = Message + " " + to_string(Value);
 	SetConsoleTextAttribute(Console, color);
 	SetConsoleCursorPosition(Console, { short(UI_NEW.X * (Percentage) / 100 - Interface_Message.size() / 2),Horizontal });
 	cout << Message << " " << Value << " ";
 }
-void Player_Profile_Menu(int& Input, SUPERADMIN ADMIN, Driver Player_profile, string Message) {
+void Player_Profile_Menu(short& Input, SUPERADMIN ADMIN, Driver Player_profile, string Message) {
 	system("CLS");
 	while (1)
 	{
@@ -624,7 +607,7 @@ void Player_Profile_Menu(int& Input, SUPERADMIN ADMIN, Driver Player_profile, st
 		}
 	}
 }
-void Shop_Items_ReadWrite_Menu(int& input) {
+void Shop_Items_ReadWrite_Menu(short& input) {
 	cout << "Intentory Read() Wirte()\n0.View Exisiting Data\t1.Enter Data\t2.Write to File\t\n(any other key to leave)";
 	input = _getch() - '0';
 }
@@ -640,6 +623,9 @@ int main()
 	Items_Shop items[4];	/* ITEMS SHOP */	Car_Shop Cars_Shop[9]; /* CARS SHOP */
 	{ifstream ifstream_ob;
 	ifstream_ob.open("Items_Inventory.txt", ios::in);
+	if (!ifstream_ob) {
+		cout << "Error - Items_Inventory.txt Not Found !!\n"; _getch();
+	}
 	ifstream_ob.read((char*)&items, sizeof(items));
 	ifstream_ob.close(); }
 	//{items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
@@ -665,7 +651,7 @@ int main()
 	//	}
 	//	Shop_Items_ReadWrite_Menu(input);
 	//}
-	int y = 1;	int Profile_Selected, Car_Selected, Input[5], No_of_Enemies = 4;
+	short y = 1;	short Profile_Selected, Car_Selected, Input[5], No_of_Enemies = 4;
 	//list <Driver> Player_Profile_List;
 	Driver Player_profile[4];
 
@@ -682,15 +668,15 @@ int main()
 				Player_profile->Increment_No_of_Profiles();
 	}
 	{
-		Cars_Shop[0].set_Car_Shape(" ^^ *±±* ±± *±±* -- ");
-		Cars_Shop[1].set_Car_Shape(" ^^ [±±] ±± [±±] -- ");	Cars_Shop[1].set_Car_Width(4);
+		Cars_Shop[0].set_Car_Shape(" ^^ *Â±Â±* Â±Â± *Â±Â±* -- ");
+		Cars_Shop[1].set_Car_Shape(" ^^ [Â±Â±] Â±Â± [Â±Â±] -- ");	Cars_Shop[1].set_Car_Width(4);
 		Cars_Shop[2].set_Car_Shape("  \xEF  \xC9\xCB\xbb \xCC\xCE\xB9 \xC8\xCA\xBC \xCF\xCF\xCF");	Cars_Shop[2].set_Car_Width(3);	Cars_Shop[2].set_Car_Height(5);
-		Cars_Shop[3].set_Car_Shape(" ±± ±**± ** ±**±");										Cars_Shop[3].set_Car_Height(4);
-		Cars_Shop[4].set_Car_Shape(" ** ±**± ** ±**±");										Cars_Shop[4].set_Car_Height(4);
-		Cars_Shop[5].set_Car_Shape(" ^^ ±±±± ±± ±\xEF\xEF±");								Cars_Shop[5].set_Car_Height(4);
+		Cars_Shop[3].set_Car_Shape(" Â±Â± Â±**Â± ** Â±**Â±");										Cars_Shop[3].set_Car_Height(4);
+		Cars_Shop[4].set_Car_Shape(" ** Â±**Â± ** Â±**Â±");										Cars_Shop[4].set_Car_Height(4);
+		Cars_Shop[5].set_Car_Shape(" ^^ Â±Â±Â±Â± Â±Â± Â±\xEF\xEFÂ±");								Cars_Shop[5].set_Car_Height(4);
 		Cars_Shop[6].set_Car_Shape(" 00 0**0 ** 0**0");										Cars_Shop[6].set_Car_Height(4);
-		Cars_Shop[7].set_Car_Shape(" ^±^ ±±± *±* *±* ---");	Cars_Shop[7].set_Car_Width(3);	Cars_Shop[7].set_Car_Height(5);
-		Cars_Shop[8].set_Car_Shape("  \36  |±| ±±± ---");	Cars_Shop[8].set_Car_Width(3);	Cars_Shop[8].set_Car_Height(4);
+		Cars_Shop[7].set_Car_Shape(" ^Â±^ Â±Â±Â± *Â±* *Â±* ---");	Cars_Shop[7].set_Car_Width(3);	Cars_Shop[7].set_Car_Height(5);
+		Cars_Shop[8].set_Car_Shape("  \36  |Â±| Â±Â±Â± ---");	Cars_Shop[8].set_Car_Width(3);	Cars_Shop[8].set_Car_Height(4);
 		Cars_Shop[0].set_Car_Color(1);		Cars_Shop[1].set_Car_Color(2);		Cars_Shop[2].set_Car_Color(3);
 		Cars_Shop[3].set_Car_Color(14);		Cars_Shop[4].set_Car_Color(5);		Cars_Shop[5].set_Car_Color(6);
 		Cars_Shop[6].set_Car_Color(7);		Cars_Shop[7].set_Car_Color(8);		Cars_Shop[8].set_Car_Color(9);
@@ -742,13 +728,13 @@ int main()
 				{
 					if (Player_profile[Profile_Selected].get_Number_of_Cars_Owned() == 0)
 					{
-						int loop_iterator = 0;
+						short loop_iterator = 0;
 						Reponsive_UI_PauseResume = 1;
 						system("CLS");
 						while (Reponsive_UI_PauseResume)
 						{
 							get_console_size();
-							PrintInterface_Wh_Percentage("Coins", 87, 7, 14, Player_profile[Profile_Selected].get_Coins());
+							//PrintInterface_Wh_Percentage("Coins", 87, 7, 14, Player_profile[Profile_Selected].get_Coins());
 							PrintInterface("Coins", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 							//	PrintInterface("Coins", { short(UI_NEW.X * (87) / 100 - Coins_Message.size() / 2), 7 }, 14, Player_profile[Profile_Selected].get_Coins());
 							PrintInterface("High Score", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
@@ -768,8 +754,8 @@ int main()
 						position = 5;
 						Print_Center_Aligned("Select your Car", 4, 15);//SetConsoleCursorPosition(Console, { 55,4 });
 						COORD Printing_Cords = { 33 ,7 };
-						int Counter = 0;
-						for (int loop_iterator = 0; loop_iterator < 10; loop_iterator++)
+						short Counter = 0;
+						for (short loop_iterator = 0; loop_iterator < 10; loop_iterator++)
 							if (Player_profile[Profile_Selected].check_if_Player_has_Car(loop_iterator))
 							{
 								if (Counter == 5) {
@@ -803,8 +789,8 @@ int main()
 						Print_Center_Aligned("Press Spacebar To Start Game!", 19, 15);
 						cout << "\033[0m";
 						ch1 = _getch(); cout << "\a";
-						Player.reset_Score();
-						int Score_Coins_Counter = 0;
+						//Player.reset_Score();
+						short Score_Coins_Counter = 0;
 						if (ch1 == 32)
 						{
 							Player.Reset_Lives();
@@ -830,17 +816,17 @@ int main()
 								}
 							}
 							PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
+							Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
 							Print_GamePlay_Instructions(Player, 1);
 							bool Game_Running = true;
-							static int Counter = 0;
+							static short Counter = 0;
 							Counter = 0;
-							Player.set_Driver_of_Car((Player_profile[Profile_Selected]));
 							while (ch1 != 'q' && Game_Running)
 							{
-								static int Maganize_Counter_Main = 0;
+								static short Maganize_Counter_Main = 0;
 								string Coins_Message = "Coins " + to_string(Player_profile[Profile_Selected].get_Coins());
 								PrintInterface("Coins", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
-								PrintInterface_Wh_Percentage("Coins", 87, 7, 14, Player_profile[Profile_Selected].get_Coins());
+								//PrintInterface_Wh_Percentage("Coins", 87, 7, 14, Player_profile[Profile_Selected].get_Coins());
 								//PrintInterface("Coins", { short(UI_NEW.X * (87) / 100 - Coins_Message.size() / 2), 7 }, 14, Player_profile[Profile_Selected].get_Coins());
 								if (Score_Coins_Counter % 10 == 0 && Score_Coins_Counter != 0)
 								{
@@ -868,7 +854,7 @@ int main()
 										for (loop_iterator = 0; loop_iterator < 5; loop_iterator++)
 											Gun::Maganize_Reload[loop_iterator] = false;
 									}
-									else if (ch1 == 32 && Player.get_items_Availabe_fr_Driv(0) || Player.get_items_Availabe_fr_Driv(2) && Gun_jammed_Status())
+									else if (ch1 == 32 && Player.get_items_Availabe_fr_Driv(0) && Gun_jammed_Status() || ch1 == 32 && Player.get_items_Availabe_fr_Driv(2) && Gun_jammed_Status())
 									{
 										//Maganize_Counter_Main++;
 										Bullets_list.insert_end({});
@@ -904,7 +890,7 @@ int main()
 										break;
 
 								}
-								for (int enemy_loop = 0; enemy_loop < No_of_Enemies; enemy_loop++)
+								for (short enemy_loop = 0; enemy_loop < No_of_Enemies; enemy_loop++)
 								{
 									if (!Enemy2[enemy_loop].get_Collision_Status())
 									{
@@ -940,11 +926,12 @@ int main()
 													Print_Center_Aligned("-----------", 9, 10);
 													Print_Center_Aligned("GAME OVER", 10, 10);
 													Print_Center_Aligned("-----------", 11, 10);
-													Print_Center_Aligned("Score:   ", 12, 10);
-													cout << "\b\b" << Player.get_score();
-													Print_Center_Aligned("0. Restrart\t\t\t               ", 14, 10);
+													message = "Score:" + to_string(Player.get_score());
+													Print_Center_Aligned(message, 12, 10);
+													//cout << "\b\b" << Player.get_score();
+													Print_Center_Aligned("0. Restart\t\t\t               ", 14, 10);
 													Print_Center_Aligned("\t\t\tPress any key to Continue", 14, 10);
-													static int INPUTGAMEPLAY = 12;
+													static short INPUTGAMEPLAY = 12;
 													for (loop_iterator = 0; loop_iterator < 100099999; loop_iterator++) {}
 													INPUTGAMEPLAY = _getch() - '0';
 													if (INPUTGAMEPLAY == 0) {
@@ -972,8 +959,8 @@ int main()
 										else
 											Enemy2[enemy_loop].update_Collision_Status(0);
 										/*sinlge variable breaks the code*/
-										//for (int loop_iterator = 0; loop_iterator < Gun::Number_of_Active_Bullets; loop_iterator++)
-										for (int loop_iterator = 1; loop_iterator <= Bullets_list.Number_of_Nodes(); loop_iterator++)
+										//for (short loop_iterator = 0; loop_iterator < Gun::Number_of_Active_Bullets; loop_iterator++)
+										for (short loop_iterator = 1; loop_iterator <= Bullets_list.Number_of_Nodes(); loop_iterator++)
 										{
 											if (Enemy2[enemy_loop].getPosition_Y() == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 1 == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 2 == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 3 == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y() || Enemy2[enemy_loop].getPosition_Y() - 4 == Bullets_list.get_Node_by_Pos(loop_iterator)->Data.get_Bullet_Position_Y())
 											{
@@ -1030,12 +1017,13 @@ int main()
 					//PrintInterface("High Score ", ADMIN.High_Score_Settings(), 12, Player_profile[Profile_Selected].get_high_score());
 					SetConsoleTextAttribute(Console, 15);
 					short position1 = 7;
-					COORD Printing_Cords = { 33 ,7 };
+					//COORD Printing_Cords = { 33 ,7 };
+					COORD Printing_Cords = { UI_NEW.X / 2 - 27 ,7 };
 					Print_Center_Aligned("BUY CAR", 5, 15);
 					for (loop_iterator = 0; loop_iterator < 9; loop_iterator++)
 					{
 						if (loop_iterator == 5)
-							Printing_Cords = { 33 ,14 };
+							Printing_Cords = { short(UI_NEW.X / 2 - 20) ,14 };
 						Print_Car_Char_Array(Cars_Shop, Printing_Cords, loop_iterator, 1, Cars_Shop[loop_iterator].get_Car_Color());
 					}
 					Print_Center_Aligned("9. Leave", 22, 15);
@@ -1072,7 +1060,7 @@ int main()
 					//SetConsoleTextAttribute(Console, 15);
 					short position1 = 7;
 					COORD Printing_Cords = { 33 ,7 };
-					int Counter = 0;
+					short Counter = 0;
 					Print_Center_Aligned("CAR GARAGE", 5, 15); // length 10
 					for (loop_iterator = 0; loop_iterator < 9; loop_iterator++)
 					{
@@ -1091,7 +1079,7 @@ int main()
 						system("CLS");
 						PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 						Printing_Cords = { 40, 11 };
-						static int Color;
+						static short Color;
 						Color = Player_profile[Profile_Selected].get_Car_Color(Input[2]);
 						Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Color);
 						SetConsoleCursorPosition(Console, { 55,12 });
@@ -1107,7 +1095,7 @@ int main()
 							Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Player_profile[Profile_Selected].get_Car_Color(Input[2]));
 							Print_Center_Aligned("Select New Color", 4, 15);//	SetConsoleCursorPosition(Console, { 55,4 });
 							Printing_Cords = { 65,7 };
-							int yincrease = Printing_Cords.Y;
+							short yincrease = Printing_Cords.Y;
 							for (loop_iterator = 1; loop_iterator <= 15; loop_iterator++)
 							{
 								SetConsoleCursorPosition(Console, Printing_Cords);
@@ -1131,9 +1119,9 @@ int main()
 							//string * Final_Option = &s1 + &s2;
 							string* Final_Option = new string;
 							*Final_Option = s1 + s2;
-							int* Final_Option_Num = new int;
+							short* Final_Option_Num = new short;
 							*Final_Option_Num = stoi(*Final_Option);
-							int temp_Last_option = *Final_Option_Num;
+							short temp_Last_option = *Final_Option_Num;
 							while (*Final_Option_Num >= 1 && *Final_Option_Num <= 15)
 							{
 								Printing_Cords = { 40, 11 };
@@ -1170,7 +1158,7 @@ int main()
 							system("CLS");
 							PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 							Printing_Cords = { 40, 11 };
-							static int Color;
+							static short Color;
 							Color = Player_profile[Profile_Selected].get_Car_Color(Input[2]);
 							Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Color);
 							static char UserInput;
@@ -1228,11 +1216,15 @@ int main()
 					Print_Center_Aligned("Items Owned", 5, 15);//	SetConsoleCursorPosition(Console, { 58,5 });
 					short position = 12;
 					for (loop_iterator = 0; loop_iterator < 4; loop_iterator++)
-						Player_profile[Profile_Selected].Display_items_Owned();
+						if (Player_profile[Profile_Selected].check_if_Player_has_item(loop_iterator)) {
+							SetConsoleCursorPosition(Console, { 55, position++ });
+							cout << loop_iterator << ". " << items[loop_iterator].get_Char_Item_Name();
+						}
 					for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 				}
 				else if (Input[1] == 6)
 				{
+					bool Profile_Deleted = 0;
 					Reponsive_UI_Thread_Running = 1;
 					system("CLS");
 					Reponsive_UI_PauseResume = 1;
@@ -1245,8 +1237,9 @@ int main()
 						{
 							Input[2] = _getch() - '0';		//Validate_Input()
 							if (Input[2] == 1) {
+								Profile_Deleted = 1;
 								Player_profile[Profile_Selected].~Driver();
-								for (int j = Profile_Selected; j <= Driver::get_No_of_Player_Profiles(); j++)
+								for (short j = Profile_Selected; j <= Driver::get_No_of_Player_Profiles(); j++)
 									Player_profile[j] = Player_profile[j + 1];
 								break;
 							}
@@ -1254,6 +1247,8 @@ int main()
 								Reponsive_UI_PauseResume = 0;
 						}
 					}
+					if (Profile_Deleted)
+						break;
 				}
 				if (Input[1] == 7)
 					break;

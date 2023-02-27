@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1492 911.03">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8 {
+        stroke: #000;
+      }
+
+      .cls-1, .cls-9, .cls-10, .cls-4, .cls-11, .cls-5, .cls-12, .cls-13, .cls-6, .cls-7, .cls-8, .cls-14, .cls-15 {
+        stroke-width: 2px;
+      }
+
+      .cls-1, .cls-10 {
+        fill: #7acff5;
+      }
+
+      .cls-16 {
+        letter-spacing: -.07em;
+      }
+
+      .cls-2, .cls-9, .cls-3, .cls-4, .cls-11, .cls-5, .cls-12, .cls-13, .cls-6, .cls-7, .cls-8, .cls-14, .cls-15 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2, .cls-13, .cls-7, .cls-17 {
+        fill: none;
+      }
+
+      .cls-9 {
+        fill: #f0f92c;
+      }
+
+      .cls-9, .cls-10, .cls-11, .cls-12, .cls-13, .cls-14, .cls-15 {
+        stroke: #231f20;
+      }
+
+      .cls-18 {
+        font-family: ArialMT, Arial;
+      }
+
+      .cls-18, .cls-19, .cls-20, .cls-21, .cls-22 {
+        isolation: isolate;
+      }
+
+      .cls-18, .cls-20, .cls-22 {
+        font-size: 12px;
+      }
+
+      .cls-4 {
+        fill: #7ed957;
+      }
+
+      .cls-11 {
+        fill: #ff1616;
+      }
+
+      .cls-5 {
+        fill: #ff914d;
+      }
+
+      .cls-20 {
+        font-family: Arial-BoldMT, Arial;
+      }
+
+      .cls-20, .cls-21 {
+        font-weight: 700;
+      }
+
+      .cls-12 {
+        fill: #81ec54;
+      }
+
+      .cls-23 {
+        letter-spacing: -.11em;
+      }
+
+      .cls-8 {
+        fill: #a6a6a6;
+      }
+
+      .cls-21 {
+        font-family: Arial-BoldItalicMT, Arial;
+        font-size: 13px;
+      }
+
+      .cls-21, .cls-22 {
+        font-style: italic;
+      }
+
+      .cls-24 {
+        letter-spacing: -.02em;
+      }
+
+      .cls-22 {
+        font-family: Arial-ItalicMT, Arial;
+      }
+
+      .cls-25 {
+        letter-spacing: -.04em;
+      }
+
+      .cls-26 {
+        letter-spacing: -.06em;
+      }
+
+      .cls-14 {
+        fill: #2470d5;
+      }
+
+      .cls-15 {
+        fill: #ffbd59;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <g>
+        <rect class="cls-9" x="412" y="255" width="246" height="312.27" pointer-events="all"/>
+        <path class="cls-13" d="m412,272.61h246" pointer-events="all"/>
+        <path class="cls-13" d="m412,341.61h246" pointer-events="all"/>
+      </g>
+      <text class="cls-21" transform="translate(499.45 267.5)"><tspan x="0" y="0">Game_Play</tspan></text>
+      <rect class="cls-17" x="412" y="275.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 288.11)"><tspan x="0" y="0">#Game_Car : Car</tspan></text>
+      <rect class="cls-17" x="412" y="291.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 304.11)"><tspan x="0" y="0">#Position_Cordinates : COORD</tspan></text>
+      <rect class="cls-17" x="412" y="307.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 320.11)"><tspan x="0" y="0">#Collision : bool</tspan></text>
+      <rect class="cls-17" x="412" y="323.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 336.11)"><tspan x="0" y="0">#GamePlay_Di</tspan><tspan class="cls-24" x="80.7" y="0">f</tspan><tspan x="83.82" y="0">ficulty : int</tspan></text>
+      <rect class="cls-17" x="412" y="341.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 354.11)"><tspan x="0" y="0">+GamePlay()</tspan></text>
+      <rect class="cls-17" x="412" y="357.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 370.11)"><tspan x="0" y="0">+set_Position_COORD(x : int, y : int) : void</tspan></text>
+      <rect class="cls-17" x="412" y="373.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 386.11)"><tspan x="0" y="0">+get_Collision_Status() : bool</tspan></text>
+      <rect class="cls-17" x="412" y="389.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 402.11)"><tspan x="0" y="0">+get_Player_Position() const : COORD</tspan></text>
+      <rect class="cls-17" x="412" y="405.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 418.11)"><tspan x="0" y="0">+getPosition_X() const : int</tspan></text>
+      <rect class="cls-17" x="412" y="421.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 434.11)"><tspan x="0" y="0">+getPosition_Y() const : int</tspan></text>
+      <rect class="cls-17" x="412" y="437.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 450.11)"><tspan x="0" y="0">+setPosition_Y(y : int ) : void</tspan></text>
+      <rect class="cls-17" x="412" y="453.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 466.11)"><tspan x="0" y="0">+Update_Position_Y(y : int) : void</tspan></text>
+      <rect class="cls-17" x="412" y="469.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 482.11)"><tspan x="0" y="0">+Update_Position_X(x : int) : void</tspan></text>
+      <rect class="cls-17" x="412" y="485.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-22" transform="translate(418.5 498.11)"><tspan x="0" y="0">+virual Draw_Car() = 0 : int</tspan></text>
+      <rect class="cls-17" x="412" y="501.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 514.11)"><tspan x="0" y="0">+Erase_Car() : int</tspan></text>
+      <rect class="cls-17" x="412" y="517.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 530.11)"><tspan x="0" y="0">+get_car_width() const : int</tspan></text>
+      <rect class="cls-17" x="412" y="533.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 546.11)"><tspan x="0" y="0">+set_GamePlay_Di</tspan><tspan class="cls-24" x="103.72" y="0">f</tspan><tspan x="106.83" y="0">ficulty () : void</tspan></text>
+      <rect class="cls-17" x="412" y="549.61" width="246" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(418.5 562.11)"><tspan x="0" y="0">+get_GamePlay_Di</tspan><tspan class="cls-24" x="104.39" y="0">f</tspan><tspan x="107.51" y="0">ficulty() const : int </tspan></text>
+      <g>
+        <rect class="cls-12" x="255" y="613.76" width="262" height="296.27" pointer-events="all"/>
+        <path class="cls-13" d="m255,631.38h262" pointer-events="all"/>
+        <path class="cls-13" d="m255,684.38h262" pointer-events="all"/>
+      </g>
+      <text class="cls-21" transform="translate(330.93 626.26)"><tspan x="0" y="0">Player_GamePlay</tspan></text>
+      <rect class="cls-17" x="255" y="634.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 646.88)"><tspan x="0" y="0">-Score : int</tspan></text>
+      <rect class="cls-17" x="255" y="650.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 662.88)"><tspan x="0" y="0">-Lives : int</tspan></text>
+      <rect class="cls-17" x="255" y="666.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 678.88)"><tspan x="0" y="0">-Driver_of_Car : Driver</tspan></text>
+      <rect class="cls-17" x="255" y="684.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 696.88)"><tspan x="0" y="0">+Player_GamePlay()</tspan></text>
+      <rect class="cls-17" x="255" y="700.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 712.88)"><tspan x="0" y="0">+set_Driver_of_Car(DriverofCar : Driver) : void</tspan></text>
+      <rect class="cls-17" x="255" y="716.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 728.88)"><tspan x="0" y="0">+set_Player_Car(NewCar: Car) : void</tspan></text>
+      <rect class="cls-17" x="255" y="732.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 744.88)"><tspan x="0" y="0">+Draw_Car() : void</tspan></text>
+      <rect class="cls-17" x="255" y="748.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 760.88)"><tspan x="0" y="0">+Move_Player_Car(UserInput: char) : void</tspan></text>
+      <rect class="cls-17" x="255" y="764.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 776.88)"><tspan x="0" y="0">+get_items_available_to_use_fr_Driver() : bool</tspan></text>
+      <rect class="cls-17" x="255" y="780.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 792.88)"><tspan x="0" y="0">+reset_Score() : void</tspan></text>
+      <rect class="cls-17" x="255" y="796.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 808.88)"><tspan x="0" y="0">+Display_Score(): void</tspan></text>
+      <rect class="cls-17" x="255" y="812.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 824.88)"><tspan x="0" y="0">+get_Score() : void</tspan></text>
+      <rect class="cls-17" x="255" y="828.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 840.88)"><tspan x="0" y="0">+DisplayLives() : void</tspan></text>
+      <rect class="cls-17" x="255" y="844.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 856.88)"><tspan x="0" y="0">+reset_Lives() : void</tspan></text>
+      <rect class="cls-17" x="255" y="860.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 872.88)"><tspan x="0" y="0">+get_Lives() : void</tspan></text>
+      <rect class="cls-17" x="255" y="876.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 888.88)"><tspan x="0" y="0">+operator--() : void</tspan></text>
+      <rect class="cls-17" x="255" y="892.38" width="262" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(261.5 904.88)"><tspan x="0" y="0">+operator++ () : void </tspan></text>
+      <g>
+        <rect class="cls-11" x="543" y="613.76" width="226" height="169.73" pointer-events="all"/>
+        <path class="cls-13" d="m543,631.38h226" pointer-events="all"/>
+        <path class="cls-13" d="m543,652.38h226" pointer-events="all"/>
+      </g>
+      <text class="cls-21" transform="translate(599.13 626.26)"><tspan x="0" y="0">Enemy_GamePlay</tspan></text>
+      <rect class="cls-17" x="543" y="634.38" width="226" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(549.5 646.88)"><tspan x="0" y="0">-Enemy_car_Active : bool</tspan></text>
+      <rect class="cls-17" x="543" y="652.38" width="226" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(549.5 664.88)"><tspan x="0" y="0">+Enemy_GamePlay()</tspan></text>
+      <rect class="cls-17" x="543" y="668.38" width="226" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(549.5 680.88)"><tspan x="0" y="0">+generate_Enemy_X_coordinates() : int</tspan></text>
+      <rect class="cls-17" x="543" y="684.38" width="226" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(549.5 696.88)"><tspan x="0" y="0">+resetEnemy() : void </tspan></text>
+      <rect class="cls-17" x="543" y="700.38" width="226" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(549.5 712.88)"><tspan x="0" y="0">+get_Enemy_Alive_Status() const : bool</tspan></text>
+      <rect class="cls-17" x="543" y="716.38" width="226" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(549.5 728.88)"><tspan x="0" y="0">+EraseEnemy</tspan><tspan class="cls-25" x="75.7" y="0">T</tspan><tspan x="82.59" y="0">rail() : void</tspan></text>
+      <rect class="cls-17" x="543" y="732.38" width="226" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(549.5 744.88)"><tspan x="0" y="0">+Draw_Car() : void</tspan></text>
+      <rect class="cls-17" x="543" y="748.38" width="226" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(549.5 760.88)"><tspan x="0" y="0">+Draw_Car(Player_Car Player) : void</tspan></text>
+      <rect class="cls-17" x="543" y="764.38" width="226" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(549.5 776.88)"><tspan x="0" y="0">+~Enemy()</tspan></text>
+      <g>
+        <rect class="cls-14" x="789" y="392" width="370" height="361.03" pointer-events="all"/>
+        <path class="cls-13" d="m789,409.61h370" pointer-events="all"/>
+        <path class="cls-13" d="m789,510.61h370" pointer-events="all"/>
+      </g>
+      <text class="cls-21" transform="translate(960.5 404.5)"><tspan x="0" y="0">Gun</tspan></text>
+      <rect class="cls-17" x="789" y="412.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 425.11)"><tspan x="0" y="0">-Bullet : string </tspan></text>
+      <rect class="cls-17" x="789" y="428.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 441.11)"><tspan x="0" y="0">-Bullet_color : int</tspan></text>
+      <rect class="cls-17" x="789" y="444.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 457.11)"><tspan x="0" y="0">-Bullet_Position : COORD</tspan></text>
+      <rect class="cls-17" x="789" y="460.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 473.11)"><tspan x="0" y="0">+Gun_Maganize :static int = 5</tspan></text>
+      <rect class="cls-17" x="789" y="476.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 489.11)"><tspan x="0" y="0">-Maganize_Counter : static int</tspan></text>
+      <rect class="cls-17" x="789" y="492.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 505.11)"><tspan x="0" y="0">-Maganize_Reload[] : static bool</tspan></text>
+      <rect class="cls-17" x="789" y="510.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 523.11)"><tspan x="0" y="0">+Gun()</tspan></text>
+      <rect class="cls-17" x="789" y="526.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 539.11)"><tspan x="0" y="0">+Fire_Bullet(Player : Player_Ca</tspan><tspan class="cls-26" x="168.4" y="0">r</tspan><tspan x="171.74" y="0">, signal : int) : void</tspan></text>
+      <rect class="cls-17" x="789" y="542.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 555.11)"><tspan x="0" y="0">+Move_Bullet(bullets[] : Gun) : void</tspan></text>
+      <rect class="cls-17" x="789" y="558.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 571.11)"><tspan x="0" y="0">+get_Bullet_Position() const : COORD</tspan></text>
+      <rect class="cls-17" x="789" y="574.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 587.11)"><tspan x="0" y="0">+get_Bullet_Position_X() const : int</tspan></text>
+      <rect class="cls-17" x="789" y="590.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 603.11)"><tspan x="0" y="0">+get_Bullet_Position_Y() const : int</tspan></text>
+      <rect class="cls-17" x="789" y="606.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 619.11)"><tspan x="0" y="0">+==(Gun2 : const Gun) : bool</tspan></text>
+      <rect class="cls-17" x="789" y="638.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 651.11)"><tspan x="0" y="0">+update_Gun_Maganize(newMaganize : int) : void</tspan></text>
+      <rect class="cls-17" x="789" y="654.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 667.11)"><tspan x="0" y="0">+get_Gun_Maganize() : int</tspan></text>
+      <rect class="cls-17" x="789" y="670.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 683.11)"><tspan x="0" y="0">+Jamm_Gun_till_reload() : void</tspan></text>
+      <rect class="cls-17" x="789" y="686.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 699.11)"><tspan x="0" y="0">+get_Maganize_Reload(index : int) : bool</tspan></text>
+      <rect class="cls-17" x="789" y="622.61" width="370" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(795.5 635.11)"><tspan x="0" y="0">+~Gun()</tspan></text>
+      <g>
+        <rect class="cls-4" x="1" y="1" width="357" height="556.82" pointer-events="all"/>
+        <path class="cls-7" d="m1,18.61h357" pointer-events="all"/>
+        <path class="cls-7" d="m1,167.61h357" pointer-events="all"/>
+      </g>
+      <text class="cls-21" transform="translate(160.21 13.5)"><tspan x="0" y="0">Driver</tspan></text>
+      <rect class="cls-17" x="1" y="21.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 34.11)"><tspan x="0" y="0">-Driver_Name: char[50]</tspan></text>
+      <rect class="cls-17" x="1" y="37.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 50.11)"><tspan x="0" y="0">-High_score : int</tspan></text>
+      <rect class="cls-17" x="1" y="53.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 66.11)"><tspan x="0" y="0">-Coins : int</tspan></text>
+      <rect class="cls-17" x="1" y="69.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 82.11)"><tspan x="0" y="0">-Car_Owned : Car[10]</tspan></text>
+      <rect class="cls-17" x="1" y="85.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 98.11)"><tspan x="0" y="0">-Car_Owned_Check : bool [10]</tspan></text>
+      <rect class="cls-17" x="1" y="101.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 114.11)"><tspan x="0" y="0">-items_Owned_Name : char[][]</tspan></text>
+      <rect class="cls-17" x="1" y="117.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 130.11)"><tspan x="0" y="0">-items_owned : bool [10]</tspan></text>
+      <rect class="cls-17" x="1" y="133.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 146.11)"><tspan x="0" y="0">-isActive : bool</tspan></text>
+      <rect class="cls-17" x="1" y="149.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 162.11)"><tspan x="0" y="0">+No_of_Player_Profiles : static int</tspan></text>
+      <rect class="cls-17" x="1" y="167.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 180.11)"><tspan x="0" y="0">+Driver()</tspan></text>
+      <rect class="cls-17" x="1" y="183.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 196.11)"><tspan x="0" y="0">+set_Driver_Name(Name : char[]) : void</tspan></text>
+      <rect class="cls-17" x="1" y="199.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 212.11)"><tspan x="0" y="0">+get_Driver_Name() : char*</tspan></text>
+      <rect class="cls-17" x="1" y="215.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 228.11)"><tspan x="0" y="0">+get_isActiveStaus() const : bool</tspan></text>
+      <rect class="cls-17" x="1" y="231.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 244.11)"><tspan x="0" y="0">+get_No_of_Player_Profiles() : int static </tspan></text>
+      <rect class="cls-17" x="1" y="247.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 260.11)"><tspan x="0" y="0">+Buy_Item(Name : char [], Item_Index : int) : void </tspan></text>
+      <rect class="cls-17" x="1" y="263.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 276.11)"><tspan x="0" y="0">+get_item_Owned_Name(index : int ) : char* </tspan></text>
+      <rect class="cls-17" x="1" y="279.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 292.11)"><tspan x="0" y="0">+Display_items_Owned() : void</tspan></text>
+      <rect class="cls-17" x="1" y="295.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 308.11)"><tspan x="0" y="0">+Buy_Car(New_Car : Ca</tspan><tspan class="cls-26" x="133.05" y="0">r</tspan><tspan x="136.38" y="0">, Car_Number : int) : void</tspan></text>
+      <rect class="cls-17" x="1" y="311.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 324.11)"><tspan x="0" y="0">+set_Car_Color(Color : int, Car_Number : int ) : void</tspan></text>
+      <rect class="cls-17" x="1" y="327.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 340.11)"><tspan x="0" y="0">+get_Car_width(int index) : int</tspan></text>
+      <rect class="cls-17" x="1" y="343.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 356.11)"><tspan x="0" y="0">+get_Car_Color(Car_Number : int) const : int</tspan></text>
+      <rect class="cls-17" x="1" y="359.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 372.11)"><tspan x="0" y="0">+Car get_Player_Car(Car_Number : int) const : Car </tspan></text>
+      <rect class="cls-17" x="1" y="375.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 388.11)"><tspan x="0" y="0">+get_Number_of_Cars_Owned() : int </tspan></text>
+      <rect class="cls-17" x="1" y="391.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 404.11)"><tspan x="0" y="0">+update_high_Score(int new_high_score) : void</tspan></text>
+      <rect class="cls-17" x="1" y="407.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 420.11)"><tspan x="0" y="0">+get_high_score() const : int </tspan></text>
+      <rect class="cls-17" x="1" y="423.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 436.11)"><tspan x="0" y="0">+Give_Coins() : void</tspan></text>
+      <rect class="cls-17" x="1" y="439.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 452.11)"><tspan x="0" y="0">+get_Coins() const : int </tspan></text>
+      <rect class="cls-17" x="1" y="455.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 468.11)"><tspan x="0" y="0">+set_Player_Has_Car(Car_Number : int,</tspan><tspan class="cls-24" x="216.42" y="0"> </tspan><tspan class="cls-25" x="219.54" y="0">T</tspan><tspan x="226.42" y="0">rueFalse : bool) : void </tspan></text>
+      <rect class="cls-17" x="1" y="471.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 484.11)"><tspan x="0" y="0">+check_if_Player_has_item(item_Index : int) const : bool </tspan></text>
+      <rect class="cls-17" x="1" y="487.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 500.11)"><tspan x="0" y="0">+check_if_Player_has_Car(item_Index : int) const : bool </tspan></text>
+      <rect class="cls-17" x="1" y="503.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 516.11)"><tspan x="0" y="0">+operator+ (AddCoins : int) : void</tspan></text>
+      <rect class="cls-17" x="1" y="519.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 532.11)"><tspan x="0" y="0">+operator- (Coins_to_deduct : int ) : void </tspan></text>
+      <rect class="cls-17" x="1" y="535.61" width="357" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(7.5 548.11)"><tspan x="0" y="0">+~Driver()</tspan></text>
+      <g>
+        <rect class="cls-5" x="723" y="1" width="295" height="122.73" pointer-events="all"/>
+        <path class="cls-7" d="m723,18.61h295" pointer-events="all"/>
+        <path class="cls-7" d="m723,39.61h295" pointer-events="all"/>
+      </g>
+      <text class="cls-21" transform="translate(853.75 13.5)"><tspan x="0" y="0">Shop</tspan></text>
+      <rect class="cls-17" x="723" y="21.61" width="295" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(729.5 34.11)"><tspan x="0" y="0">#Price : int</tspan></text>
+      <rect class="cls-17" x="723" y="39.61" width="295" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(729.5 52.11)"><tspan x="0" y="0">+Shop()</tspan></text>
+      <rect class="cls-17" x="723" y="55.61" width="295" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(729.5 68.11)"><tspan x="0" y="0">+shop(Price : int)</tspan></text>
+      <rect class="cls-17" x="723" y="71.61" width="295" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(729.5 84.11)"><tspan x="0" y="0">+set_Price(New_Price : int) : void</tspan></text>
+      <rect class="cls-17" x="723" y="87.61" width="295" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(729.5 100.11)"><tspan x="0" y="0">+get_Price() const : int</tspan></text>
+      <rect class="cls-17" x="723" y="103.61" width="295" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(729.5 116.11)"><tspan x="0" y="0">+</tspan><tspan class="cls-24" x="7.01" y="0">W</tspan><tspan x="18.12" y="0">rite_to_File() : void</tspan></text>
+      <g>
+        <path class="cls-7" d="m239.59,746.06h-68.53c-6.67,0-10-3.33-10-10v-134c0-6.67-.1-13.33-.29-20l-.65-22.94" pointer-events="stroke"/>
+        <path class="cls-6" d="m253.59,746.06l-7,7-7-7,7-7,7,7Z" pointer-events="all"/>
+      </g>
+      <g>
+        <rect class="cls-8" x="455.5" y="1" width="159" height="232.27" pointer-events="all"/>
+        <path class="cls-7" d="m455.5,18.61h159" pointer-events="all"/>
+        <path class="cls-7" d="m455.5,87.61h159" pointer-events="all"/>
+      </g>
+      <text class="cls-21" transform="translate(523.66 13.5)"><tspan x="0" y="0">Car</tspan></text>
+      <rect class="cls-17" x="455.5" y="21.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 34.11)"><tspan x="0" y="0">-Car_Shape : char[]</tspan></text>
+      <rect class="cls-17" x="455.5" y="37.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 50.11)"><tspan x="0" y="0">-Car_Width : int</tspan></text>
+      <rect class="cls-17" x="455.5" y="53.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 66.11)"><tspan x="0" y="0">-Car_Height: int</tspan></text>
+      <rect class="cls-17" x="455.5" y="69.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 82.11)"><tspan x="0" y="0">-Car_Color : int</tspan></text>
+      <rect class="cls-17" x="455.5" y="87.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 100.11)"><tspan x="0" y="0">+set_Car_Shape() : void</tspan></text>
+      <rect class="cls-17" x="455.5" y="103.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 116.11)"><tspan x="0" y="0">+set_Car_Color() : void</tspan></text>
+      <rect class="cls-17" x="455.5" y="119.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 132.11)"><tspan x="0" y="0">+set_Car_Width() : void</tspan></text>
+      <rect class="cls-17" x="455.5" y="135.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 148.11)"><tspan x="0" y="0">+set_Car_Height() : void</tspan></text>
+      <rect class="cls-17" x="455.5" y="151.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 164.11)"><tspan x="0" y="0">+set_Car_Shape() : void</tspan></text>
+      <rect class="cls-17" x="455.5" y="167.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 180.11)"><tspan x="0" y="0">+get_Car_Shape() : char*</tspan></text>
+      <rect class="cls-17" x="455.5" y="183.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 196.11)"><tspan x="0" y="0">+get_Car_Color() : int</tspan></text>
+      <rect class="cls-17" x="455.5" y="199.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 212.11)"><tspan x="0" y="0">+get_Car_Width() : int</tspan></text>
+      <rect class="cls-17" x="455.5" y="215.61" width="159" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(462 228.11)"><tspan x="0" y="0">+get_Car_Height() : int</tspan></text>
+      <g>
+        <rect class="cls-15" x="875" y="186" width="219" height="138" pointer-events="all"/>
+        <path class="cls-13" d="m875,203.61h219" pointer-events="all"/>
+        <path class="cls-13" d="m875,224.61h219" pointer-events="all"/>
+      </g>
+      <text class="cls-21" transform="translate(947.16 198.5)"><tspan x="0" y="0">Items_Shop</tspan></text>
+      <rect class="cls-17" x="875" y="206.61" width="219" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(881.5 219.11)"><tspan x="0" y="0">-Item_Name: char [50]</tspan></text>
+      <rect class="cls-17" x="875" y="224.61" width="219" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(881.5 237.11)"><tspan x="0" y="0">+set_Item_Name(Name : char[]) : void </tspan></text>
+      <rect class="cls-17" x="875" y="240.61" width="219" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(881.5 253.11)"><tspan x="0" y="0">+get_char_Item_Name() : char[]</tspan></text>
+      <rect class="cls-17" x="875" y="256.61" width="219" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(881.5 269.11)"><tspan x="0" y="0">+get_Item_Name() const : string</tspan></text>
+      <rect class="cls-17" x="875" y="272.61" width="219" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(881.5 285.11)"><tspan x="0" y="0">+set_Item_Price(price : int) : void</tspan></text>
+      <rect class="cls-17" x="875" y="288.61" width="219" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(881.5 301.11)"><tspan x="0" y="0">+Print_Details() : void</tspan></text>
+      <rect class="cls-17" x="875" y="304.61" width="219" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(881.5 317.11)"><tspan x="0" y="0">+User_Input() : void</tspan></text>
+      <g>
+        <path class="cls-7" d="m535.41,240.17v2.01c0,1.33-.08.18-.23-3.46l-.24-5.45" pointer-events="stroke"/>
+        <path class="cls-6" d="m535.41,254.17l-7-7,7-7,7,7-7,7Z" pointer-events="all"/>
+      </g>
+      <g>
+        <rect class="cls-15" x="699" y="186" width="151" height="187.45" pointer-events="all"/>
+        <path class="cls-13" d="m699,203.61h151" pointer-events="all"/>
+        <path class="cls-13" d="m699,224.61h151" pointer-events="all"/>
+      </g>
+      <text class="cls-21" transform="translate(743.3 198.5)"><tspan x="0" y="0">Car_Shop</tspan></text>
+      <rect class="cls-17" x="699" y="206.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 219.11)"><tspan x="0" y="0">-Shop_Car : Car</tspan></text>
+      <rect class="cls-17" x="699" y="224.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 237.11)"><tspan x="0" y="0">+set_Car_Shape() : void</tspan></text>
+      <rect class="cls-17" x="699" y="240.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 253.11)"><tspan x="0" y="0">+set_Car_Color() : void</tspan></text>
+      <rect class="cls-17" x="699" y="256.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 269.11)"><tspan x="0" y="0">+set_Car_Width() : void</tspan></text>
+      <rect class="cls-17" x="699" y="272.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 285.11)"><tspan x="0" y="0">+set_Car_Height() : void</tspan></text>
+      <rect class="cls-17" x="699" y="288.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 301.11)"><tspan x="0" y="0">+set_Car_Shape() : void</tspan></text>
+      <rect class="cls-17" x="699" y="304.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 317.11)"><tspan x="0" y="0">+get_Car_Shape() : char*</tspan></text>
+      <rect class="cls-17" x="699" y="320.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 333.11)"><tspan x="0" y="0">+get_Car_Color() : int</tspan></text>
+      <rect class="cls-17" x="699" y="336.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 349.11)"><tspan x="0" y="0">+get_Car_Width() : int</tspan></text>
+      <rect class="cls-17" x="699" y="352.61" width="151" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(705.5 365.11)"><tspan x="0" y="0">+get_Car_Height() : int</tspan></text>
+      <g>
+        <path class="cls-7" d="m683.53,280.29h-5.77c-3.84,0-5.76-3.33-5.76-10V127c0-6.67-3.33-10-10-10h-47.5" pointer-events="stroke"/>
+        <path class="cls-6" d="m697.53,280.29l-7,7-7-7,7-7,7,7Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m535.41,582.59v7.2c0,4.81-3.33,7.21-10,7.21h-129.41c-6.67,0-10,2.79-10,8.38v8.38" pointer-events="stroke"/>
+        <path class="cls-7" d="m535.41,569.59l6.5,13h-13l6.5-13Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m535.17,582.59l-.11,7.2c-.08,4.81,3.21,7.21,9.88,7.21h101.06c6.67,0,10.1,2.71,10.29,8.12l.3,8.12" pointer-events="stroke"/>
+        <path class="cls-7" d="m535.38,569.59l6.29,13.1-13-.21,6.71-12.89Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m870.71,139.06v7.91c0,5.27-3.33,7.91-10,7.91h-76.24c-6.67,0-10,3.33-10,10v21.12" pointer-events="stroke"/>
+        <path class="cls-7" d="m870.71,126.06l6.5,13h-13l6.5-13Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m870.71,139.06v7.91c0,5.27,3.33,7.91,10,7.91h93.76c6.67,0,10,3.33,10,10v21.12" pointer-events="stroke"/>
+        <path class="cls-7" d="m870.71,126.06l6.5,13h-13l6.5-13Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m373.41,279.35h10.59c6.67,0,10-3.33,10-10V126.76c0-6.67,3.33-10,10-10h51.41" pointer-events="stroke"/>
+        <path class="cls-6" d="m359.41,279.35l7-7,7,7-7,7-7-7Z" pointer-events="all"/>
+      </g>
+      <g>
+        <rect class="cls-1" x="1248" y="685.4" width="198" height="153" pointer-events="all"/>
+        <path class="cls-7" d="m1248,702.4h198" pointer-events="all"/>
+        <path class="cls-7" d="m1248,739.4h198" pointer-events="all"/>
+      </g>
+      <g class="cls-19">
+        <text class="cls-20" transform="translate(1331.49 698.1)"><tspan x="0" y="0">N</tspan></text>
+        <text class="cls-20" transform="translate(1340.15 698.1)"><tspan x="0" y="0">o</tspan></text>
+        <text class="cls-20" transform="translate(1347.48 698.1)"><tspan x="0" y="0">d</tspan></text>
+        <text class="cls-20" transform="translate(1354.81 698.1)"><tspan x="0" y="0">e</tspan></text>
+      </g>
+      <rect class="cls-17" x="1248" y="705.4" width="198" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1254.5 717.9)"><tspan x="0" y="0">+Data :</tspan><tspan class="cls-24" x="39.02" y="0" xml:space="preserve"> T</tspan><tspan x="49.25" y="0" xml:space="preserve"> = {}</tspan></text>
+      <rect class="cls-17" x="1248" y="721.4" width="198" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1254.5 733.9)"><tspan x="0" y="0">+next : Node&lt;T&gt;*</tspan></text>
+      <rect class="cls-17" x="1248" y="739.4" width="198" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1254.5 751.9)"><tspan x="0" y="0">+Node()</tspan></text>
+      <rect class="cls-17" x="1248" y="755.4" width="198" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1254.5 767.9)"><tspan x="0" y="0">+Node(Data :</tspan><tspan class="cls-24" x="71.71" y="0"> </tspan><tspan x="74.82" y="0">T)</tspan></text>
+      <rect class="cls-17" x="1248" y="771.4" width="198" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1254.5 783.9)"><tspan x="0" y="0">+set_Data(Data :</tspan><tspan class="cls-24" x="91.05" y="0"> </tspan><tspan x="94.17" y="0">T) : void</tspan></text>
+      <rect class="cls-17" x="1248" y="787.4" width="198" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1254.5 799.9)"><tspan x="0" y="0">+==(other : const Node&lt;T&gt;&amp;) : bool</tspan></text>
+      <rect class="cls-17" x="1248" y="803.4" width="198" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1254.5 815.9)"><tspan x="0" y="0">+==(value : const</tspan><tspan class="cls-24" x="92.39" y="0"> </tspan><tspan x="95.51" y="0">T&amp;) : bool</tspan></text>
+      <rect class="cls-17" x="1248" y="819.4" width="198" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1254.5 831.9)"><tspan x="0" y="0">+get_Data() :</tspan><tspan class="cls-24" x="70.37" y="0" xml:space="preserve"> T</tspan></text>
+      <g>
+        <path class="cls-2" d="m1234.29,761.94h-8.14c-5.43,0-8.15,3.33-8.15,10v88.12c0,6.67,3.33,10,10,10h148c6.67,0,10-3.33,10-10v-21.66" pointer-events="stroke"/>
+        <path class="cls-3" d="m1247.29,761.94l-6.5,6.5-6.5-6.5,6.5-6.5,6.5,6.5Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-2" d="m1347,627.47v57.93" pointer-events="stroke"/>
+        <path class="cls-3" d="m1347,614.47l6.5,6.5-6.5,6.5-6.5-6.5,6.5-6.5Z" pointer-events="all"/>
+      </g>
+      <g>
+        <rect class="cls-10" x="1203" y="412.76" width="288" height="201" pointer-events="all"/>
+        <path class="cls-13" d="m1203,429.76h288" pointer-events="all"/>
+        <path class="cls-13" d="m1203,450.76h288" pointer-events="all"/>
+      </g>
+      <g class="cls-19">
+        <text class="cls-20" transform="translate(1337.81 426.09)"><tspan x="0" y="0">l</tspan></text>
+        <text class="cls-20" transform="translate(1341.14 426.09)"><tspan x="0" y="0">i</tspan></text>
+        <text class="cls-20" transform="translate(1344.48 426.09)"><tspan x="0" y="0">s</tspan></text>
+        <text class="cls-20" transform="translate(1351.15 426.09)"><tspan x="0" y="0">t</tspan></text>
+      </g>
+      <rect class="cls-17" x="1203" y="432.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 445.26)"><tspan x="0" y="0">-head : Node&lt;T&gt;*</tspan></text>
+      <rect class="cls-17" x="1203" y="450.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 463.26)"><tspan x="0" y="0">+list()</tspan></text>
+      <rect class="cls-17" x="1203" y="466.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 479.26)"><tspan x="0" y="0">+get_head() : Node&lt;T&gt; *</tspan></text>
+      <rect class="cls-17" x="1203" y="482.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 495.26)"><tspan x="0" y="0">+isEmpty() const : bool</tspan></text>
+      <rect class="cls-17" x="1203" y="498.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 511.26)"><tspan x="0" y="0">+insert_end(value :</tspan><tspan class="cls-24" x="102.4" y="0"> </tspan><tspan x="105.52" y="0">T) : void</tspan></text>
+      <rect class="cls-17" x="1203" y="514.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 527.26)"><tspan x="0" y="0">+Display_list() const : void</tspan></text>
+      <rect class="cls-17" x="1203" y="530.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 543.26)"><tspan x="0" y="0">+Search_in_List(</tspan><tspan class="cls-16" x="90.39" y="0">V</tspan><tspan x="97.5" y="0">alue_to_search :</tspan><tspan class="cls-24" x="186.23" y="0"> </tspan><tspan class="cls-23" x="189.35" y="0">T</tspan><tspan x="195.35" y="0">, list : list&amp;) : int</tspan></text>
+      <rect class="cls-17" x="1203" y="546.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 559.26)"><tspan x="0" y="0">+delete_Node(</tspan><tspan class="cls-16" x="79.06" y="0">V</tspan><tspan x="86.17" y="0">alue_to_delete :</tspan><tspan class="cls-24" x="171.58" y="0"> </tspan><tspan x="174.7" y="0">T) : void</tspan></text>
+      <rect class="cls-17" x="1203" y="562.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 575.26)"><tspan x="0" y="0">+Number_of_Nodes() const : int</tspan></text>
+      <rect class="cls-17" x="1203" y="578.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 591.26)"><tspan x="0" y="0">+get_Node_by_Pos(index : int) : Node&lt;T&gt; *</tspan></text>
+      <rect class="cls-17" x="1203" y="594.76" width="288" height="16" pointer-events="all"/>
+      <text class="cls-18" transform="translate(1209.5 607.26)"><tspan x="0" y="0">+~list()</tspan></text>
+      <g>
+        <path class="cls-7" d="m239.59,746.06h-68.53c-6.67,0-10-3.33-10-10v-134c0-6.67-.1-13.33-.29-20l-.65-22.94" pointer-events="stroke"/>
+        <path class="cls-6" d="m253.59,746.06l-7,7-7-7,7-7,7,7Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m535.41,240.17v2.01c0,1.33-.08.18-.23-3.46l-.24-5.45" pointer-events="stroke"/>
+        <path class="cls-6" d="m535.41,254.17l-7-7,7-7,7,7-7,7Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m683.53,280.29h-5.77c-3.84,0-5.76-3.33-5.76-10V127c0-6.67-3.33-10-10-10h-47.5" pointer-events="stroke"/>
+        <path class="cls-6" d="m697.53,280.29l-7,7-7-7,7-7,7,7Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m535.41,582.59v7.2c0,4.81-3.33,7.21-10,7.21h-129.41c-6.67,0-10,2.79-10,8.38v8.38" pointer-events="stroke"/>
+        <path class="cls-7" d="m535.41,569.59l6.5,13h-13l6.5-13Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m535.17,582.59l-.11,7.2c-.08,4.81,3.21,7.21,9.88,7.21h101.06c6.67,0,10.1,2.71,10.29,8.12l.3,8.12" pointer-events="stroke"/>
+        <path class="cls-7" d="m535.38,569.59l6.29,13.1-13-.21,6.71-12.89Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m870.71,139.06v7.91c0,5.27-3.33,7.91-10,7.91h-76.24c-6.67,0-10,3.33-10,10v21.12" pointer-events="stroke"/>
+        <path class="cls-7" d="m870.71,126.06l6.5,13h-13l6.5-13Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m870.71,139.06v7.91c0,5.27,3.33,7.91,10,7.91h93.76c6.67,0,10,3.33,10,10v21.12" pointer-events="stroke"/>
+        <path class="cls-7" d="m870.71,126.06l6.5,13h-13l6.5-13Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-7" d="m373.41,279.35h10.59c6.67,0,10-3.33,10-10V126.76c0-6.67,3.33-10,10-10h51.41" pointer-events="stroke"/>
+        <path class="cls-6" d="m359.41,279.35l7-7,7,7-7,7-7-7Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-2" d="m1234.29,761.94h-8.14c-5.43,0-8.15,3.33-8.15,10v88.12c0,6.67,3.33,10,10,10h148c6.67,0,10-3.33,10-10v-21.66" pointer-events="stroke"/>
+        <path class="cls-3" d="m1247.29,761.94l-6.5,6.5-6.5-6.5,6.5-6.5,6.5,6.5Z" pointer-events="all"/>
+      </g>
+      <g>
+        <path class="cls-2" d="m1347,627.47v57.93" pointer-events="stroke"/>
+        <path class="cls-3" d="m1347,614.47l6.5,6.5-6.5,6.5-6.5-6.5,6.5-6.5Z" pointer-events="all"/>
+      </g>
+    </g>
+  </g>
+</svg>

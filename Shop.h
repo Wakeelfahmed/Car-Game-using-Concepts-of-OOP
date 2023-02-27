@@ -5,12 +5,12 @@ using namespace std;
 class Shop
 {
 protected:
-	int Price;
+	short Price;
 public:
 	Shop();
-	Shop(int price);
-	void set_Item_Price(int price);
-	int get_price() const;
+	Shop(short price);
+	void set_Item_Price(short price);
+	short get_price() const;
 };
 class Items_Shop : public Shop {
 private:
@@ -27,10 +27,10 @@ private:
 public:
 	Car_Shop();
 	void set_Car_Shape(string Name);
-	void set_Car_Width(int Car_Width);
-	void set_Car_Height(int Car_Height);
-	void set_Car_Color(int Car_Color);
+	void set_Car_Width(short Car_Width);
+	void set_Car_Height(short Car_Height);
+	void set_Car_Color(short Car_Color);
 	Car get_Car() const;
-	int get_Car_Color() const;
+	short get_Car_Color() const;
 	char* get_Car_Shape();
 };

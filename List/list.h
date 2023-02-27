@@ -60,9 +60,9 @@ public:
 		} while (p != head);
 		cout << endl;
 	}
-	int Search_in_List(T Value_to_search, list& list) {
+	short Search_in_List(T Value_to_search, list& list) {
 		Node<T>* p = list.get_head();
-		int Position_counter = 1;
+		short Position_counter = 1;
 		do {
 			if (p->get_Data() == Value_to_search)
 				return Position_counter;
@@ -114,13 +114,13 @@ public:
 			cout << Number_of_Nodes() << endl;
 		}
 	}
-	int Number_of_Nodes() const {
+	short Number_of_Nodes() const {
 		if (isEmpty())
 		{
 			//cout << "list is empty!! \n there are no nodes." << endl;
 			return 0;
 		}
-		int Counter = 0;
+		short Counter = 0;
 		Node<T>* p = head;
 		do
 		{
@@ -148,8 +148,8 @@ public:
 		} while (p != head);
 		//cout << "Leaving ~\n";
 	}
-	Node<T>* get_Node_by_Pos(int index) {
-		int i = 1;
+	Node<T>* get_Node_by_Pos(short index) {
+		short i = 1;
 		if (head == NULL)
 			return NULL;
 		Node<T>* p = head;

@@ -82,25 +82,32 @@ void Print_Center_Aligned(string Message, short Horizontal_Sc_height, short Text
 class Driver
 {
 private:
-	char Driver_Name[50] = "";			int High_score;		int Coins;		bool isActive{ 0 };
-	bool Items_Owned_Check[10];
-	Car Car_Owned[10];					bool Cars_Owned_Check[10];
+	char Driver_Name[50] = "";			int High_score{ 0 };		int Coins{ 4000 };
+	bool Items_Owned_Check[10]{ false };	Car Car_Owned[10];
+	bool isActive{ false };
 public:
 	static short No_of_Player_Profiles;
-	Driver() : Coins(4000), High_score(0), Items_Owned_Check{ false }, Cars_Owned_Check{ false }, isActive(false) {}
-	bool get_IsActive_Status()const { return isActive; }
+
+	bool get_IsActive_Status() const { return isActive; }
 	short static get_No_of_Player_Profiles() { return No_of_Player_Profiles; }
 	void static Increment_No_of_Profiles() { No_of_Player_Profiles++; }
 	static void reset_Number_ofProfiles() { No_of_Player_Profiles = -1; }
 	void set_Player_Name() { isActive = true;  Print_Center_Aligned("Enter Name: ", 7, 15); cin.getline(Driver_Name, 50, '\n'); /*cout << "Enter Name: "; */ }
 	char* get_Driver_Name() { return Driver_Name; }
-	void Buy_Item(char Name[], short Item_Index) { Items_Owned_Check[Item_Index] = true; }
+	void Buy_Item(short Item_Index) { Items_Owned_Check[Item_Index] = true; }
 	void update_high_Score(int new_high_score) { High_score = High_score + (new_high_score - High_score); }
 	int get_high_score() const { return High_score; }
-	void set_Player_Has_Car(short Car_Number, bool TrueFalse) { Cars_Owned_Check[Car_Number] = TrueFalse; }
+	void set_Player_Has_Car(short Car_Number, bool TrueFalse) {
+		if (!TrueFalse)
+			Car_Owned[Car_Number].Car_Shape[0] = '\0';
+	}
 	bool check_if_Player_has_item(short item_Index) const { return Items_Owned_Check[item_Index]; }
-	bool check_if_Player_has_Car(short item_Index) const { return Cars_Owned_Check[item_Index]; }
-	void Buy_Car(Car New_Car, short Car_Number) { Car_Owned[Car_Number] = New_Car; Cars_Owned_Check[Car_Number] = true; }
+	bool check_if_Player_has_Car(short item_Index) const {
+		if (Car_Owned[item_Index].Car_Shape[0] == '\0')
+			return 0;
+		return 1;
+	}
+	void Buy_Car(Car New_Car, short Car_Number) { Car_Owned[Car_Number] = New_Car; }
 	void set_Car_Color(short Color, short Car_Number) { Car_Owned[Car_Number].set_Car_Color(Color); }
 	short get_Car_width(short index) const { return Car_Owned[index].get_Car_Width(); }
 	short get_Car_Color(short Car_Number) const { return Car_Owned[Car_Number].get_Car_Color(); }
@@ -109,7 +116,7 @@ public:
 	{
 		short Counter = 0;
 		for (loop_iterator = 0; loop_iterator < 10; loop_iterator++)
-			if (Cars_Owned_Check[loop_iterator] == true)
+			if (Car_Owned[loop_iterator].Car_Shape[0] != '\0')
 				Counter++;
 		return Counter;
 	}
@@ -126,7 +133,7 @@ public:
 		High_score = 0;
 		for (loop_iterator = 0; loop_iterator < 10; loop_iterator++) {
 			Items_Owned_Check[loop_iterator] = false;
-			Cars_Owned_Check[loop_iterator] = false;
+			//Cars_Owned_Check[loop_iterator] = false;
 			Car_Owned[loop_iterator].~Car();
 		}
 	}
@@ -932,7 +939,9 @@ int main()
 													Print_Center_Aligned("0. Restart\t\t\t               ", 14, 10);
 													Print_Center_Aligned("\t\t\tPress any key to Continue", 14, 10);
 													static short INPUTGAMEPLAY = 12;
-													for (loop_iterator = 0; loop_iterator < 100099999; loop_iterator++) {}
+													//USE SLEEP
+													Sleep(1000);
+													//for (loop_iterator = 0; loop_iterator < 100099999; loop_iterator++) {}
 													INPUTGAMEPLAY = _getch() - '0';
 													if (INPUTGAMEPLAY == 0) {
 														system("CLS");
@@ -1042,13 +1051,17 @@ int main()
 							}
 							else {
 								Print_Center_Aligned("Need More Coins!", 24, 15);
-								for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
+								//for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
+								//USE SLEEP
+								Sleep(10000);
 							}
 						}
 						else
 						{
 							Print_Center_Aligned("Already owned", 24, 15);	//SetConsoleCursorPosition(Console, { 55,24 });
-							for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
+							//for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
+							Sleep(10000);
+							//USE SLEEP
 						}
 					}
 				}
@@ -1144,12 +1157,17 @@ int main()
 									Player_profile[Profile_Selected].set_Car_Color(temp_Last_option, Input[2]);
 									Print_Car_Char_Array(Cars_Shop, Printing_Cords, Input[2], 1, Player_profile[Profile_Selected].get_Car_Color(Input[2]));
 									Print_Center_Aligned("Congrats! New Paint is Applied", 14, 15);//SetConsoleCursorPosition(Console, { 50,15 });
-									for (loop_iterator = 0; loop_iterator < 90000100; loop_iterator++) {}
+									//USE SLEEP
+									//for (loop_iterator = 0; loop_iterator < 90000100; loop_iterator++) {}
 								}
 								else
 									//Print_Center_Aligned("Insuffient Coins To Apply New Paint!",14);
 									//cout << "Insuffient Balance To Apply New Paint!";
-									for (loop_iterator = 0; loop_iterator < 90000100; loop_iterator++) {}
+								{
+									//USE SLEEP
+									Sleep(1000);
+									//for (loop_iterator = 0; loop_iterator < 90000100; loop_iterator++) {}
+								}
 							}
 							delete Final_Option;
 							delete Final_Option_Num;
@@ -1193,7 +1211,7 @@ int main()
 						{
 							if (Player_profile[Profile_Selected].get_Coins() >= items[Input[2]].get_price())
 							{
-								Player_profile[Profile_Selected].Buy_Item(items[Input[2]].get_Char_Item_Name(), Input[2]);
+								Player_profile[Profile_Selected].Buy_Item(Input[2]);
 								Player_profile[Profile_Selected] - items[Input[2]].get_price();
 								PrintInterface("Coins ", ADMIN.Coins_Settings(), 11, Player_profile[Profile_Selected].get_Coins());
 								if (Input[2] == 1)
@@ -1201,12 +1219,16 @@ int main()
 							}
 							else {
 								Print_Center_Aligned("Need More Coins!", 13, 15);
-								for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
+								//USE SLEEP
+								Sleep(1000);
+								//for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 							}
 						}
 						else {
 							Print_Center_Aligned("Already owned", 13, 15);
-							for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
+							//USE SLEEP
+							Sleep(1000);
+							//for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 						}
 					}
 				}
@@ -1220,7 +1242,9 @@ int main()
 							SetConsoleCursorPosition(Console, { 55, position++ });
 							cout << loop_iterator << ". " << items[loop_iterator].get_Char_Item_Name();
 						}
-					for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
+					//USE SLEEP
+					Sleep(1000);
+					//for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 				}
 				else if (Input[1] == 6)
 				{
@@ -1275,7 +1299,9 @@ int main()
 		{
 			system("CLS");
 			Print_GamePlay_Instructions(Player, 0);
-			for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
+			//USE SLEEP
+			Sleep(1000);
+			//for (loop_iterator = 0; loop_iterator < 454400000; loop_iterator++) {}
 			break;
 		}
 		}// End of Switch

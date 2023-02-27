@@ -7,24 +7,24 @@ class Game_Play
 {
 protected:
 	Car Game_Car;
-	int GamePLay_Difficulty;
+	short GamePLay_Difficulty;
 	bool Collsion;
 	COORD Position_Cordinates;
 public:
 	Game_Play();
-	void set_Position_COORDS(int x, int y);
+	void set_Position_COORDS(short x, short y);
 	bool get_Collision_Status() const;
 	COORD get_Player_Position() const;
-	int getPosition_X() const;
-	int getPosition_Y() const;
-	void setPosition_Y(int Y);
-	void Update_Position_X(int x);
-	void Update_Position_Y(int y);
+	short getPosition_X() const;
+	short getPosition_Y() const;
+	void setPosition_Y(short Y);
+	void Update_Position_X(short x);
+	void Update_Position_Y(short y);
 	virtual void Draw_Car() = 0;
 	void Erase_Car();
-	int get_Car_width() const;
-	void set_Difficulty(int Difficulty);
-	int get_Difficulty() const;
+	short get_Car_width() const;
+	void set_Difficulty(short Difficulty);
+	short get_Difficulty() const;
 };
 
 

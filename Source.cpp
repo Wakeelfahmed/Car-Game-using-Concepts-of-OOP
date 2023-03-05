@@ -635,9 +635,9 @@ int main()
 	}
 	ifstream_ob.read((char*)&items, sizeof(items));
 	ifstream_ob.close(); }
-	//{items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
+	{//items[0].set_Item_Name("Gun");		items[0].set_Item_Price(800);	items[1].set_Item_Name("Extended Maganize"); items[1].set_Item_Price(800);
 	//items[2].set_Item_Name("Double Gun");	items[2].set_Item_Price(1500);	items[3].set_Item_Name("Quick Reload");	items[3].set_Item_Price(600);
-	//}
+	}
 	//Shop_Items_ReadWrite_Menu(input);
 	hidecursor();
 	SUPERADMIN ADMIN;
@@ -655,9 +655,9 @@ int main()
 	//		ofstream_ob.open("Items_Inventory.txt", ios::out);
 	//		ofstream_ob.write((char*)&items, sizeof(items));
 	//		ofstream_ob.close();
-	//	}
-	//	Shop_Items_ReadWrite_Menu(input);
-	//}
+	//	}	
+//	Shop_Items_ReadWrite_Menu(input);
+//}
 	short y = 1;	short Profile_Selected, Car_Selected, Input[5], No_of_Enemies = 4;
 	//list <Driver> Player_Profile_List;
 	Driver Player_profile[4];
